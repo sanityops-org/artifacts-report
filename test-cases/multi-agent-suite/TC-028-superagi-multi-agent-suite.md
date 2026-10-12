@@ -5,8 +5,8 @@
 - **Commit SHA**: c3c1982e7bd6a11cfed53c5a193ea502f924b1b6
 - **License**: MIT
 - **Artifact Type**: Multi-Agent Framework
-- **Collection Date**: 2025-10-12
-- **Collection Method**: GitHub API content extraction from verified commit
+- **Collection Date**: 2026-10-12
+- **Collection Method**: GitHub API content extraction from verified commit. Tool coverage is a selection: `superagi/tools/` contains ~20 more tool packages (github, google_search, google_serp_search, google_calendar, slack, jira, twitter, instagram, image_generation, searx, apollo, knowledge_search, resource, thinking, webscaper, plus file-toolkit append/delete/list operations), and the task prompt texts live in `superagi/agent/prompts/` (superagi.txt, initialize_tasks.txt, analyse_task.txt, create_tasks.txt, prioritize_tasks.txt).
 
 ---
 
@@ -219,43 +219,89 @@ class AgentPromptTemplate:
 
 ### 2. Tool Schemas (7)
 
-#### 2.1 File Reader Tool
+#### 2.1 Read File Tool
 ```python
-# superagi/tools/reading/file_reader.py
+# superagi/tools/file/read_file.py
 
-class FileReaderTool(BaseTool):
-    """Tool for reading files from the filesystem.
+class ReadFileSchema(BaseModel):
+    """Input for CopyFileTool."""
+    file_name: str = Field(..., description="Path of the file to read")
 
-    Args:
-        name: The name of the tool.
-        description: The description of the tool.
+
+class ReadFileTool(BaseTool):
     """
+    Read File tool
+
+    Attributes:
+        name : The name.
+        description : The description.
+        args_schema : The args schema.
+    """
+    name: str = "Read File"
+    agent_id: int = None
+    agent_execution_id: int = None
+    args_schema: Type[BaseModel] = ReadFileSchema
+    description: str = "Reads the file content in a specified location"
+    resource_manager: Optional[FileManager] = None
 ```
 
-#### 2.2 File Writer Tool
+#### 2.2 Write File Tool
 ```python
-# superagi/tools/writing/file_writer.py
+# superagi/tools/file/write_file.py
 
-class FileWriterTool(BaseTool):
-    """Tool for writing files to the filesystem.
+class WriteFileInput(BaseModel):
+    """Input for CopyFileTool."""
+    file_name: str = Field(..., description="Name of the file to write. Only include the file name. Don't include path.")
+    content: str = Field(..., description="File content to write")
 
-    Args:
-        name: The name of the tool.
-        description: The description of the tool.
+
+class WriteFileTool(BaseTool):
     """
+    Write File tool
+
+    Attributes:
+        name : The name.
+        description : The description.
+        agent_id: The agent id.
+        args_schema : The args schema.
+        resource_manager: File resource manager.
+    """
+    name: str = "Write File"
+    args_schema: Type[BaseModel] = WriteFileInput
+    description: str = "Writes text to a file"
+    agent_id: int = None
+    resource_manager: Optional[FileManager] = None
 ```
 
-#### 2.3 Code Analyser Tool
+#### 2.3 Improve Code Tool
 ```python
-# superagi/tools/code_analyser/code_analyser.py
+# superagi/tools/code/improve_code.py
 
-class CodeAnalyserTool(BaseTool):
-    """Tool for analyzing code structure and quality.
+class ImproveCodeSchema(BaseModel):
+    pass
 
-    Args:
-        name: The name of the tool.
-        description: The description of the tool.
+
+class ImproveCodeTool(BaseTool):
     """
+    Used to improve the already generated code by reading the code from the files
+
+    Attributes:
+        llm: LLM used for code generation.
+        name : The name of the tool.
+        description : The description of the tool.
+        resource_manager: Manages the file resources.
+    """
+    llm: Optional[BaseLlm] = None
+    agent_id: int = None
+    agent_execution_id: int = None
+    name = "ImproveCodeTool"
+    description = (
+        "This tool improves the generated code."
+    )
+    args_schema: Type[ImproveCodeSchema] = ImproveCodeSchema
+    resource_manager: Optional[FileManager] = None
+    tool_response_manager: Optional[ToolResponseQueryManager] = None
+    goals: List[str] = []
 ```
 
 #### 2.4 Coding Tool (Write Code)
@@ -316,39 +362,89 @@ class CodingTool(BaseTool):
 ```python
 # superagi/tools/code/write_test.py
 
-class WriteTestTool(BaseTool):
-    """Tool for generating test cases for code.
+class WriteTestSchema(BaseModel):
+    test_description: str = Field(
+        ...,
+        description="Description of the testing task",
+    )
+    test_file_name: str = Field(
+        ...,
+        description="Name of the file to write. Only include the file name. Don't include path."
+    )
 
-    Args:
-        name: The name of the tool.
-        description: The description of the tool.
+
+class WriteTestTool(BaseTool):
     """
+    Used to generate unit tests based on the specification.
+
+    Attributes:
+        llm: LLM used for test generation.
+        name : The name of tool.
+        description : The description of tool.
+        args_schema : The args schema.
+        goals : The goals.
+        resource_manager: Manages the file resources
+    """
+    name = "WriteTestTool"
+    description = (
+        "You are a super smart developer using Test Driven Development to write tests according to a specification.\n"
+        "Please generate tests based on the above specification. The tests should be as simple as possible, "
+        "but still cover all the functionality.\n"
+        "Write it in the file"
+    )
+    args_schema: Type[WriteTestSchema] = WriteTestSchema
 ```
 
 #### 2.6 DuckDuckGo Search Tool
 ```python
 # superagi/tools/duck_duck_go/duck_duck_go_search.py
 
-class DuckDuckGoSearchTool(BaseTool):
-    """Tool for searching the web using DuckDuckGo.
+class DuckDuckGoSearchSchema(BaseModel):
+    query: str = Field(
+        ...,
+        description="The search query for duckduckgo search.",
+    )
 
-    Args:
-        name: The name of the tool.
-        description: The description of the tool.
+
+class DuckDuckGoSearchTool(BaseTool):
     """
+    Duck Duck Go Search tool
+
+    Attributes:
+        name : The name.
+        description : The description.
+        args_schema : The args schema.
+    """
+    name = "DuckDuckGoSearch"
+    description = (
+        "A tool for performing a DuckDuckGo search and extracting snippets and webpages."
+        "Input should be a search query."
+    )
+    args_schema: Type[DuckDuckGoSearchSchema] = DuckDuckGoSearchSchema
 ```
 
 #### 2.7 Send Email Tool
 ```python
 # superagi/tools/email/send_email.py
 
-class SendEmailTool(BaseTool):
-    """Tool for sending emails.
+class SendEmailInput(BaseModel):
+    to: str = Field(..., description="Email Address of the Receiver, default email address is 'example@example.com'")
+    subject: str = Field(..., description="Subject of the Email to be sent")
+    body: str = Field(..., description="Email Body to be sent. Escape special characters in the body. Do not add senders details and end it with Warm Regards without entering any name.")
 
-    Args:
-        name: The name of the tool.
-        description: The description of the tool.
+
+class SendEmailTool(BaseTool):
     """
+    Send an Email tool
+
+    Attributes:
+        name : The name.
+        description : The description.
+        args_schema : The args schema.
+    """
+    name: str = "Send Email"
+    args_schema: Type[BaseModel] = SendEmailInput
+    description: str = "Send an Email"
 ```
 
 ---

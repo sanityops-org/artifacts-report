@@ -6,14 +6,14 @@
 - **Commit SHA**: b7ad69afda6b6ed030347c66d48a13e4de9dec08
 - **License**: Apache-2.0
 - **Artifact Type**: File-based logical artifacts (Agent Plugin Skills)
-- **Collection Date**: 2025-10-12
+- **Collection Date**: 2026-10-12
 - **Collection Method**: GitHub API retrieval via `gh api`
 
 ---
 
 ## Project Overview
 
-Mem0 is a **memory layer for AI agents** that provides persistent, searchable memory across sessions. It integrates with coding agents and AI assistants to capture, store, and retrieve memories from earlier work. The agent-plugin-core provides skill modules that expose memory operations to agent harnesses.
+Mem0 is a **memory layer for AI agents** that provides persistent, searchable memory across sessions. It integrates with coding agents and AI assistants to capture, store, and retrieve memories from earlier work. The agent-plugin-core provides skill modules that expose memory operations to agent harnesses (skills live as `integrations/agent-plugin-core/skills/<name>/SKILL.md.tmpl` Jinja-style templates, rendered per plugin under `integrations/<harness>-plugin/skills/<name>/SKILL.md`; this case scopes itself to agent-plugin-core — repo-wide, mem0 also ships skills in 10 harness plugins plus 6 top-level `skills/mem0-*` skills).
 
 ### Key Features
 - **Persistent memory**: Memories survive across sessions and compaction
@@ -162,21 +162,27 @@ back on, use `/mem0:resume`.
 ### 5. Resume Skill
 
 ```markdown
+# integrations/agent-plugin-core/skills/resume/SKILL.md.tmpl
+
 ---
 name: resume
-description: Resume Mem0 memory capture on this machine. Use when the user wants to start recording memories again after a pause.
+description: Resume Mem0 memory capture after it was paused with /mem0:pause.
 disable-model-invocation: true
 ---
 
 # Resume memory capture
 
-To resume memory capture:
+Resume memory capture for this machine.
+
+Run:
 
 ```bash
 python3 "{{PLUGIN_ROOT}}/core/memory_cli.py" --harness "{{HARNESS_ID}}" {{PLUGIN_DATA_ARG}} resume
 ```
 
-Confirm the new state back to the user.
+Confirm to the user that capture is active again. New sessions record evidence and
+create memories as normal; nothing that happened while paused is retroactively
+captured.
 ```
 
 ### 6. Status Skill
@@ -303,7 +309,7 @@ reinstalling with `--config api_key=...` in that case.
 | Feature | TC-031 (Nanobot) | TC-032 (Hermes) | TC-033 (OpenAgent) | TC-034 (Mem0) |
 |---------|-----------------|-----------------|--------------------|--------------|
 | **Primary Focus** | Personal assistant framework | Multi-surface assistant | Single-binary assistant | Memory layer |
-| **Skills Count** | 10 | 18+ | 15 | 6 |
+| **Skills Count** | 11 | 58 built-in / 200+ total | 54 | 6 |
 | **Template System** | Jinja2 | Jinja2 | None | Jinja2-like |
 | **Backend Language** | Python | Python | Go | Python |
 | **Key Innovation** | SOUL.md personality | Prompt caching invariant | Single-binary deploy | Auto memory capture |

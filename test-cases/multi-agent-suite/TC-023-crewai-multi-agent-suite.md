@@ -5,7 +5,7 @@
 - **Commit SHA**: 74fe931a39007c1ff7540c013f30ba2496c3148e
 - **License**: MIT
 - **Artifact Type**: Multi-Agent Framework
-- **Collection Date**: 2025-10-12
+- **Collection Date**: 2026-10-12
 - **Collection Method**: GitHub API content extraction from verified commit
 
 ---
@@ -196,6 +196,9 @@ class AgentTools:
 ```
 
 #### 2.2 Brave Search Tool (External Integration)
+
+*(Note — the quoted tools are a selection: `lib/crewai/src/crewai/tools/agent_tools/` also provides `AddImageTool` and `ReadFileTool`, and the `brave_search_tool` package ships brave_web/news/video/image/local_pois/llm_context variants.)*
+
 ```python
 # lib/crewai-tools/src/crewai_tools/tools/brave_search_tool/brave_search_tool.py
 

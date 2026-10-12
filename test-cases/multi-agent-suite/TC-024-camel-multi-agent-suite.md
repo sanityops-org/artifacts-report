@@ -5,7 +5,7 @@
 - **Commit SHA**: 24fde60ad739b4be8f8f533fea9ba54256fbc4a2
 - **License**: Apache-2.0
 - **Artifact Type**: Multi-Agent Framework
-- **Collection Date**: 2025-10-12
+- **Collection Date**: 2026-10-12
 - **Collection Method**: GitHub API content extraction from verified commit
 
 ---
@@ -38,50 +38,93 @@ CAMEL is a **communicative agent framework** that enables multi-agent collaborat
 
 ### 1. System Prompts (3)
 
+*(Note — `camel/agents/` contains 11 agent modules; the three quoted below are a selection. Not covered: mcp_agent, repo_agent, role_assignment_agent, search_agent, task_agent, multi_hop_generator_agent, programmed_agent_instruction, base.)*
+
 #### 1.1 ChatAgent (General-Purpose Agent)
+
+*(Excerpt — the upstream `__init__` accepts ~29 parameters, including summarize_threshold, scheduling_strategy, agent_id, retry_attempts, retry_delay, mask_tool_output, prune_tool_calls_from_memory, and more; only the leading docstring Args and the full signature are shown.)*
+
 ```python
 # camel/agents/chat_agent.py
 
+@track_agent(name="ChatAgent")
 class ChatAgent(BaseAgent):
-    """A class for conversational agent with tool support.
+    r"""Class for managing conversations of CAMEL Chat Agents.
 
-    This class provides a general-purpose chat agent that can:
-    - Maintain conversation history through memory
-    - Execute tools for external actions
-    - Stream responses for real-time interaction
-    - Handle rate limiting and retries
+    Args:
+        system_message (Union[BaseMessage, str], optional): The system message
+            for the chat agent. (default: :obj:`None`)
+        model (Union[BaseModelBackend, Tuple[str, str], str, ModelType,
+            Tuple[ModelPlatformType, ModelType], List[BaseModelBackend],
+            List[str], List[ModelType], List[Tuple[str, str]],
+            List[Tuple[ModelPlatformType, ModelType]]], optional):
+            The model backend(s) to use. Can be a single instance,
+            a specification (string, enum, tuple), or a list of instances
+            or specifications to be managed by `ModelManager`. If a list of
+            specifications (not `BaseModelBackend` instances) is provided,
+            they will be instantiated using `ModelFactory`. (default:
+            :obj:`ModelPlatformType.DEFAULT` with `ModelType.DEFAULT`)
+        memory (AgentMemory, optional): The agent memory for managing chat
+            messages. If `None`, a :obj:`ChatHistoryMemory` will be used.
+            (default: :obj:`None`)
+        message_window_size (int, optional): The maximum number of previous
+            messages to include in the context window. If `None`, no windowing
+            is performed. (default: :obj:`None`)
 
-    Attributes:
-        system_message (BaseMessage): The system message for the agent.
-        model (BaseModelBackend): The model backend for inference.
-        memory (AgentMemory): The memory for storing conversation history.
-        message_window_size (int): Maximum messages in context window.
+    (…further Args: summarize_threshold, token_limit, output_language, tools,
+    toolkits_to_register_agent, external_tools, response_terminators, …)
     """
 
     def __init__(
         self,
         system_message: Optional[Union[BaseMessage, str]] = None,
-        model: Optional[BaseModelBackend] = None,
+        model: Optional[
+            Union[
+                BaseModelBackend,
+                Tuple[str, str],
+                str,
+                ModelType,
+                Tuple[ModelPlatformType, ModelType],
+                List[BaseModelBackend],
+                List[str],
+                List[ModelType],
+                List[Tuple[str, str]],
+                List[Tuple[ModelPlatformType, ModelType]],
+            ]
+        ] = None,
         memory: Optional[AgentMemory] = None,
-        message_window_size: int = 4096,
+        message_window_size: Optional[int] = None,
+        summarize_threshold: Optional[int] = 50,
         token_limit: Optional[int] = None,
         output_language: Optional[str] = None,
         tools: Optional[List[Union[FunctionTool, Callable]]] = None,
-        external_tools: Optional[List[FunctionTool]] = None,
+        toolkits_to_register_agent: Optional[
+            List[RegisteredAgentToolkit]
+        ] = None,
+        external_tools: Optional[
+            List[Union[FunctionTool, Callable, Dict[str, Any]]]
+        ] = None,
         response_terminators: Optional[List[ResponseTerminator]] = None,
-        max_iteration: int = 10,
-        verbose: bool = False,
+        scheduling_strategy: str = "round_robin",
+        max_iteration: Optional[int] = None,
+        agent_id: Optional[str] = None,
+        stop_event: Optional[threading.Event] = None,
+        tool_execution_timeout: Optional[float] = Constants.TIMEOUT_THRESHOLD,
+        mask_tool_output: bool = False,
+        pause_event: Optional[Union[threading.Event, asyncio.Event]] = None,
+        prune_tool_calls_from_memory: bool = False,
+        enable_snapshot_clean: bool = False,
+        retry_attempts: int = 3,
+        retry_delay: float = 1.0,
+        step_timeout: Optional[float] = Constants.TIMEOUT_THRESHOLD,
+        on_request_usage: Optional[Callable[[Dict[str, Any]], Any]] = None,
+        stream_accumulate: Optional[bool] = None,
+        summary_window_ratio: float = 0.6,
+        tool_log_dir: Optional[Union[str, Path]] = None,
     ) -> None:
-        """Initialize the ChatAgent."""
-        super().__init__(system_message, model, memory)
-        self.message_window_size = message_window_size
-        self.token_limit = token_limit
-        self.output_language = output_language
-        self.tools = tools or []
-        self.external_tools = external_tools or []
-        self.response_terminators = response_terminators or []
-        self.max_iteration = max_iteration
-        self.verbose = verbose
+        # Resolve model backends into a ModelManager, assign agent_id,
+        # set up memory/context creator, and register tools.
+        ...
 ```
 
 #### 1.2 CriticAgent (Evaluation Agent)
@@ -94,7 +137,11 @@ class CriticAgent(ChatAgent):
     Args:
         system_message (Union[BaseMessage, str], optional): The system message
             for the chat agent. (default: :obj:`None`)
-        model (BaseModelBackend, optional): The model backend to use.
+        model (Union[BaseModelBackend, Tuple[str, str], str, ModelType,
+            Tuple[ModelPlatformType, ModelType], List[BaseModelBackend],
+            List[str], List[ModelType], List[Tuple[str, str]],
+            List[Tuple[ModelPlatformType, ModelType]]], optional):
+            The model backend(s) to use. (default: :obj:`None`)
         message_window_size (int, optional): The maximum number of previous
             messages to include in the context window. (default: :obj:`6`)
         retry_attempts (int, optional): The number of retry attempts if the
@@ -107,7 +154,20 @@ class CriticAgent(ChatAgent):
     def __init__(
         self,
         system_message: Optional[Union[BaseMessage, str]] = None,
-        model: Optional[BaseModelBackend] = None,
+        model: Optional[
+            Union[
+                BaseModelBackend,
+                Tuple[str, str],
+                str,
+                ModelType,
+                Tuple[ModelPlatformType, ModelType],
+                List[BaseModelBackend],
+                List[str],
+                List[ModelType],
+                List[Tuple[str, str]],
+                List[Tuple[ModelPlatformType, ModelType]],
+            ]
+        ] = None,
         memory: Optional[AgentMemory] = None,
         message_window_size: int = 6,
         retry_attempts: int = 2,
@@ -198,6 +258,16 @@ Relationship with unique identifiers.
 Strictly follow the format provided in the example output, do not add any
 additional information.
 
+
+Instructions for you:
+Read the provided content thoroughly.
+Identify distinct entities mentioned in the content and categorize them as
+nodes.
+Determine relationships between these entities and represent them as directed
+relationships.
+Provide the extracted nodes and relationships in the specified format below.
+Example for you:
+
 Example Content:
 "John works at XYZ Corporation. He is a software engineer. The company is
 located in New York City."
@@ -253,7 +323,9 @@ class KnowledgeGraphAgent(ChatAgent):
 
 ---
 
-### 2. Tool Schemas (6)
+### 2. Tool Schemas (2)
+
+*(Note — `camel/toolkits/` contains 88 toolkit modules; the two quoted below are a selection. Three toolkits referenced in the overview — ArxivToolkit (camel/toolkits/arxiv_toolkit.py), ExcelToolkit (camel/toolkits/excel_toolkit.py), and DataCommonsToolkit (camel/toolkits/data_commons_toolkit.py) — exist upstream but are not quoted here.)*
 
 #### 2.1 SearchToolkit (Web Search)
 ```python
@@ -303,7 +375,9 @@ class SearchToolkit(BaseToolkit):
 
     @dependencies_required("wikipedia")
     def search_wiki(self, entity: str) -> str:
-        """Search the entity in WikiPedia and return the summary.
+        """Search the entity in WikiPedia and return the summary of the
+        required page, containing factual information about
+        the given entity.
 
         Args:
             entity (str): The entity to be searched.
@@ -342,9 +416,11 @@ class BaseBrowser:
 
 ---
 
-### 3. Skills (5)
+### 3. Skills (2)
 
-#### 3.1 Docs Incremental Update Skill
+*(Note — the repo-root `.camel/skills/` directory contains 2 skills: `docs-incremental-update` (quoted below) and `skill-creator` (not quoted). Three additional example skills live under `examples/toolkits/skill_toolkit_example/.camel/skills/` (code-reviewer, data-analyzer, report-writer) and are not quoted here.)*
+
+#### 3.1 Docs Incremental Update Skill (excerpt)
 ```markdown
 # .camel/skills/docs-incremental-update/SKILL.md
 
@@ -399,7 +475,7 @@ Rules:
 - **Edit the target doc directly through terminal tools** for this run.
 - **Prefer the smallest possible diff** — keep all already-correct content.
 - **Preserve frontmatter** — never modify the `---` block.
-- **Update code snippets** — fix imports, class names, method signatures.
+- **Update code snippets** — fix imports, class names, method signatures, parameters.
 ```
 
 ---

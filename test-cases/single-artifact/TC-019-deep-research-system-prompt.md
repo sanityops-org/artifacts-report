@@ -4,7 +4,7 @@
 - **Source Project**: dzhng/deep-research
 - **License**: MIT
 - **Artifact Type**: System Prompt (Research Agent)
-- **Collection Date**: 2025-10-12
+- **Collection Date**: 2026-10-12
 - **Collection Method**: Extracted from src/prompt.ts at commit 1f8f3e285bbc23e80b98a66a64effab9069f3ad4
 
 ## Original Artifact Content

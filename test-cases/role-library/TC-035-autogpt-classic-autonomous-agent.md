@@ -5,7 +5,7 @@
 - **GitHub**: github.com/Significant-Gravitas/AutoGPT
 - **License**: MIT
 - **Artifact Type**: Autonomous Agent prompt strategies and tool definitions
-- **Collection Date**: 2025-10-12
+- **Collection Date**: 2026-10-12
 - **Collection Method**: GitHub API content extraction at commit ca1451c907c70557f8eacfd4c476f1a07afae3b7
 - **Scope**: Classic Agent; its registered prompt-strategy alternatives and explicitly mounted Forge command components
 
@@ -17,7 +17,7 @@ AutoGPT Classic is one of the pioneering autonomous AI agent frameworks. It feat
 
 ### Key Characteristics
 - **7 selectable prompt strategies** sharing one Agent (one_shot is default)
-- **18+ tool components** via the Forge architecture
+- **20 tool components** via the Forge architecture
 - **Strategy-based behavior**: Different reasoning patterns (one-shot, tree-of-thoughts, reflexion, etc.)
 
 ---
@@ -116,7 +116,7 @@ class FileManagerComponent(
         Either `agent_id` or `config` must be provided."""
 ```
 
-### Available Tool Components (18 total)
+### Available Tool Components (20 total)
 
 | Component | Description |
 |-----------|-------------|
@@ -138,6 +138,8 @@ class FileManagerComponent(
 | user_interaction | User prompts |
 | playwright_browser | Web browser automation |
 | search | Web search |
+| action_history | Conversation/action history management |
+| watchdog | Stuck-agent detection and recovery |
 
 ---
 

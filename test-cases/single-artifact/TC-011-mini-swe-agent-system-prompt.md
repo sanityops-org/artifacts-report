@@ -3,13 +3,13 @@
 ## Metadata
 - **Source Project**: SWE-agent/mini-swe-agent
 - **License**: MIT
-- **Artifact Type**: System Prompt & Tool Schemas
-- **Collection Date**: 2025-10-12
-- **Collection Method**: Extracted from src/minisweagent/config at commit 04d809ceab9df28f9adaed044884180159172930
+- **Artifact Type**: System Prompt & Agent Configuration (YAML templates)
+- **Collection Date**: 2026-10-12
+- **Collection Method**: Extracted from src/minisweagent/config/mini.yaml at commit 04d809ceab9df28f9adaed044884180159172930. The config directory also contains default.yaml, mini_textbased.yaml, and benchmark configs (benchmarks/programbench.yaml, swebench.yaml, swebench_backticks.yaml, swebench_modal.yaml, swebench_xml.yaml), which are not quoted here.
 
 ## Original Artifact Content
 
-### mini.yaml (Agent Configuration)
+### mini.yaml (Agent Configuration — complete file)
 
 ```yaml
 agent:
@@ -51,8 +51,16 @@ agent:
     - Your response SHOULD include reasoning text explaining what you're doing
     - Your response MUST include AT LEAST ONE bash tool call
     - Directory or environment variable changes are not persistent. Every action is executed in a new subshell.
-    - However, you can prefix any action with `MY_ENV_VAR=MY_VALUE cd /path/to/working/dir && ...`
-    - Submit your changes and finish your work by issuing: `echo COMPLETE_TASK_AND_SUBMIT_FINAL_OUTPUT`
+    - However, you can prefix any action with `MY_ENV_VAR=MY_VALUE cd /path/to/working/dir && ...` or write/load environment variables from files
+    - Submit your changes and finish your work by issuing the following command: `echo COMPLETE_TASK_AND_SUBMIT_FINAL_OUTPUT`.
+      Do not combine it with any other command. <important>After this command, you cannot continue working on this task.</important>
+
+    Example of a CORRECT response:
+    <example_response>
+    I need to understand the structure of the repository first. Let me check what files are in the current directory to get a better understanding of the codebase.
+
+    [Makes bash tool call with {"command": "ls -la"} as arguments]
+    </example_response>
 
     <system_information>
     {{system}} {{release}} {{version}} {{machine}}
@@ -72,12 +80,24 @@ agent:
 
     ### Edit files with sed:
 
+    {%- if system == "Darwin" -%}
+    <important>
+    You are on MacOS. For all the below examples, you need to use `sed -i ''` instead of `sed -i`.
+    </important>
+    {%- endif -%}
+
     ```bash
     # Replace all occurrences
     sed -i 's/old_string/new_string/g' filename.py
 
     # Replace only first occurrence
     sed -i 's/old_string/new_string/' filename.py
+
+    # Replace first occurrence on line 1
+    sed -i '1s/old_string/new_string/' filename.py
+
+    # Replace all occurrences in lines 1-10
+    sed -i '1,10s/old_string/new_string/g' filename.py
     ```
 
     ### View file content:
@@ -85,6 +105,12 @@ agent:
     ```bash
     # View specific lines with numbers
     nl -ba filename.py | sed -n '10,20p'
+    ```
+
+    ### Any other command you want to run
+
+    ```bash
+    anything
     ```
   step_limit: 0
   cost_limit: 3.
@@ -111,8 +137,32 @@ model:
       "output_tail": {{ output.output[-5000:] | tojson }},
       "elided_chars": {{ output.output | length - 10000 }},
       "warning": "Output too long."
+      {%- if output.exception_info %}, "exception_info": {{ output.exception_info | tojson }}{% endif %}
     }
     {%- endif -%}
+  format_error_template: |
+    {% if finish_reason is defined and (finish_reason == "length" or (finish_reason == "tool_calls" and not has_tool_calls)) -%}
+    Your previous response reached the output token limit (finish_reason={{ finish_reason }}) before you produced a tool call, so it was cut off. Respond more concisely and finish with exactly one bash tool call. If you need to think more, do so briefly.
+    {%- else -%}
+    Tool call error:
+
+    <error>
+    {{error}}
+    </error>
+
+    Here is general guidance on how to submit correct toolcalls:
+
+    Every response needs to use the 'bash' tool at least once to execute commands.
+
+    Call the bash tool with your command as the argument:
+    - Tool: bash
+    - Arguments: {"command": "your_command_here"}
+
+    If you want to end the task, please issue the following command: `echo COMPLETE_TASK_AND_SUBMIT_FINAL_OUTPUT`
+    without any other command.
+    {%- endif %}
+  model_kwargs:
+    drop_params: true
 ```
 
 ## Evaluation Dimensions

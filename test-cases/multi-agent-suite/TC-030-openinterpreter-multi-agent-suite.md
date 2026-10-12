@@ -5,7 +5,7 @@
 - **Commit SHA**: ac1fcc8fe57aba51fcc3c79afd57a0883237fe87
 - **License**: Apache-2.0
 - **Artifact Type**: Code Execution Agent
-- **Collection Date**: 2025-10-12
+- **Collection Date**: 2026-10-12
 - **Collection Method**: GitHub API content extraction from verified commit
 
 ---
@@ -138,14 +138,19 @@ pub(crate) enum ApprovalAction {
         cwd: AbsolutePathBuf,
     },
     RequestPermissions {
-        // Permission request fields
+        id: String,
+        turn_id: String,
+        reason: Option<String>,
+        permissions: RequestPermissionProfile,
     },
 }
 ```
 
 ---
 
-### 3. Skills (4)
+### 3. Skills (4 of 11; selected)
+
+*(Note — `.codex/skills/` contains 11 skill directories in total. Not quoted here: babysit-pr, code-review-change-size, code-review-testing, path-types, remote-tests, test-tui, update-v8-version. The code-review orchestrator above dispatches to all `code-review-*` skills, including the two unquoted ones.)*
 
 #### 3.1 Code Review (Orchestrator)
 ```markdown
@@ -172,18 +177,17 @@ Do not leave GitHub comments unless explicitly asked.
 # .codex/skills/code-review-breaking-changes/SKILL.md
 
 ---
-name: code-review-breaking-changes
-description: Review code for breaking changes that could affect downstream consumers
+name: code-breaking-changes
+description: Breaking changes
 ---
 
-# Breaking Changes Review
+Search for breaking changes in external integration surfaces:
+- app-server APIs
+- CLI parameters
+- configuration loading
+- resuming sessions from existing rollouts
 
-Identify breaking changes including:
-- API signature modifications
-- Behavior changes that break backward compatibility
-- Removed or renamed functions/classes
-- Changed return types
-- Modified error handling
+Do not stop after finding one issue; analyze all possible ways breaking changes can happen.
 ```
 
 #### 3.3 Code Review Context
@@ -192,16 +196,17 @@ Identify breaking changes including:
 
 ---
 name: code-review-context
-description: Review code for context-aware issues and dependencies
+description: Model visible context
 ---
 
-# Context Review
+Codex maintains a context (history of messages) that is sent to the model in inference requests.
 
-Analyze code for:
-- Missing context or dependencies
-- Implicit assumptions
-- Environment-specific behavior
-- Resource lifecycle issues
+1. No history rewrite - the context must be built up incrementally.
+2. Avoid frequent changes to context that cause cache misses.
+3. No unbounded items - everything injected in the model context must have a bounded size and a hard cap.
+4. No items larger than 10K tokens.
+5. Highlight new individual items that can cross >1k tokens as P0. These need an additional manual review.
+6. All injected fragments must be defined as structs in `core/context` and implement ContextualUserFragment trait
 ```
 
 #### 3.4 Codex PR Body

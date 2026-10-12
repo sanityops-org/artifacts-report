@@ -1,18 +1,18 @@
-# TC-027: Phidata - Multi-Agent Suite
+# TC-027: Agno (formerly Phidata) - Multi-Agent Suite
 
 ## Metadata
-- **Source Project**: Phidata (phidatahq/phidata)
+- **Source Project**: Agno (agno-agi/agno; formerly phidatahq/phidata)
 - **Commit SHA**: 7decd1e45f6a67890ee6a5aa03f3fe9c356be972
 - **License**: Apache-2.0
 - **Artifact Type**: Multi-Agent Platform
-- **Collection Date**: 2025-10-12
+- **Collection Date**: 2026-10-12
 - **Collection Method**: GitHub API content extraction from verified commit
 
 ---
 
 ## Project Overview
 
-Phidata is an **agent platform** that provides a streamlined way to build AI agents with instructions, tools, and skills. The framework emphasizes simplicity and modularity for building production-ready agents.
+Agno, formerly Phidata, is an **agent platform** that provides a streamlined way to build AI agents with instructions, tools, and skills. The framework emphasizes simplicity and modularity for building production-ready agents. (At the pinned commit the package, imports, and README all use the `agno` identity; phidatahq/phidata redirects to agno-agi/agno.)
 
 ### Core Capabilities
 
@@ -174,11 +174,36 @@ if __name__ == "__main__":
 ```python
 # cookbook/02_agents/04_tools/02_session_state_tools.py
 
-# Tools that access session state for personalized responses
-# - User-specific data access
-# - Session-based context
-# - Cached tool resolution per user/session
+"""
+Session State Tools
+===================
+Use `session_state` as a parameter name in your factory to receive
+the session state dict directly (no need for run_context).
+
+Set `cache_callables=False` so the factory runs fresh every time,
+picking up any session_state changes between runs.
+"""
+
+
+def get_tools(session_state: dict):
+    """Pick tools based on the 'mode' key in session_state."""
+    mode = session_state.get("mode", "greet")
+
+    if mode == "greet":
+        return [get_greeting]
+    else:
+        return [get_farewell]
+
+
+agent = Agent(
+    model=OpenAIResponses(id="gpt-5-mini"),
+    tools=get_tools,
+    cache_callables=False,
+    instructions=["Use the available tool to respond."],
+)
 ```
+
+*(Note — each sample skill under `cookbook/02_agents/16_skills/sample_skills/` also ships `references/` and `scripts/` (e.g., code-review/references/style-guide.md, code-review/scripts/check_style.py, git-workflow/references/commit-types.md, git-workflow/scripts/commit_message.py), and cookbook/02_agents/16_skills/basic_skills.py demonstrates `agno.skills.LocalSkills`.)*
 
 ---
 
@@ -190,38 +215,78 @@ if __name__ == "__main__":
 
 ---
 name: code-review
-description: >
-  Skill for reviewing code quality, identifying issues, and suggesting improvements.
+description: Code review assistance with linting, style checking, and best practices
+license: Apache-2.0
+metadata:
+  version: "1.0.0"
+  author: agno-team
+  tags: ["quality", "review", "linting"]
 ---
-
 # Code Review Skill
 
-Review code for:
-- Code quality and readability
-- Potential bugs and errors
-- Security vulnerabilities
-- Performance issues
-- Best practices violations
+You are a code review assistant. When reviewing code, follow these steps:
+
+## Review Process
+1. **Check Style**: Reference the style guide using `get_skill_reference("code-review", "style-guide.md")`
+2. **Run Style Check**: Use `get_skill_script("code-review", "check_style.py")` for automated style checking
+3. **Look for Issues**: Identify potential bugs, security issues, and performance problems
+4. **Provide Feedback**: Give structured feedback with severity levels
+
+## Feedback Format
+- **Critical**: Must fix before merge (security vulnerabilities, bugs that cause crashes)
+- **Important**: Should fix, but not blocking (performance issues, code smells)
+- **Suggestion**: Nice to have improvements (naming, documentation, minor refactoring)
+
+## Review Checklist
+- [ ] Code follows naming conventions
+- [ ] No hardcoded secrets or credentials
+- [ ] Error handling is appropriate
+- [ ] Functions are not too long (< 50 lines)
+- [ ] No obvious security vulnerabilities
+- [ ] Tests are included for new functionality
 ```
 
-#### 3.2 Git Workflow Skill
+#### 3.2 Git Workflow Skill (excerpt)
 ```markdown
 # cookbook/02_agents/16_skills/sample_skills/git-workflow/SKILL.md
 
 ---
 name: git-workflow
-description: >
-  Skill for Git workflow operations including branching, merging, and PR management.
+description: Git workflow guidance for commits, branches, and pull requests
+license: Apache-2.0
+metadata:
+  version: "1.0.0"
+  author: agno-team
+  tags: ["git", "version-control", "workflow"]
 ---
-
 # Git Workflow Skill
 
-Handle Git operations:
-- Branch creation and management
-- Commit message formatting
-- Pull request workflows
-- Merge conflict resolution
-- Code review integration
+You are a Git workflow assistant. Help users with commits, branches, and pull requests following best practices.
+
+## Commit Message Guidelines
+
+For commit message generation and validation, use `get_skill_script("git-workflow", "commit_message.py")`.
+
+### Format
+```
+<type>(<scope>): <subject>
+
+<body>
+
+<footer>
+```
+
+### Types
+- **feat**: New feature
+- **fix**: Bug fix
+- **docs**: Documentation only
+- **style**: Formatting, no code change
+- **refactor**: Code change that neither fixes a bug nor adds a feature
+- **perf**: Performance improvement
+- **test**: Adding or updating tests
+- **chore**: Maintenance tasks
+
+(The file continues with commit message examples, Branch Naming (`<type>/<ticket-id>-<short-description>`), Pull Request Guidelines with a description template, and Common Commands.)
 ```
 
 ---
@@ -296,6 +361,6 @@ Handle Git operations:
 ## Notes
 
 - **Apache-2.0 license** allows full quotation and modification
-- Phidata emphasizes **simplicity and modularity** in agent construction
+- Agno (formerly Phidata) emphasizes **simplicity and modularity** in agent construction
 - The callable tools factory enables **context-aware tool loading**
 - Session state provides **per-user personalization**

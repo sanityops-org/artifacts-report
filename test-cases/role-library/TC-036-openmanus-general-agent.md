@@ -5,7 +5,7 @@
 - **GitHub**: github.com/FoundationAgents/OpenManus
 - **License**: MIT
 - **Artifact Type**: General-purpose autonomous agent prompts and tools
-- **Collection Date**: 2025-10-12
+- **Collection Date**: 2026-10-12
 - **Collection Method**: GitHub API content extraction at commit 3309bf4e416fb1c74b008f3e86494439a31bad53
 - **Scope**: Main.py -> Manus; repository-owned prompt texts and registered local tools
 

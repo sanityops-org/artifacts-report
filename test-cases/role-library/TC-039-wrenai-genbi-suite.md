@@ -5,7 +5,7 @@
 - **GitHub**: github.com/Canner/WrenAI
 - **License**: Apache-2.0 (core/sdk/skills), AGPL-3.0 (some parts)
 - **Artifact Type**: GenBI text-to-SQL platform with skills for data analysis
-- **Collection Date**: 2025-10-12
+- **Collection Date**: 2026-10-12
 - **Collection Method**: GitHub API content extraction at commit fedf182b4bb8294623d9cc0a9db4fbae1edf63fb
 - **Scope**: GenBI text-to-SQL platform with skills for data analysis
 

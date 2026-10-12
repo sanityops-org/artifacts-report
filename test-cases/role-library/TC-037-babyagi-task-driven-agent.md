@@ -1,25 +1,26 @@
-# TC-037: BabyAGI - Task-Driven Autonomous Agent
+# TC-037: BabyAGI - Functionz Framework (Function-Driven Agent)
 
 ## Metadata
 - **Source Project**: BabyAGI (yoheinakajima/babyagi)
 - **GitHub**: github.com/yoheinakajima/babyagi
-- **License**: MIT
-- **Artifact Type**: Task-driven autonomous agent framework
-- **Collection Date**: 2025-10-12
+- **License**: MIT (declared via the `setup.py` classifier "License :: OSI Approved :: MIT License" and README prose; the pinned tree contains no standalone LICENSE file)
+- **Artifact Type**: Function-driven agent framework (Functionz)
+- **Collection Date**: 2026-10-12
 - **Collection Method**: GitHub API content extraction at commit fa8930ebe72a82e5ad57b356e7cbec96290e5bb2
-- **Scope**: BabyAGI classic autonomous agent; task-driven execution loop with built-in prompts
+- **Scope**: BabyAGI at this commit is the **Functionz framework rewrite** (function registration, packs, and executor-based invocation behind a Flask dashboard/API). The classic 2023 task-loop script (task_creation_agent / prioritization_agent) is not present in this tree.
 
 ---
 
 ## Project Overview
 
-BabyAGI is one of the pioneering **task-driven autonomous agent frameworks**. It uses a simple but powerful loop: create tasks, prioritize them, and execute them one by one. The framework is built on Flask with the Functionz framework for function orchestration.
+BabyAGI at the pinned commit is a **function-orchestration framework** (Functionz) wrapped in a Flask app. Functions are registered with a decorator, organized into loadable packs, and invoked dynamically by name through module-level `__getattr__`, which routes calls through a central executor. (The historical task-driven execution loop of the original BabyAGI no longer exists in this tree — `main.py` is only a Flask launcher.)
 
 ### Key Characteristics
-- **Task-driven execution**: Tasks are created, prioritized, and executed in a loop
-- **Function-based architecture**: Uses Functionz framework for function registration
-- **Auto-loading function packs**: Default AI and OS functions loaded automatically
-- **Dynamic function discovery**: Functions can be called by name via module attributes
+- **Function-based architecture**: Functionz framework for decorator-driven function registration
+- **Auto-loading function packs**: Default AI and OS function packs loaded on import
+- **Dynamic function discovery**: Registered functions are callable by name via module attributes
+- **Executor-based invocation**: All calls flow through `_func_instance.executor.execute(...)`
+- **Flask dashboard + API**: Web UI and REST blueprint mounted at configurable routes
 
 ---
 
@@ -164,13 +165,11 @@ print("babyagi/__init__.py loaded")
 
 ## Architecture Pattern
 
-### Task Execution Loop
+### Function Lifecycle
 
 ```
-User Goal -> Task Creation -> Task Prioritization -> Task Execution -> Result
-    ^                                                              |
-    |                                                              v
-    +-------------------- New Tasks Created ----------------------+
+@register_function -> Registry (DB-backed) -> load_function_pack -> __getattr__ lookup
+    -> executor.execute -> Result
 ```
 
 ### Component Structure
@@ -180,14 +179,15 @@ babyagi/
 ├── __init__.py           # Main module with Functionz integration
 ├── api/                  # REST API endpoints
 ├── dashboard/            # Web UI dashboard
-├── functionz/            # Core framework
-│   └── core/
-│       └── framework.py  # Function orchestration
-└── default/              # Default function packs
-    ├── default_functions/
-    ├── ai_functions/
-    ├── os/
-    └── function_calling_chat/
+└── functionz/            # Core framework
+    ├── core/
+    │   └── framework.py  # Function orchestration
+    └── packs/
+        └── default/      # Default function packs (files, not packages)
+            ├── default_functions.py
+            ├── ai_functions.py
+            ├── os.py
+            └── function_calling_chat.py
 ```
 
 ---
@@ -214,10 +214,10 @@ babyagi/
 - [ ] Dashboard route configurable
 - [ ] Request context provides function access
 
-### 5. Task Management
-- [ ] Task creation mechanism
-- [ ] Task prioritization logic
-- [ ] Execution tracking
+### 5. Function Execution
+- [ ] Executor-based invocation via `__getattr__`
+- [ ] Registered functions callable by name
+- [ ] Errors surfaced for unknown functions
 
 ---
 
@@ -229,7 +229,7 @@ babyagi/
 | Function Registration | 20% | | |
 | Extensibility | 20% | | |
 | API Design | 15% | | |
-| Task Management | 20% | | |
+| Function Execution | 20% | | |
 | **Total** | 100% | | |
 
 ---
@@ -251,19 +251,19 @@ babyagi/
 2. Execute function via API
 3. Test blueprint registration
 
-### Task Execution Tests
-1. Create and execute single task
-2. Test task prioritization
-3. Verify new task creation from results
+### Function Execution Tests
+1. Invoke a registered function by module attribute name
+2. Verify execution flows through the Functionz executor
+3. Confirm AttributeError for unregistered function names
 
 ---
 
 ## Notes
 
-- BabyAGI pioneered the task-driven autonomous agent pattern
+- BabyAGI pioneered the task-driven autonomous agent pattern; the current repo (Functionz) is the framework that grew out of it
 - Functionz framework provides function orchestration
 - Flask-based design allows easy web integration
 - Dynamic function discovery enables runtime extensibility
-- MIT license allows full examination and modification
+- MIT license declared via setup.py classifier and README (no standalone LICENSE file in the pinned tree)
 - Demonstrates simple but effective agent architecture
 - Good reference for understanding agent framework fundamentals

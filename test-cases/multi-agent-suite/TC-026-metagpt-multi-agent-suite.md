@@ -5,7 +5,7 @@
 - **Commit SHA**: 11cdf466d042aece04fc6cfd13b28e1a70341b1f
 - **License**: MIT
 - **Artifact Type**: Multi-Agent Framework
-- **Collection Date**: 2025-10-12
+- **Collection Date**: 2026-10-12
 - **Collection Method**: GitHub API content extraction from verified commit
 
 ---
@@ -27,6 +27,8 @@ MetaGPT is a **multi-agent collaborative framework** for software development an
 ## Logical Artifact Inventory
 
 ### 1. System Prompts (5)
+
+*(Note — selection only. Upstream also contains 24 stanford_town prompt files in metagpt/ext/stanford_town/prompts/ (3 quoted), the remaining android_assistant templates in assistant_prompt.py (screenshot_parse_with_grid_template, screenshot_parse_self_explore_template, screenshot_parse_self_explore_reflect_template) and operation_prompt.py, plus the AFlow optimize_prompt.py and MD_ENSEMBLE_PROMPT.)*
 
 #### 1.1 Stanford Town - Daily Planning
 ```text
@@ -176,6 +178,7 @@ Several solutions have been generated to address the given question. They are as
 Carefully evaluate these solutions and identify the answer that appears most frequently across them. This consistency in answers is crucial for determining the most reliable solution.
 
 In the "thought" field, provide a detailed explanation of your thought process. In the "solution_letter" field, output only the single letter ID (A, B, C, etc.) corresponding to the most consistent solution.
+Do not include any additional text or explanation in the "solution_letter" field.
 """
 
 PYTHON_CODE_VERIFIER_PROMPT = """
@@ -187,12 +190,14 @@ Other analysis: {analysis}
 
 Your code should:
 1. Implement the calculation steps described in the problem.
-2. Define a function named `solve` that performs the calculation and returns the result.
+2. Define a function named `solve` that performs the calculation and returns the result. The `solve` function should not require any input parameters; instead, it should obtain all necessary inputs from within the function or from globally defined variables.
 3. `solve` function return the final calculation result.
+
+Please ensure your code is efficient, well-commented, and follows Python best practices. The output should be limited to basic data types such as strings, integers, and floats. It is prohibited to transmit images or other file formats. The code output is intended for a text-based language model.
 """
 
 REFLECTION_ON_PUBLIC_TEST_PROMPT = """
-Given a code problem and a python code solution which failed to pass test or execute, you need to analyze the reason for the failure and propose a better code solution.
+Given a code problem and a python code solution which failed to pass test or execute, you need to analyze the reason for the failure and propose a better code solution.:
 
 ### problem
 {problem}
@@ -237,19 +242,50 @@ Ensure the output code is self-contained, and without any additional text or tes
 ```python
 # examples/di/custom_tool.py
 
-# Custom tool definitions for domain-specific tasks
+from metagpt.roles.di.data_interpreter import DataInterpreter
+from metagpt.tools.tool_registry import register_tool
+
+
+@register_tool()
+def magic_function(arg1: str, arg2: int) -> dict:
+    """
+    The magic function that does something.
+
+    Args:
+        arg1 (str): ...
+        arg2 (int): ...
+
+    Returns:
+        dict: ...
+    """
+    return {"arg1": arg1 * 3, "arg2": arg2 * 5}
+
+
+async def main():
+    di = DataInterpreter(tools=["magic_function"])
+    await di.run("Just call the magic function with arg1 'A' and arg2 2. Tell me the result.")
 ```
 
 #### 2.2 Android Assistant Schema
 ```python
 # metagpt/ext/android_assistant/utils/schema.py
 
-# Schema definitions for Android automation actions:
-# - tap(element: int)
-# - text(text_input: str)
-# - long_press(element: int)
-# - swipe(element: int, direction: str, dist: str)
-# - grid()
+class ActionOp(Enum):
+    TAP = "tap"
+    LONG_PRESS = "long_press"
+    TEXT = "text"
+    SWIPE = "swipe"
+    VERTICAL_SWIPE = "v_swipe"
+    HORIZONTAL_SWIPE = "h_swipe"
+    GRID = "grid"
+    STOP = "stop"
+
+
+class SwipeOp(Enum):
+    UP = "up"
+    DOWN = "down"
+    LEFT = "left"
+    RIGHT = "right"
 ```
 
 ---

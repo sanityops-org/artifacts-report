@@ -1,11 +1,11 @@
 # TC-010: OpenCode - System Prompts and Tools Evaluation Case
 
 ## Metadata
-- **Source Project**: anomalyco/opencode
-- **License**: Apache-2.0
+- **Source Project**: anomalyco/opencode (formerly sst/opencode)
+- **License**: MIT
 - **Artifact Type**: System Prompts & Tool Definitions
-- **Collection Date**: 2025-10-12
-- **Collection Method**: Extracted from packages/opencode/src at commit 055d95bb7e278c94baf06235a52cac79dd13ba67
+- **Collection Date**: 2026-10-12
+- **Collection Method**: Extracted from packages/opencode/src at commit 055d95bb7e278c94baf06235a52cac79dd13ba67 (the default session prompt plus the built-in tool registry; model-specific session prompts under packages/opencode/src/session/prompt/ and agent prompts under packages/opencode/src/agent/prompt/ are listed but not quoted)
 
 ## Original Artifact Content
 
@@ -70,21 +70,27 @@ assistant: ls
 </example>
 ```
 
-### Tool Definitions (Read, Edit, Shell, etc.)
+### Tool Definitions (Built-in Tools)
+
+*(Note — packages/opencode/src/session/prompt/ also ships model-specific session prompts (anthropic, beast, codex, copilot-gpt-5, gemini, gpt-astra, gpt, kimi, meta, plan-mode, plan, trinity, etc.) and packages/opencode/src/agent/prompt/ ships compaction, explore, summary, and title prompts; not quoted here.)*
 
 Tools available include:
 - `read` - Read file contents
 - `edit` - Apply patches to files
 - `write` - Create new files
-- `shell` - Execute bash commands
+- `bash` - Execute bash commands (exposed tool ID; internal module is tool/shell)
 - `grep` - Search file contents
 - `glob` - Find files by pattern
 - `lsp` - Language server protocol integration
 - `task` - Delegate to sub-agent
-- `todo` - Track task progress
+- `todowrite` - Track task progress
 - `webfetch` - Fetch web content
 - `websearch` - Search the web
 - `skill` - Activate specialized skills
+- `apply_patch` - Apply a patch to files
+- `question` - Ask the user a clarifying question
+- `plan_exit` - Exit plan mode
+- `execute` - Code-mode tool execution
 
 ## Evaluation Dimensions
 
@@ -147,4 +153,4 @@ Tools available include:
 - OpenCode prioritizes extreme conciseness for CLI environments
 - Strong emphasis on following existing code conventions
 - Multiple model-specific prompt templates demonstrate flexibility
-- Apache-2.0 license allows full quotation and modification
+- MIT license allows full quotation and modification

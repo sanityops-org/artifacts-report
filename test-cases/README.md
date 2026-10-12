@@ -78,10 +78,10 @@ test-cases/
 | TC-007 | [TC-007-aider-system-prompts.md](./single-artifact/TC-007-aider-system-prompts.md) | aider | System Prompts | Apache-2.0 | ✅ Complete |
 | TC-008 | [TC-008-cline-system-prompts.md](./single-artifact/TC-008-cline-system-prompts.md) | cline | System Prompts + Tools | Apache-2.0 | ✅ Complete |
 | TC-009 | [TC-009-gemini-cli-system-prompts.md](./single-artifact/TC-009-gemini-cli-system-prompts.md) | gemini-cli | System Prompts + Tools + Skills | Apache-2.0 | ✅ Complete |
-| TC-010 | [TC-010-opencode-system-prompts.md](./single-artifact/TC-010-opencode-system-prompts.md) | opencode | System Prompts + Tools | Apache-2.0 | ✅ Complete |
-| TC-011 | [TC-011-mini-swe-agent-system-prompt.md](./single-artifact/TC-011-mini-swe-agent-system-prompt.md) | mini-swe-agent | System Prompts + Tools | MIT | ✅ Complete |
+| TC-010 | [TC-010-opencode-system-prompts.md](./single-artifact/TC-010-opencode-system-prompts.md) | opencode | System Prompts + Tools | MIT | ✅ Complete |
+| TC-011 | [TC-011-mini-swe-agent-system-prompt.md](./single-artifact/TC-011-mini-swe-agent-system-prompt.md) | mini-swe-agent | System Prompt + Agent Config (YAML) | MIT | ✅ Complete |
 | TC-012 | [TC-012-openhands-sdk-system-prompts.md](./single-artifact/TC-012-openhands-sdk-system-prompts.md) | openhands-sdk | System Prompts + Tools | MIT | ✅ Complete |
-| TC-013 | [TC-013-openai-codex-system-prompt.md](./single-artifact/TC-013-openai-codex-system-prompt.md) | openai/codex | System Prompts + Tools | Apache-2.0 | ✅ Complete |
+| TC-013 | [TC-013-openai-codex-system-prompt.md](./single-artifact/TC-013-openai-codex-system-prompt.md) | openai/codex | System Prompt | Apache-2.0 | ✅ Complete |
 | TC-014 | [TC-014-goose-system-prompts.md](./single-artifact/TC-014-goose-system-prompts.md) | goose | System Prompts + Tools | Apache-2.0 | ✅ Complete |
 | TC-015 | [TC-015-qwen-code-skills.md](./single-artifact/TC-015-qwen-code-skills.md) | qwen-code | Skills | Apache-2.0 | ✅ Complete |
 | TC-016 | [TC-016-swe-agent-tool-schemas.md](./single-artifact/TC-016-swe-agent-tool-schemas.md) | swe-agent | Tool Schemas | MIT | ✅ Complete |
@@ -98,10 +98,10 @@ test-cases/
 | TC-021 | [TC-021-autogen-multi-agent-suite.md](./multi-agent-suite/TC-021-autogen-multi-agent-suite.md) | Microsoft AutoGen | Multi-Agent framework | 4 | CC-BY-4.0 | ✅ Complete |
 | TC-022 | [TC-022-ag2-multi-agent-suite.md](./multi-agent-suite/TC-022-ag2-multi-agent-suite.md) | AG2 (AutoGen) | Multi-Agent framework | 6 | Apache-2.0 | ✅ Complete |
 | TC-023 | [TC-023-crewai-multi-agent-suite.md](./multi-agent-suite/TC-023-crewai-multi-agent-suite.md) | CrewAI | Role-play multi-Agent | 4 | MIT | ✅ Complete |
-| TC-024 | [TC-024-camel-multi-agent-suite.md](./multi-agent-suite/TC-024-camel-multi-agent-suite.md) | CAMEL | Multi-Agent framework | 14 | Apache-2.0 | ✅ Complete |
+| TC-024 | [TC-024-camel-multi-agent-suite.md](./multi-agent-suite/TC-024-camel-multi-agent-suite.md) | CAMEL | Multi-Agent framework | 7 | Apache-2.0 | ✅ Complete |
 | TC-025 | [TC-025-openhands-multi-agent-suite.md](./multi-agent-suite/TC-025-openhands-multi-agent-suite.md) | OpenHands | Multi-Agent framework | 8 | MIT | ✅ Complete |
 | TC-026 | [TC-026-metagpt-multi-agent-suite.md](./multi-agent-suite/TC-026-metagpt-multi-agent-suite.md) | MetaGPT | Software engineering pipeline | 7 | MIT | ✅ Complete |
-| TC-027 | [TC-027-phidata-multi-agent-suite.md](./multi-agent-suite/TC-027-phidata-multi-agent-suite.md) | Phidata | Multi-Agent platform | 5 | Apache-2.0 | ✅ Complete |
+| TC-027 | [TC-027-phidata-multi-agent-suite.md](./multi-agent-suite/TC-027-phidata-multi-agent-suite.md) | Agno (formerly Phidata) | Multi-Agent platform | 5 | Apache-2.0 | ✅ Complete |
 | TC-028 | [TC-028-superagi-multi-agent-suite.md](./multi-agent-suite/TC-028-superagi-multi-agent-suite.md) | SuperAGI | Autonomous Agent framework | 9 | MIT | ✅ Complete |
 | TC-029 | [TC-029-e2b-multi-agent-suite.md](./multi-agent-suite/TC-029-e2b-multi-agent-suite.md) | E2B | Sandbox runtime | 2 | Apache-2.0 | ✅ Complete |
 | TC-030 | [TC-030-openinterpreter-multi-agent-suite.md](./multi-agent-suite/TC-030-openinterpreter-multi-agent-suite.md) | Open Interpreter | Code execution Agent | 5 | Apache-2.0 | ✅ Complete |
@@ -121,15 +121,15 @@ test-cases/
 | # | File Name | Source Project | Suite Type | Artifact Count | License | Status |
 |------|--------|----------|----------|----------|--------|------|
 | TC-006 | [TC-006-agency-agents-marketing-suite.md](./role-library/TC-006-agency-agents-marketing-suite.md) | agency-agents | Specialized role suite | 6 | MIT | ✅ Complete |
-| TC-035 | [TC-035-autogpt-classic-autonomous-agent.md](./role-library/TC-035-autogpt-classic-autonomous-agent.md) | AutoGPT Classic | Autonomous task Agent | 30 | MIT | ✅ Complete |
+| TC-035 | [TC-035-autogpt-classic-autonomous-agent.md](./role-library/TC-035-autogpt-classic-autonomous-agent.md) | AutoGPT Classic | Autonomous task Agent | 27 | MIT | ✅ Complete |
 | TC-036 | [TC-036-openmanus-general-agent.md](./role-library/TC-036-openmanus-general-agent.md) | OpenManus | General purpose Agent | 6 | MIT | ✅ Complete |
 | TC-037 | [TC-037-babyagi-task-driven-agent.md](./role-library/TC-037-babyagi-task-driven-agent.md) | BabyAGI | Task-driven autonomous | 2 | MIT | ✅ Complete |
 | TC-038 | [TC-038-anythingllm-agent-rag-suite.md](./role-library/TC-038-anythingllm-agent-rag-suite.md) | AnythingLLM Agent | Knowledge base/RAG | 13 | MIT | ✅ Complete |
-| TC-039 | [TC-039-wrenai-genbi-suite.md](./role-library/TC-039-wrenai-genbi-suite.md) | WrenAI | GenBI text-to-SQL | 11 | Apache-2.0 | ✅ Complete |
+| TC-039 | [TC-039-wrenai-genbi-suite.md](./role-library/TC-039-wrenai-genbi-suite.md) | WrenAI | GenBI text-to-SQL | 9 | Apache-2.0 | ✅ Complete |
 | TC-040 | [TC-040-leon-personal-assistant.md](./role-library/TC-040-leon-personal-assistant.md) | Leon | Personal assistant | 6 | MIT | ✅ Complete |
-| TC-041 | [TC-041-buzz-hive-mind-platform.md](./role-library/TC-041-buzz-hive-mind-platform.md) | Buzz | Hive mind platform | 15 | Apache-2.0 | ✅ Complete |
+| TC-041 | [TC-041-buzz-hive-mind-platform.md](./role-library/TC-041-buzz-hive-mind-platform.md) | Buzz | Hive mind platform | 13 | Apache-2.0 | ✅ Complete |
 | TC-042 | [TC-042-openamer-self-improving-agent.md](./role-library/TC-042-openamer-self-improving-agent.md) | OpenAmer | Self-improving Agent | 14 | Apache-2.0 | ✅ Complete |
-| TC-043 | [TC-043-openbitfun-code-agent.md](./role-library/TC-043-openbitfun-code-agent.md) | OpenBitFun | Code Agent with Rust | 13 | MIT | ✅ Complete |
+| TC-043 | [TC-043-openbitfun-code-agent.md](./role-library/TC-043-openbitfun-code-agent.md) | OpenBitFun | Code Agent with Rust | 18 | MIT | ✅ Complete |
 
 ---
 
@@ -252,8 +252,8 @@ find test-cases -name "TC-*.md" | grep -v sanityops | wc -l
 
 | Date | Update |
 |------|----------|
-| 2025-10-12 | Migrated 37 TC files from demo-agent: 14 single-artifact, 10 multi-agent-suite, 4 file-based, 9 role-library |
-| 2025-10-10 | Initialized with 6 original cases (TC-001 to TC-006) |
+| 2026-10-12 | Migrated 37 TC files from demo-agent: 14 single-artifact, 10 multi-agent-suite, 4 file-based, 9 role-library |
+| 2026-10-10 | Initialized with 6 original cases (TC-001 to TC-006) |
 
 ---
 

@@ -5,7 +5,7 @@
 - **GitHub**: github.com/block/buzz
 - **License**: Apache-2.0
 - **Artifact Type**: Hive mind communication platform with multi-agent skills
-- **Collection Date**: 2025-10-12
+- **Collection Date**: 2026-10-12
 - **Collection Method**: GitHub API content extraction at commit 30873ba46b5e08602ae61a2a0592ecedd37f7289
 - **Scope**: Hive mind communication platform with multi-agent skills
 
@@ -17,7 +17,7 @@ Buzz is a **hive mind communication platform** that spans multiple repos and sup
 
 ### Key Characteristics
 - **Multi-framework support**: Claude, Codex, Goose skill directories
-- **9 skill definitions**: Desktop screenshot, Sprout CLI, GitHub research, etc.
+- **11 skill entries** across 6 locations (5 distinct skills, duplicated per framework): desktop-screenshot, buzz-cli, GitHub research, etc.
 - **Desktop app**: Tauri 2 + React 19 with managed agents
 - **Relay server**: WebSocket relay for communication
 
@@ -128,19 +128,23 @@ images only.
 
 ---
 
-## Available Skills (9 Total)
+## Available Skills (11 Total)
+
+*(Note — 5 distinct skills are duplicated across agent-framework directories; the `.claude/`, `.codex/`, `.goose/`, and `.agents/` copies are pointer files to the managed-agent sources under `desktop/src-tauri/src/managed_agents/`.)*
 
 | Skill | Location | Description |
 |-------|----------|-------------|
 | desktop-screenshot | .claude/skills/ | Capture and host PR screenshots |
-| sprout-cli | .claude/skills/ | CLI for Sprout operations |
+| buzz-cli (dir: sprout-cli) | .claude/skills/ | Buzz CLI for relay operations (owner-reviewed agent drafts, messaging, channels, DMs, users, workflows, feed, reactions, canvas, social, repos, uploads, and agent memory); skill frontmatter name is `buzz-cli`, directory keeps the legacy `sprout-cli` name |
 | desktop-screenshot | .codex/skills/ | Codex version |
-| sprout-cli | .codex/skills/ | Codex version |
+| buzz-cli (dir: sprout-cli) | .codex/skills/ | Codex version |
 | desktop-screenshot | .goose/skills/ | Goose version |
-| sprout-cli | .goose/skills/ | Goose version |
-| github-research | examples/meadow-core/ | GitHub research skill |
-| nest_skill | desktop/src-tauri/ | Managed agent skill |
-| screenshot_skill | desktop/src-tauri/ | Managed screenshot skill |
+| buzz-cli (dir: sprout-cli) | .goose/skills/ | Goose version |
+| desktop-screenshot | .agents/skills/ | Agents-format version |
+| buzz-cli (dir: sprout-cli) | .agents/skills/ | Agents-format version |
+| github-research | examples/meadow-core/skills/github-research/ | GitHub research skill |
+| buzz-cli | desktop/src-tauri/src/managed_agents/nest_skill.md | Managed agent skill (source file for the buzz-cli skill) |
+| desktop-screenshot | desktop/src-tauri/src/managed_agents/screenshot_skill.md | Managed screenshot skill (source file) |
 
 ---
 

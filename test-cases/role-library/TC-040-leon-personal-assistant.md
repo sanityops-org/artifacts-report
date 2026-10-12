@@ -5,7 +5,7 @@
 - **GitHub**: github.com/leon-ai/leon
 - **License**: MIT
 - **Artifact Type**: Personal assistant with multi-language SDK and skills
-- **Collection Date**: 2025-10-12
+- **Collection Date**: 2026-10-12
 - **Collection Method**: GitHub API content extraction at commit 111ccc8de5719108eebd4906ed0485cba5de7a50
 - **Scope**: Leon open-source personal assistant; multi-language SDK, tools, and prompt templates
 
@@ -75,6 +75,13 @@ Similar template structure for tool creation with prompts and configuration.
 ```javascript
 // scripts/setup/setup-skills/setup-skills.js
 // Initialize and configure skills for Leon
+```
+
+### 3. Setup Skills Settings
+
+```javascript
+// scripts/setup/setup-skills/setup-skills-settings.js
+// Configure skill settings during setup
 ```
 
 ---

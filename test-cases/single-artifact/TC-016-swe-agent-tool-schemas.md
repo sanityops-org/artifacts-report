@@ -4,8 +4,8 @@
 - **Source Project**: princeton-nlp/SWE-agent
 - **License**: MIT
 - **Artifact Type**: Tool Definitions
-- **Collection Date**: 2025-10-12
-- **Collection Method**: Extracted from tools/ and sweagent/tools at commit 3ea751c087f32b16e039a2233dd6eefecef325d5
+- **Collection Date**: 2026-10-12
+- **Collection Method**: Extracted from tools/edit_anthropic/config.yaml at commit 3ea751c087f32b16e039a2233dd6eefecef325d5. The `tools/` directory contains 15 tool bundles in total; not covered here: diff_state, filemap (filemap), forfeit (exit_forfeit), image_tools (view_image), multilingual_setup, registry, review_on_submit_m (submit), search (find_file, search_dir, search_file), submit (submit), web_browser (17 browser tools), windowed (goto, open, create, scroll_up, scroll_down), windowed_edit_linting (edit), windowed_edit_replace (edit, insert), windowed_edit_rewrite (edit), plus the sweagent/tools Python package (bundle.py, commands.py, parsing.py, tools.py, utils.py).
 
 ## Original Artifact Content
 
@@ -42,24 +42,29 @@ tools:
         type: string
         description: "Required parameter of `create` command, with the content of the file to be created."
         required: false
+        argument_format: "--file_text {{value}}"
       - name: old_str
         type: string
         description: "Required parameter of `str_replace` command containing the string in `path` to replace."
         required: false
+        argument_format: "--old_str {{value}}"
       - name: new_str
         type: string
-        description: "Optional parameter of `str_replace` command containing the new string."
+        description: "Optional parameter of `str_replace` command containing the new string (if not given, no string will be added). Required parameter of `insert` command containing the string to insert."
         required: false
+        argument_format: "--new_str {{value}}"
       - name: insert_line
         type: integer
-        description: "Required parameter of `insert` command. The `new_str` will be inserted AFTER the line `insert_line`."
+        description: "Required parameter of `insert` command. The `new_str` will be inserted AFTER the line `insert_line` of `path`."
         required: false
+        argument_format: "--insert_line {{value}}"
       - name: view_range
         type: array
         items:
           type: integer
-        description: "Optional parameter of `view` command when `path` points to a file. [start, end] line range."
+        description: "Optional parameter of `view` command when `path` points to a file. If none is given, the full file is shown. If provided, the file will be shown in the indicated line number range, e.g. [11, 12] will show lines 11 and 12. Indexing at 1 to start. Setting `[start_line, -1]` shows all lines from `start_line` to the end of the file."
         required: false
+        argument_format: "--view_range {{value|join(' ')}}"
 state_command: "_state_anthropic"
 ```
 

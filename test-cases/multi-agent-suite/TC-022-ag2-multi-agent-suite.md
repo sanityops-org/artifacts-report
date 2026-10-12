@@ -5,7 +5,7 @@
 - **Commit SHA**: 2b8636381b2235e7d77d181a35fbd241d15fe3f1
 - **License**: Apache-2.0
 - **Artifact Type**: Multi-Agent Framework
-- **Collection Date**: 2025-10-12
+- **Collection Date**: 2026-10-12
 - **Collection Method**: GitHub API content extraction from verified commit
 
 ---
@@ -227,8 +227,10 @@ class WebSearchToolSchema(ToolSchema):
 
 
 class WebSearchTool(Tool):
-    """Provider-executed web search tool."""
+    __slots__ = ()
 ```
+
+*(Note — the four builtin tools quoted here are a selection; `ag2/tools/builtin/` also provides AnthropicBashTool, FileSearchTool, GoogleMapsTool, WebFetchTool, MCPServerTool, ToolSearchTool, ImageGenerationTool, XSearchTool, MemoryTool, and RetrievalTool, plus `SandboxShellTool` in ag2/tools/shell/tool.py.)*
 
 #### 2.3 CodeExecutionTool (Provider-Neutral Code Execution)
 ```python

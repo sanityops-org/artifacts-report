@@ -4,7 +4,7 @@
 - **Source Project**: google-gemini/gemini-cli
 - **License**: Apache-2.0
 - **Artifact Type**: System Prompts & Tool Schemas & Skills
-- **Collection Date**: 2025-10-12
+- **Collection Date**: 2026-10-12
 - **Collection Method**: Extracted from packages/core/src at commit 9b6e0265d16bbd29ca51e33c9e0c01dc4cec5e83
 
 ## Original Artifact Content
@@ -97,7 +97,7 @@ export function renderSubAgents(subAgents?: SubAgentOptions[]): string {
   return `
 # Available Sub-Agents
 
-Sub-agents are specialized expert agents. You can invoke them using the \`agent\` tool by passing their name to the \`agent_name\` parameter. You MUST delegate tasks to the sub-agent with the most relevant expertise.
+Sub-agents are specialized expert agents. You can invoke them using the \`invoke_agent\` tool by passing their name to the \`agent_name\` parameter. You MUST delegate tasks to the sub-agent with the most relevant expertise.
 
 ### Strategic Orchestration & Delegation
 Operate as a **strategic orchestrator**. Your own context window is your most precious resource. Every turn you take adds to the permanent session history. To keep the session fast and efficient, use sub-agents to "compress" complex or repetitive work.
@@ -117,6 +117,8 @@ ${subAgentsXml}
 ```
 
 ### Tool Definitions (gemini-3.ts)
+
+*(Excerpt — `GEMINI_3_SET` defines 20 tools in total; the three quoted below are a selection. The full set also includes: grep_search_ripgrep, glob, list_directory, run_shell_command, replace, google_web_search, web_fetch, read_many_files, write_todos, get_internal_docs, ask_user, enter_plan_mode, exit_plan_mode, activate_skill, update_topic, read_mcp_resource, and list_mcp_resources.)*
 
 ```typescript
 export const GEMINI_3_SET: CoreToolSet = {
@@ -187,6 +189,8 @@ export const GEMINI_3_SET: CoreToolSet = {
 ```
 
 ### Skill: skill-creator/SKILL.md
+
+*(Note — `packages/core/src/skills/builtin/` also contains a second builtin skill, `antigravity-support`, which is not covered by this case.)*
 
 ```markdown
 ---

@@ -4,12 +4,12 @@
 - **Source Project**: QwenLM/qwen-code
 - **License**: Apache-2.0
 - **Artifact Type**: Skills (SKILL.md files)
-- **Collection Date**: 2025-10-12
-- **Collection Method**: Extracted from .qwen/skills at commit e17ad4caef7b7bc69f27c8b751a75ce099a011b8
+- **Collection Date**: 2026-10-12
+- **Collection Method**: Extracted from .qwen/skills/autofix/SKILL.md at commit e17ad4caef7b7bc69f27c8b751a75ce099a011b8. The `.qwen/skills/` directory contains 22 skills in total; this case covers only `autofix`. The other 21 are: agent-reproduce-align, agent-reproduce-feature, bugfix, ci-flaky-patrol, codegraph, create-issue, deflake, docs-audit-and-refresh, docs-update-from-diff, e2e-testing, feat-dev, find-simplifications, memory-leak-debug, prepare-pr, qwen-code-claw, repo-hygiene, structured-debugging, terminal-capture, tmux-real-user-testing, triage, verify-pr.
 
 ## Original Artifact Content
 
-### autofix/SKILL.md
+### autofix/SKILL.md (excerpt — local-working-tree mode; the file is 684 lines and also defines "GitHub Actions Rules" plus the assess-candidates, develop-issue, and address-review modes with in-round self-review)
 
 ```markdown
 ---
@@ -38,7 +38,7 @@ owns the model-driven decisions, code changes, and pre-commit verification.
 
 ## Mode: local working tree
 
-1. Confirm the current directory is a git worktree. Record `HEAD`, a hash of
+1. Confirm the current directory is a git working tree. Record `HEAD`, a hash of
    `git diff --cached --binary`, a content fingerprint covering
    `git diff --binary HEAD` plus every untracked file, and
    `git status --porcelain=v1 --untracked-files=all`. If status is empty, finish
@@ -66,7 +66,9 @@ owns the model-driven decisions, code changes, and pre-commit verification.
 7. Stop `STALLED` when changes oscillate or an actionable finding survives.
    Stop `BLOCKED` when any `defer-to-human` item remains.
 
-8. Finish `CONVERGED` only when `event` and `baseEvent` are both `APPRPOVE`.
+8. Finish `CONVERGED` only when `event` and `baseEvent` are both `APPROVE`, or
+   both are `COMMENT` and every reported suggestion was fixed or declined with
+   concrete evidence.
 
 Never run `git add`, `git commit`, `git push`, `git reset`, `git checkout`,
 `git stash`, history-rewriting commands, `gh`, or any GitHub write. Leave fixes

@@ -4,8 +4,8 @@
 - **Source Project**: smol-ai/developer
 - **License**: MIT
 - **Artifact Type**: System Prompts & Tool Definitions
-- **Collection Date**: 2025-10-12
-- **Collection Method**: Extracted from smol_dev/prompts.py at commit a6747d1a6ccd983c54a483c4a4fb1fa4bf740e82
+- **Collection Date**: 2026-10-12
+- **Collection Method**: Extracted from smol_dev/prompts.py at commit a6747d1a6ccd983c54a483c4a4fb1fa4bf740e82 (excerpt — streaming-loop bodies and `generate_code_sync()` are omitted; see the source file for the complete implementations)
 
 ## Original Artifact Content
 
@@ -56,7 +56,7 @@ def specify_file_paths(prompt: str, plan: str, model: str = 'gpt-3.5-turbo-0613'
 
 
 def plan(prompt: str, stream_handler: Optional[Callable[[bytes], None]] = None, model: str='gpt-3.5-turbo-0613', extra_messages: List[Any] = []):
-    completion = openAI.ChatCompletion.create(
+    completion = openai.ChatCompletion.create(
         model=model,
         temperature=0.7,
         stream=True,
@@ -79,9 +79,10 @@ def plan(prompt: str, stream_handler: Optional[Callable[[bytes], None]] = None, 
     )
 
 
+@retry(wait=wait_random_exponential(min=1, max=60), stop=stop_after_attempt(6))
 async def generate_code(prompt: str, plan: str, current_file: str, stream_handler: Optional[Callable[Any, Any]] = None,
                         model: str = 'gpt-3.5-turbo-0613') -> str:
-    completion = openAI.ChatCompletion.acreate(
+    completion = openai.ChatCompletion.acreate(
         model=model,
         temperature=0.7,
         messages=[

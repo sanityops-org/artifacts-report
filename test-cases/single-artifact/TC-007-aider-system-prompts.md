@@ -4,8 +4,8 @@
 - **Source Project**: Aider-AI/aider
 - **License**: Apache-2.0
 - **Artifact Type**: System Prompts (Multiple Coder Formats)
-- **Collection Date**: 2025-10-12
-- **Collection Method**: Extracted from aider/coders/*.py at commit 5dc9490bb35f9729ef2c95d00a19ccd30c26339c
+- **Collection Date**: 2026-10-12
+- **Collection Method**: Extracted from aider/coders/{base,editblock,wholefile,udiff,patch}_prompts.py, aider/coders/shell.py, and aider/prompts.py at commit 5dc9490bb35f9729ef2c95d00a19ccd30c26339c (core edit formats; the remaining coder prompt modules — architect, ask, context, editblock_fenced, editblock_func, editor_*, help, single_wholefile_func, udiff_simple, wholefile_func — are not covered by this case)
 
 ## Original Artifact Content
 
@@ -236,6 +236,8 @@ To make a new file, show a diff from `--- /dev/null` to `+++ path/to/new/file.ex
 
 ### patch_prompts.py (V4A Diff Format)
 
+*(Excerpt — upstream `aider/coders/patch_prompts.py` uses `•` bullets in `main_system` and includes additional `system_reminder` rules on single-block-per-file moves and `@@` markers that are omitted here.)*
+
 ```python
 class PatchPrompts(EditBlockPrompts):
     main_system = """Act as an expert software developer.
@@ -329,7 +331,7 @@ Examples of when to suggest shell commands:
 """
 ```
 
-### prompts.py (Commit & Summary)
+### aider/prompts.py (Commit & Summary)
 
 ```python
 commit_system = """You are an expert software engineer that generates concise, \

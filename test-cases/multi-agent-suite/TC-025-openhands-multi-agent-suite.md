@@ -5,7 +5,7 @@
 - **Commit SHA**: fa1f724ab5737a17453ad6081129eb91c5a423c6
 - **License**: MIT
 - **Artifact Type**: Multi-Agent Framework / Development Platform
-- **Collection Date**: 2025-10-12
+- **Collection Date**: 2026-10-12
 - **Collection Method**: GitHub API content extraction from verified commit
 
 ---
@@ -74,7 +74,7 @@ Preserve desktop startup reliability and packaging invariants across development
 
 ---
 name: e2e-testing
-description: Use for Playwright end-to-end tests, mock-llm configurations, and live test scenarios.
+description: This skill should be used when the user asks to "add an E2E test", "run live E2E", "run mock-LLM tests", "debug Playwright CI", "test the Docker image", or changes tests/e2e, Playwright configs, E2E workflows, artifacts, or test reporting.
 ---
 ```
 
@@ -84,7 +84,7 @@ description: Use for Playwright end-to-end tests, mock-llm configurations, and l
 
 ---
 name: frontend-api-contracts
-description: Use for API contract definitions between frontend and backend.
+description: This skill should be used when the user asks to "add an API call", "change a backend", "update settings persistence", "change conversation events", "fix backend auth", "add Agent Server support", or changes src/api, backend registry, Cloud/runtime transport, settings, secrets, compatibility, or conversation resume behavior.
 ---
 ```
 
@@ -94,7 +94,7 @@ description: Use for API contract definitions between frontend and backend.
 
 ---
 name: frontend-development
-description: Use for React, TypeScript, and frontend development patterns.
+description: This skill should be used when the user asks to "add UI copy", "add a translation", "optimize the frontend bundle", "change onboarding", "change conversation UI", "add a query key", "change MSW mocks", or modifies React components, hooks, routes, i18n, lazy loading, persisted UI state, or shared frontend behavior.
 ---
 ```
 
@@ -104,7 +104,7 @@ description: Use for React, TypeScript, and frontend development patterns.
 
 ---
 name: local-stack-runtime
-description: Use for local development environment and runtime configuration.
+description: This skill should be used when the user asks to "change the dev stack", "add a runtime service", "change the launcher", "update Docker", "bump Agent Server", "change ingress routing", or changes scripts/dev-*.mjs, runtime-services metadata, config/defaults.json, Docker, automation startup, process shutdown, or local authentication.
 ---
 ```
 
@@ -114,7 +114,20 @@ description: Use for local development environment and runtime configuration.
 
 ---
 name: pr-design-doc
-description: Use for pull request documentation and design documents.
+description: >
+  For a non-trivial pull request, write a self-contained HTML design doc under the
+  temporary `.pr/` directory and link a visibility-appropriate preview in the PR
+  description, so maintainers grasp the proposal at a glance - code/API design, and the
+  before/after of the change, grounded to real code. Use when opening or updating a
+  non-trivial PR, or when the user says "add a design doc", "document this PR for
+  reviewers", "show the before/after", "make the design reviewable", or "write the .pr/
+  page".
+triggers:
+- /pr-design-doc
+- /design-doc
+license: MIT
+metadata:
+  tags: pull-request, design-doc, html, review, before-after, htmlpreview
 ---
 ```
 
@@ -124,7 +137,7 @@ description: Use for pull request documentation and design documents.
 
 ---
 name: telemetry-analytics
-description: Use for telemetry and analytics implementation.
+description: This skill should be used when the user asks to "add tracking", "add a PostHog event", "change telemetry consent", "instrument onboarding", "debug analytics", or changes telemetry.ts, use-tracking.ts, cloud funnel analytics, or analytics environment variables.
 ---
 ```
 
@@ -134,9 +147,21 @@ description: Use for telemetry and analytics implementation.
 
 ---
 name: verify-openhands
-description: Use for verifying OpenHands functionality and testing.
+description: >
+  This skill should be used to "verify OpenHands features", "test the Canvas UI
+  like a user", "drive Agent Canvas", "check a UI change in the real app",
+  "create or update the feature map", "run the daily pass" or "run the weekly
+  feature audit". Ships control-openhands (launch, doctor, browser, LLM
+  profiles, conversations, evidence, map tooling, cleanup) and the maintained
+  map of every user-facing feature.
+triggers:
+- /verify-openhands
+- feature map
+- verify feature
 ---
 ```
+
+*(Note — `.agents/skills/` additionally contains two loose skill-format files with the same frontmatter style: `custom-codereview-guide.md` and `release.md`; counting them, the directory holds 10 skill artifacts.)*
 
 ---
 

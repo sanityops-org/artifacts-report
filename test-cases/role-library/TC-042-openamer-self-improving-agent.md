@@ -3,9 +3,9 @@
 ## Metadata
 - **Source Project**: OpenAmer (openamer/openamer)
 - **GitHub**: github.com/openamer/openamer
-- **License**: Apache-2.0
+- **License**: Apache-2.0 (with a commercial dual-license tier for larger companies per LICENSE.md)
 - **Artifact Type**: Self-improving AI agent for Windows with A2A mesh
-- **Collection Date**: 2025-10-12
+- **Collection Date**: 2026-10-12
 - **Collection Method**: GitHub API content extraction at commit 0e03ed39e26c6f3da76ad7348089fd6ffea651db
 - **Scope**: Self-improving AI agent for Windows with A2A mesh
 
@@ -88,10 +88,18 @@ _TUI_EMBEDDED_PANE_CLARIFIER = (
 
 ```python
 TOOL_USE_ENFORCEMENT_GUIDANCE = """
-When using tools, follow these rules:
-1. Always validate tool inputs against schemas
-2. Handle errors gracefully
-3. Report results clearly
+# Tool-use enforcement
+You MUST use your tools to take action — do not describe what you would do
+or plan to do without actually doing it. When you say you will perform an
+action (e.g. 'I will run the tests', 'Let me check the file', 'I will create
+the project'), you MUST immediately make the corresponding tool call in the same
+response. Never end your turn with a promise of future action — execute it now.
+Keep working until the task is actually complete. Do not stop with a summary of
+what you plan to do next time. If you have tools available that can accomplish
+the task, use them instead of telling the user what you would do.
+Every response should either (a) contain tool calls that make progress, or
+(b) deliver a final result to the user. Responses that only describe intentions
+without acting are not acceptable.
 """
 ```
 
@@ -99,10 +107,18 @@ When using tools, follow these rules:
 
 ```python
 SKILLS_GUIDANCE = """
-Skills provide specialized capabilities:
-- Load skills from skill directories
-- Use skill bundles for common workflows
-- Pre-process skill commands before execution
+After completing a complex task (5+ tool calls), fixing a tricky error,
+or discovering a non-trivial workflow, save the approach as a
+skill with skill_manage so you can reuse it next time.
+When using a skill and finding it outdated, incomplete, or wrong,
+patch it immediately with skill_manage(action='patch') — don't wait to be asked.
+Skills that aren't maintained become liabilities.
+
+## Skill Safety Rule
+1. **UNAVAILABLE** — If a skill placeholder contains `[SKILL_PRUNED]`, the skill content was lost in compression and is inaccessible.
+2. **RELOAD** — Before performing any action that depends on a skill, re-check its content with `skill_view(name='...')` if it shows `[SKILL_PRUNED]`.
+3. **WAIT** — If a skill is loading or was just pruned, wait for the reload confirmation before proceeding.
+4. **DEDUP** — After reloading a pruned skill, **ignore any remaining `[SKILL_PRUNED]` markers for that same skill** — they are historical artifacts from previous compactions and do not need further action.
 """
 ```
 
@@ -110,10 +126,26 @@ Skills provide specialized capabilities:
 
 ```python
 MEMORY_GUIDANCE = """
-Memory management:
-- Store important information
-- Retrieve relevant context
-- Update memory as needed
+You have persistent memory across sessions. Save durable facts using the memory
+tool: user preferences, environment details, tool quirks, and stable conventions.
+Memory is injected into every turn, so keep it compact and focused on facts that
+will still matter later.
+Prioritize what reduces future user steering — the most valuable memory is one
+that prevents the user from having to correct or remind you again.
+User preferences and recurring corrections matter more than procedural task details.
+Do NOT save task progress, session outcomes, completed-work logs, or temporary TODO
+state to memory; use session_search to recall those from past transcripts.
+Specifically: do not record PR numbers, issue numbers, commit SHAs, 'fixed bug X',
+'submitted PR Y', 'Phase N done', file counts, or any artifact that will be stale
+in 7 days. If a fact will be stale in a week, it does not belong in memory.
+If you've discovered a new way to do something, solved a problem that could be
+necessary later, save it as a skill with the skill tool.
+Write memories as declarative facts, not instructions to yourself.
+'User prefers concise responses' ✓ — 'Always respond concisely' ✗.
+'Project uses pytest with xdist' ✓ — 'Run tests with pytest -n 4' ✗.
+Imperative phrasing gets re-read as a directive in later sessions and can
+cause repeated work or override the user's current request. Procedures and
+workflows belong in skills, not memory.
 """
 ```
 
@@ -164,9 +196,11 @@ SKILL_SUPPORT_DIRS = frozenset(("references", "templates", "assets", "scripts"))
 
 ---
 
-## Available Tools (6 Total)
+## Tool / Prompt-Infrastructure Modules (examples — not an exhaustive inventory)
 
-| Tool | Description |
+*(Note — `tools/` alone holds 122 Python modules plus subpackages (asi/, computer_use/, environments/); the agent additionally exposes dozens of model-facing tools such as terminal, file, browser, kanban_*, memory, session_search, delegate, and computer-use. The six modules below are prompt-infrastructure examples.)*
+
+| Module | Description |
 |------|-------------|
 | tool_executor | Execute tool calls |
 | tool_dispatch_helpers | Tool dispatch utilities |
@@ -177,9 +211,11 @@ SKILL_SUPPORT_DIRS = frozenset(("references", "templates", "assets", "scripts"))
 
 ---
 
-## Available Skills (4 Total)
+## Skill-Management Modules (examples — not agent-facing skills)
 
-| Skill | Description |
+*(Note — the agent itself ships 245 bundled SKILL.md files under `skills/` plus 116 under `optional-skills/` at this commit; the four modules below are internal skill-management infrastructure.)*
+
+| Module | Description |
 |-------|-------------|
 | skill_utils | Skill metadata utilities |
 | skill_bundles | Pre-packaged skill combinations |

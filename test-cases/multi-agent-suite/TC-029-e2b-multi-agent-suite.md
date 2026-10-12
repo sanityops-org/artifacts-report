@@ -5,7 +5,7 @@
 - **Commit SHA**: df6c368152b067512702fc677952c0fc4e13c2f0
 - **License**: Apache-2.0
 - **Artifact Type**: Sandbox Platform
-- **Collection Date**: 2025-10-12
+- **Collection Date**: 2026-10-12
 - **Collection Method**: GitHub API content extraction from verified commit
 
 ---
@@ -35,32 +35,38 @@ Note: E2B is a platform for agent execution rather than an agent framework. It d
 
 #### 2.1 Sandbox API
 ```python
-# packages/python-sdk/e2b/sandbox.py
+# packages/python-sdk/e2b/sandbox_sync/main.py
 
-class Sandbox:
-    """Secure sandbox environment for code execution.
-    
-    The sandbox provides:
-    - Isolated execution environment
-    - File system operations
-    - Process execution
-    - Network access control
-    - Lifecycle management (pause/resume)
-    
-    Usage:
-        from e2b import Sandbox
+class Sandbox(SandboxApi):
+    """E2B cloud sandbox is a secure and isolated cloud environment.
 
-        with Sandbox.create("base") as sandbox:
-            result = sandbox.commands.run('echo "hello from e2b"')
-            print(result.stdout)
-    """
+     The sandbox allows you to:
+     - Access Linux OS
+     - Create, list, and delete files and directories
+     - Run commands
+     - Run isolated code
+     - Access the internet
+
+     Check docs [here](https://e2b.dev/docs).
+
+     Use the `Sandbox.create()` to create a new sandbox.
+
+     Example:
+     ```python
+     from e2b import Sandbox
+
+     sandbox = Sandbox.create()
+     ```
+     """
 ```
+
+*(Note — the shared base is `class SandboxBase(ClientFactory)` in `packages/python-sdk/e2b/sandbox/main.py`, with the async variant in `e2b/sandbox_async/main.py`; the direct constructor is deprecated in favor of `Sandbox.create()`. `e2b/sandbox/` is a package directory, not a single module.)*
 
 ---
 
 ### 3. Skills (1)
 
-#### 3.1 Stripe Projects Skill
+#### 3.1 Stripe Projects Skill (excerpt — two intermediate passages omitted: an extra credentials-export paragraph with a second `env_value` block after the "Stripe Projects CLI" section, and the `e2b sandbox resume` / `sandbox exec` guidance inside the "E2B CLI" section)
 ```markdown
 # skills/stripe-projects/SKILL.md
 

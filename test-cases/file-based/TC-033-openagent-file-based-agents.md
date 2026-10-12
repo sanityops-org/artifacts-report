@@ -6,7 +6,7 @@
 - **Commit SHA**: ff329d8fa818de702df696da199b3a72afe02143
 - **License**: Apache-2.0
 - **Artifact Type**: File-based logical artifacts
-- **Collection Date**: 2025-10-12
+- **Collection Date**: 2026-10-12
 - **Collection Method**: GitHub API retrieval via `gh api`
 
 ---
@@ -175,11 +175,12 @@ func GetToolsFromURL(url, token string) ([]*protocol.Tool, error) {
 	return list.Tools, nil
 }
 
-// GetToolsFromConfig connects to an MCP server described by cfg and returns its tool list.
+// GetToolsFromConfig — URL-based (SSE / StreamableHTTP) or stdio (command + args).
+// It is the stdio-aware counterpart of GetToolsFromURL.
 func GetToolsFromConfig(cfg ServerConfig) ([]*protocol.Tool, error) {
 	cli, err := createClient(cfg)
 	if err != nil {
-		return nil, fmt.Errorf("mcp: create client: %w", err)
+		return nil, fmt.Errorf("mcp: create client for %s: %w", describeServerConfig(cfg), err)
 	}
 	defer cli.Close()
 
@@ -188,7 +189,7 @@ func GetToolsFromConfig(cfg ServerConfig) ([]*protocol.Tool, error) {
 
 	list, err := cli.ListTools(ctx)
 	if err != nil {
-		return nil, fmt.Errorf("mcp: list tools: %w", err)
+		return nil, fmt.Errorf("mcp: list tools from %s: %w", describeServerConfig(cfg), err)
 	}
 	return list.Tools, nil
 }
@@ -225,7 +226,7 @@ metadata:
 - `gh auth status`
 - If authenticated, continue with repo detection, `gh repo create`, remote setup, push
 
-### 2. If `gh` exists but not authenticated, log in with `gh` directly
+### 2. If `gh` exists but **is** not authenticated, log in with `gh` directly
 - Browser/web login: `gh auth login -h github.com -w`
 - Standard interactive: `gh auth login -h github.com`
 
@@ -248,7 +249,7 @@ metadata:
 ```markdown
 ---
 name: coding-agent
-description: 'Delegate coding tasks to Codex, Claude Code, or Pi agents via background process.'
+description: 'Delegate coding tasks to Codex, Claude Code, or Pi agents via background process. Use when: (1) building/creating new features or apps, (2) reviewing PRs (spawn in temp dir), (3) refactoring large codebases, (4) iterative coding that needs file exploration. NOT for: simple one-liner fixes (just edit), reading code (use read tool), thread-bound ACP harness requests in chat. Claude Code: use --print --permission-mode bypassPermissions (no PTY). Codex/Pi/OpenCode: pty:true required.'
 metadata:
   { "openclaw": { "emoji": "🧩", "requires": { "anyBins": ["claude", "codex", "opencode", "pi"] } } }
 ---
@@ -257,7 +258,7 @@ metadata:
 
 Use **bash** (with optional background mode) for all coding agent work.
 
-## PTY Mode: Codex/Pi/OpenCode yes, Claude Code no
+## ⚠️ PTY Mode: Codex/Pi/OpenCode yes, Claude Code no
 
 For **Codex, Pi, and OpenCode**, PTY is required:
 
@@ -335,7 +336,7 @@ curl -X GET "https://api.notion.com/v1/..." \
 
 ## Common Operations
 
-**Search for pages:**
+**Search for pages and data sources:**
 ```bash
 curl -X POST "https://api.notion.com/v1/search" \
   -d '{"query": "page title"}'
@@ -347,7 +348,7 @@ curl -X POST "https://api.notion.com/v1/pages" \
   -d '{"parent": {"database_id": "xxx"}, "properties": {...}}'
 ```
 
-**Query a data source:**
+**Query a data source (database):**
 ```bash
 curl -X POST "https://api.notion.com/v1/data_sources/{id}/query" \
   -d '{"filter": {...}, "sorts": [...]}'
@@ -364,7 +365,7 @@ curl -X POST "https://api.notion.com/v1/data_sources/{id}/query" \
 ```markdown
 ---
 name: weather
-description: "Get current weather and forecasts via wttr.in or Open-Meteo. No API key needed."
+description: "Get current weather and forecasts via wttr.in or Open-Meteo. Use when: user asks about weather, temperature, or forecasts for any location. NOT for: historical weather data, severe weather alerts, or detailed meteorological analysis. No API key needed."
 homepage: https://wttr.in/:help
 metadata:
   { "emoji": "☔", "requires": { "bins": ["curl"] } }
@@ -409,30 +410,90 @@ curl "wttr.in/London?format=v2"
 
 ### Obsidian Skill
 
+*(Correction — the previously quoted "filesystem-first `OBSIDIAN_VAULT_PATH`" content belonged to hermes-agent's obsidian skill, not openagent. The real openagent skill below is obsidian-cli based.)*
+
 ```markdown
 ---
 name: obsidian
-description: Read, search, create, and edit notes in the Obsidian vault.
+description: Work with Obsidian vaults (plain Markdown notes) and automate via obsidian-cli.
+homepage: https://help.obsidian.md
+metadata:
+  {
+    "openclaw":
+      {
+        "emoji": "💎",
+        "requires": { "bins": ["obsidian-cli"] },
+        "install":
+          [
+            {
+              "id": "brew",
+              "kind": "brew",
+              "formula": "yakitrak/yakitrak/obsidian-cli",
+              "bins": ["obsidian-cli"],
+              "label": "Install obsidian-cli (brew)",
+            },
+          ],
+      },
+  }
 ---
 
-# Obsidian Vault
+# Obsidian
 
-Use this skill for filesystem-first Obsidian vault work.
+Obsidian vault = a normal folder on disk.
 
-## Vault path
+Vault structure (typical)
 
-Use `OBSIDIAN_VAULT_PATH` environment variable, or fallback to `~/Documents/Obsidian Vault`.
+- Notes: `*.md` (plain text Markdown; edit with any editor)
+- Config: `.obsidian/` (workspace + plugin settings; usually don’t touch from scripts)
+- Canvases: `*.canvas` (JSON)
+- Attachments: whatever folder you chose in Obsidian settings (images/PDFs/etc.)
 
-## Operations
+## Find the active vault(s)
 
-- **Read a note**: Use `read_file` with the resolved absolute path
-- **List notes**: Use `search_files` with `target: "files"` and `pattern: "*.md"`
-- **Create a note**: Use `write_file` with the full markdown content
-- **Search**: Use `search_files` with `target: "content"` for note contents
+Obsidian desktop tracks vaults here (source of truth):
 
-## Wikilinks
+- `~/Library/Application Support/obsidian/obsidian.json`
 
-Obsidian links notes with `[[Note Name]]` syntax.
+`obsidian-cli` resolves vaults from that file; vault name is typically the **folder name** (path suffix).
+
+Fast “what vault is active / where are the notes?”
+
+- If you’ve already set a default: `obsidian-cli print-default --path-only`
+- Otherwise, read `~/Library/Application Support/obsidian/obsidian.json` and use the vault entry with `"open": true`.
+
+Notes
+
+- Multiple vaults common (iCloud vs `~/Documents`, work/personal, etc.). Don’t guess; read config.
+- Avoid writing hardcoded vault paths into scripts; prefer reading the config or using `print-default`.
+
+## obsidian-cli quick start
+
+Pick a default vault (once):
+
+- `obsidian-cli set-default "<vault-folder-name>"`
+- `obsidian-cli print-default` / `obsidian-cli print-default --path-only`
+
+Search
+
+- `obsidian-cli search "query"` (note names)
+- `obsidian-cli search-content "query"` (inside notes; shows snippets + lines)
+
+Create
+
+- `obsidian-cli create "Folder/New note" --content "..." --open`
+- Requires Obsidian URI handler (`obsidian://…`) working (Obsidian installed).
+- Avoid creating notes under “hidden” dot-folders (e.g. `.something/...`) via URI; Obsidian may refuse.
+
+Move/rename (safe refactor)
+
+- `obsidian-cli move "old/path/note" "new/path/note"`
+- Updates `[[wikilinks]]` and common Markdown links across the vault (this is the main win vs `mv`).
+
+Delete
+
+- `obsidian-cli delete "path/note"`
+
+Prefer direct edits when appropriate: open the `.md` file and change it; Obsidian will pick it up.
 ```
 
 ---

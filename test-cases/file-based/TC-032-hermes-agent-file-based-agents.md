@@ -6,7 +6,7 @@
 - **Commit SHA**: 3569e8461ea721623fa16e6f01fb636157989fe6
 - **License**: MIT
 - **Artifact Type**: File-based logical artifacts
-- **Collection Date**: 2025-10-12
+- **Collection Date**: 2026-10-12
 - **Collection Method**: GitHub API retrieval via `gh api`
 
 ---
@@ -64,6 +64,8 @@ Two invariants shape almost every design decision and are the lens for reviewing
 
 ## Project Structure
 
+*(Excerpt — the upstream tree additionally includes hermes_state.py, hermes_constants.py, apps/desktop/, cron/, pm/, hermes_platform/, scripts/, and website/, and the ui-tui row reads "…JSON-RPC backend (also serves Desktop)".)*
+
 ```
 hermes-agent/
 ├── run_agent.py          # AIAgent facade; the turn loop lives in agent/turn_*.py
@@ -80,6 +82,8 @@ hermes-agent/
 ```
 
 ## Routing Table — working in X → read X/AGENTS.md
+
+*(Excerpt — the upstream table has 15 rows; 8 are omitted (gateway/platforms/, plugin-catalog/, tui_gateway/, ui-tui/, web/, apps/desktop/, tests/, pm/, hermes_platform/) and several "Covers" cells carry additional entries such as compression, model/aux resolution, skins, profiles/multiplex, token locks, kanban.)*
 
 | Area | Read | Covers |
 |---|---|---|
@@ -131,25 +135,9 @@ while (api_call_count < self.max_iterations and self.iteration_budget.remaining 
 
 ## Tool Definitions (Python)
 
-### Skill Manager Tool
+### Skill Tools (skills_list / skill_view / skill_manage)
 
-```python
-"""Tool for progressive skill discovery and tool search."""
-
-from __future__ import annotations
-from typing import Any, Dict, List
-
-class SkillManagerTool:
-    """Manage skill discovery and activation."""
-    
-    def search_skills(self, query: str, limit: int = 5) -> List[Dict]:
-        """Search available skills by capability."""
-        pass
-    
-    def install_skill(self, skill_path: str) -> bool:
-        """Install a skill from a path or URL."""
-        pass
-```
+*(Note — hermes-agent has no `SkillManagerTool` class. Skill discovery and management are exposed through the model tools `skills_list`, `skill_view`, and `skill_manage`, registered in `toolsets.py` and dispatched in `model_tools.py` (`"skills_tools": ["skills_list", "skill_view", "skill_manage"]`). Skill install/uninstall is CLI-side via `hermes skills` in `hermes_cli/skills_hub.py`.)*
 
 ### Tool Search System
 
@@ -176,7 +164,7 @@ class ToolSearchConfig:
         return _DEFAULT_DEFERRED_TOOLS if self.defer_tools is None else self.defer_tools
 
 # Bridge tool names: tool_search / tool_describe / tool_call
-BRIDGE_TOOL_NAMES = ("tool_search", "tool_describe", "tool_call")
+BRIDGE_TOOL_NAMES = frozenset({TOOL_SEARCH_NAME, TOOL_DESCRIBE_NAME, TOOL_CALL_NAME})
 ```
 
 ---
@@ -217,6 +205,8 @@ computer_use(action="click", element=7)
 **Step 3 — Verify.** Re-capture after state-changing actions.
 
 ## Actions
+
+*(Excerpt — the upstream Actions list additionally includes right_click, middle_click, drag (from_element/to_element), set_value, and per-line annotations such as `(default: current app)`, `button=left|right|middle`, `raise_window=false`, and `(ticks)`.)*
 
 ```
 capture           mode=som|vision|ax   app=…
@@ -282,7 +272,7 @@ ntn api v1/pages/{page_id}/markdown
 ntn files create < photo.png
 ```
 
-## Path B — HTTP + curl (cross-platform)
+## Path B — HTTP + curl (cross-platform, default on Windows)
 
 ```bash
 curl -s -X POST "https://api.notion.com/v1/pages" \
@@ -302,6 +292,11 @@ description: Read, search, create, and edit notes in the Obsidian vault.
 version: 1.0.0
 author: Teknium (teknium1), Hermes Agent
 license: MIT
+platforms: [linux, macos, windows]
+metadata:
+  hermes:
+    tags: [Obsidian, Notes, Markdown, Vault]
+    related_skills: []
 ---
 
 # Obsidian Vault
@@ -312,8 +307,10 @@ searching note files, creating notes, appending content, and adding wikilinks.
 ## Vault path
 
 Use a known or resolved vault path before calling file tools.
-The documented vault-path convention is the `OBSIDIAN_VAULT_PATH` environment variable.
+The documented vault-path convention is the `OBSIDIAN_VAULT_PATH` environment variable, for example from `${HERMES_HOME:-~/.hermes}/.env`.
 If it is unset, use `~/Documents/Obsidian Vault`.
+
+*(Excerpt — the upstream skill continues with guidance on not passing `$OBSIDIAN_VAULT_PATH` literally to file tools and on using `terminal` to resolve an unknown vault path.)*
 
 ## Read a note
 
@@ -365,11 +362,17 @@ Create diagrams by writing standard Excalidraw element JSON and saving as `.exca
 
 ## Color Palette
 
+See `references/colors.md` for full color tables. Quick reference:
+
 | Use | Fill Color | Hex |
 |-----|-----------|-----|
 | Primary / Input | Light Blue | `#a5d8ff` |
 | Success / Output | Light Green | `#b2f2bb` |
 | Warning / External | Light Orange | `#ffd8a8` |
+| Processing / Special | Light Purple | `#d0bfff` |
+| Error / Critical | Light Red | `#ffc9c9` |
+| Notes / Decisions | Light Yellow | `#fff3bf` |
+| Storage / Data | Light Teal | `#c3fae8` |
 ```
 
 ---

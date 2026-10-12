@@ -4,7 +4,7 @@
 - **Source Project**: cline/cline
 - **License**: Apache-2.0
 - **Artifact Type**: System Prompts & Tool Schemas
-- **Collection Date**: 2025-10-12
+- **Collection Date**: 2026-10-12
 - **Collection Method**: Extracted from sdk/packages/* at commit bf71bf7cd9fe6816972d7ae5ca5ff0e04e63f87d
 
 ## Original Artifact Content

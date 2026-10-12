@@ -5,7 +5,7 @@
 - **GitHub**: github.com/Mintplex-Labs/anything-llm
 - **License**: MIT
 - **Artifact Type**: Knowledge base/RAG agent with skills and tools
-- **Collection Date**: 2025-10-12
+- **Collection Date**: 2026-10-12
 - **Collection Method**: GitHub API content extraction at commit 2a10d052a1812d7be12c43f9024072cf26a27a8b
 - **Scope**: Workspace @agent; four default JS Skills and the dedicated opt-in clarifying-question feature; native and fallback tool-calling modes
 
@@ -17,7 +17,7 @@ AnythingLLM is an all-in-one document chat platform with a powerful **workspace 
 
 ### Key Characteristics
 - **RAG-based memory**: Search and store information in vector database
-- **5 default skills**: Memory, summarization, web scraping, web browsing, user input
+- **4 default skills**: Memory, document summarization, web scraping, web browsing — plus opt-in clarifying-questions tools (request-user-input)
 - **Dynamic skill loading**: Skills can be enabled/disabled per workspace
 - **Multi-user mode support**: Single-user only skills are gated
 - **MCP compatibility**: Integration with Model Context Protocol
@@ -218,13 +218,15 @@ const SKILL_FILTER_CONFIG = {
 
 ## Available Skills (5 Total)
 
-| Skill | Description | Default |
-|-------|-------------|---------|
-| rag-memory | Search/store in vector database | Yes |
-| docSummarizer | Summarize documents | Yes |
-| webScraping | Scrape web content | Yes |
-| webBrowsing | Browse the web | Yes |
-| request-user-input | Ask user for input | Opt-in |
+| Skill (registered slug) | Plugin key | Description | Default |
+|-------|-------------|---------|------|
+| rag-memory | ragMemory | Search/store in vector database | Yes |
+| document-summarizer | docSummarizer | Summarize documents | Yes |
+| web-scraping | webScraping | Scrape web content | Yes |
+| web-browsing | webBrowsing | Browse the web | Yes |
+| request-user-input | clarifyingQuestions | Ask user for input | Opt-in |
+
+*(Note — `DEFAULT_SKILLS` contains exactly 4 entries (memory, doc summarizer, web scraping, web browsing); `request-user-input` is only enabled when `agent_clarifying_questions_enabled` is `"true"`.)*
 
 ---
 

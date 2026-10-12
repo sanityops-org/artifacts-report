@@ -5,7 +5,7 @@
 - **GitHub**: github.com/GCWing/OpenBitFun
 - **License**: MIT
 - **Artifact Type**: Code Agent with general-purpose capabilities and Rust runtime
-- **Collection Date**: 2025-10-12
+- **Collection Date**: 2026-10-12
 - **Collection Method**: GitHub API content extraction at commit 543e429a01475af0dff552ed44e34d63aa0eeb3a
 - **Scope**: Code Agent with general-purpose capabilities and Rust runtime
 
@@ -18,7 +18,7 @@ OpenBitFun is a **Rust workspace plus React frontends** that implements a compre
 ### Key Characteristics
 - **Rust workspace**: Core agent runtime in Rust
 - **React frontends**: Desktop, Web UI, Mobile Web
-- **9 built-in skills**: Debug, create-agent, find-skills, miniapp-dev, multitask, plan, ppt-design, writing-skills, agent-browser, commit-push-pr
+- **16 built-in skills**: agent-browser, agent-eval-canvas, commit-push-pr, create-agent, create-openbitfun-skin, debug, docs-canvas, find-skills, miniapp-dev, multitask, openbitfun-canvas, openbitfun-frontend-dev, plan, ppt-design, pr-review-canvas, writing-skills
 - **Remote workspace support**: SSH, Docker, jump-host chains
 - **Layered architecture**: 6 layers from interfaces to contracts
 
@@ -135,7 +135,7 @@ has been fixed.
 
 ---
 
-## Available Skills (9 Total)
+## Available Skills (16 Total)
 
 | Skill | Description |
 |-------|-------------|
@@ -145,10 +145,16 @@ has been fixed.
 | miniapp-dev | MiniApp development skill |
 | multitask | Parallel task execution |
 | plan | Task planning and breakdown |
-| ppt-design | PowerPoint design assistance |
+| ppt-design | HTML-based slide/deck design (Chinese description) |
 | writing-skills | Writing and documentation skills |
 | agent-browser | Browser automation skill |
 | commit-push-pr | Git commit, push, and PR creation |
+| agent-eval-canvas | Agent evaluation canvas |
+| create-openbitfun-skin | Author and validate OpenBitFun skin packages |
+| docs-canvas | Documentation canvas |
+| openbitfun-canvas | OpenBitFun Canvas |
+| openbitfun-frontend-dev | Customize the packaged desktop frontend |
+| pr-review-canvas | Review PRs/diffs in a Canvas |
 
 ---
 

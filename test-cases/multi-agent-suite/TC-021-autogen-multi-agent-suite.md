@@ -5,7 +5,7 @@
 - **Commit SHA**: 027ecf0a379bcc1d09956d46d12d44a3ad9cee14
 - **License**: CC-BY-4.0
 - **Artifact Type**: Multi-Agent Framework
-- **Collection Date**: 2025-10-12
+- **Collection Date**: 2026-10-12
 - **Collection Method**: GitHub API content extraction from verified commit
 
 ---
@@ -175,7 +175,10 @@ class TeamTool(TaskRunnerTool, Component[TeamToolConfig]):
     """
 ```
 
-#### 2.2 CodeExecutorAgent (Code Execution)
+#### 2.2 CodeExecutorAgent (Agent Config Schema)
+
+*(Note — CodeExecutorAgent is a `BaseChatAgent` with a component config schema rather than a tool; it is kept under Tool Schemas here as a config-schema artifact. The agents/tools packages also contain `MessageFilterAgent` (agents/_message_filter_agent.py), `AgentTool` (tools/_agent.py), and its base `TaskRunnerTool` (tools/_task_runner_tool.py), which are not quoted.)*
+
 ```python
 # python/packages/autogen-agentchat/src/autogen_agentchat/agents/_code_executor_agent.py
 
