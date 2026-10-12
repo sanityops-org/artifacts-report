@@ -39,7 +39,7 @@
 │  AC-L: AC-L2  |  OR-L: OR-L3                                    │
 ├─────────────────────────────────────────────────────────────────┤
 │  Stage A (Tool Schema)    │  ████████░░  FAIL  (8 P0)           │
-│  Stage B (Cross-artifact) │  ░░░░░░░░░░  N/A   (单工件)          │
+│  Stage B (Cross-artifact) │  ░░░░░░░░░░  N/A   (single artifact)│
 │  Stage C (Gate-0)         │  ██████░░░░  FAIL  (G0-3, G0-4)     │
 │  Stage D (Permission)     │  ██████░░░░  FAIL  (6 P0)           │
 │  Stage E (Risk Explicit)  │  ████░░░░░░  S3    (NR-S-2)         │

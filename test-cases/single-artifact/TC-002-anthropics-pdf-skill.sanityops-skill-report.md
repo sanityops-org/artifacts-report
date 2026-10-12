@@ -202,7 +202,7 @@ Stage F (Impact outlook):   Executed — AS-*/FM-* mapped
 | AS-001 | ⚠️ Partial | Purpose declared but non_goals missing |
 | AS-002 | ❌ Not Satisfied | No input/output boundary declarations |
 | AS-003 | ❌ Not Satisfied | No failure handling strategy |
-| AS-004 | ❌ Not Satisfied | No permission分级 declaration |
+| AS-004 | ❌ Not Satisfied | No permission tiering declaration |
 
 ### FM-* (Failure Mode) Mapping
 

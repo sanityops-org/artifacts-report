@@ -1,13 +1,13 @@
-# TC-002: Anthropic PDF Skill - Skill 评估用例
+# TC-002: Anthropic PDF Skill - Skill Evaluation Case
 
-## 元信息
-- **来源项目**: anthropics/skills
-- **许可证**: Proprietary（源码可用，非开源）
-- **工件类型**: Skill (SKILL.md)
-- **采集日期**: 2026-10-10
-- **采集方式**: 直接提取自 skills/pdf/SKILL.md
+## Metadata
+- **Source Project**: anthropics/skills
+- **License**: Proprietary (source available, not open source)
+- **Artifact Type**: Skill (SKILL.md)
+- **Collection Date**: 2026-10-10
+- **Collection Method**: Extracted directly from skills/pdf/SKILL.md
 
-## 原始工件内容
+## Original Artifact Content
 
 ```markdown
 ---
@@ -326,61 +326,61 @@ with open("encrypted.pdf", "wb") as output:
 - For troubleshooting guides, see REFERENCE.md
 ```
 
-## 评估维度
+## Evaluation Dimensions
 
-### 1. Skill 元数据完整性 (Metadata Completeness)
-- [ ] YAML frontmatter 包含必需的 name 字段
-- [ ] description 清晰描述触发条件和功能范围
-- [ ] license 信息明确标注
+### 1. Skill Metadata Completeness
+- [ ] YAML frontmatter contains the required `name` field
+- [ ] `description` clearly describes trigger conditions and functional scope
+- [ ] `license` information is explicitly marked
 
-### 2. 触发条件明确性 (Trigger Conditions)
-- [ ] 触发词覆盖全面（PDF、提取、合并、分割等）
-- [ ] 边界情况处理（扫描PDF、加密PDF）
-- [ ] 与其他 Skill 的区分度明确
+### 2. Trigger Condition Clarity
+- [ ] Trigger words comprehensively covered (PDF, extract, merge, split, etc.)
+- [ ] Edge-case handling (scanned PDF, encrypted PDF)
+- [ ] Clear differentiation from other Skills
 
-### 3. 指令结构化 (Instruction Structure)
-- [ ] 使用清晰的层级标题（Overview、Quick Start、各功能模块）
-- [ ] 代码示例与说明配比合理
-- [ ] 包含 Quick Reference 速查表
+### 3. Instruction Structure
+- [ ] Uses clear hierarchical headings (Overview, Quick Start, individual feature modules)
+- [ ] Reasonable ratio of code examples to explanations
+- [ ] Includes a Quick Reference table
 
-### 4. 代码示例质量 (Code Example Quality)
-- [ ] 示例完整可直接运行
-- [ ] 涵盖主要使用场景（读取、写入、转换、OCR）
-- [ ] 包含常见陷阱提示（如 Unicode 下标问题）
+### 4. Code Example Quality
+- [ ] Examples are complete and directly runnable
+- [ ] Covers major usage scenarios (read, write, convert, OCR)
+- [ ] Includes common pitfall notes (e.g., Unicode subscript issue)
 
-### 5. 可维护性 (Maintainability)
-- [ ] 模块化组织（基础操作、高级功能、命令行工具）
-- [ ] 外部依赖明确（pypdf、pdfplumber、reportlab 等）
-- [ ] 有指向 REFERENCE.md 的扩展阅读链接
+### 5. Maintainability
+- [ ] Modular organization (basic operations, advanced features, command-line tools)
+- [ ] External dependencies clearly stated (pypdf, pdfplumber, reportlab, etc.)
+- [ ] Extension reading links pointing to REFERENCE.md
 
-## 评分标准
-| 维度 | 权重 | 得分 (1-5) | 备注 |
+## Scoring Criteria
+| Dimension | Weight | Score (1-5) | Notes |
 |------|------|------------|------|
-| Skill 元数据完整性 | 15% | | |
-| 触发条件明确性 | 20% | | |
-| 指令结构化 | 25% | | |
-| 代码示例质量 | 25% | | |
-| 可维护性 | 15% | | |
-| **总分** | 100% | | |
+| Skill Metadata Completeness | 15% | | |
+| Trigger Condition Clarity | 20% | | |
+| Instruction Structure | 25% | | |
+| Code Example Quality | 25% | | |
+| Maintainability | 15% | | |
+| **Total** | 100% | | |
 
-## 测试建议
+## Test Suggestions
 
-### 正向测试用例
-1. 用户请求"提取 PDF 文本"，验证 Skill 是否正确触发
-2. 用户请求"合并多个 PDF"，验证代码示例可用性
-3. 用户提及扫描 PDF，验证 OCR 流程是否被推荐
+### Positive Test Cases
+1. User requests "extract PDF text"; verify whether the Skill triggers correctly
+2. User requests "merge multiple PDFs"; verify code example usability
+3. User mentions scanned PDF; verify whether the OCR workflow is recommended
 
-### 边界测试用例
-1. 加密 PDF 的处理提示
-2. 超大 PDF 文件的内存管理建议
-3. 复杂表格的提取准确性
+### Boundary Test Cases
+1. Handling guidance for encrypted PDFs
+2. Memory management suggestions for very large PDF files
+3. Extraction accuracy for complex tables
 
-### 负面测试用例
-1. 非 PDF 文件请求时是否误触发
-2. 代码示例中是否存在已弃用的 API
-3. 依赖库版本兼容性说明是否缺失
+### Negative Test Cases
+1. Whether non-PDF file requests trigger the Skill incorrectly
+2. Whether deprecated APIs exist in the code examples
+3. Whether dependency library version compatibility notes are missing
 
-## 备注
-- 该 Skill 是 Anthropic 官方文档处理能力的实现参考
-- 采用 Proprietary 许可，仅适合结构大纲引用（≤10行），不宜完整复制
-- 展示了 Skill 设计的最佳实践：YAML frontmatter + 结构化 Markdown + 丰富代码示例
+## Notes
+- This Skill is a reference implementation of Anthropic's official document processing capability
+- Uses a Proprietary license; suitable only for structure-outline quotation (≤10 lines), not for full reproduction
+- Demonstrates Skill design best practices: YAML frontmatter + structured Markdown + rich code examples

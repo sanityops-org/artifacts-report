@@ -1,37 +1,37 @@
-# TC-004: GPT Researcher Multi-Agent - 多逻辑工件套件评估用例
+# TC-004: GPT Researcher Multi-Agent - Multi-Logical-Artifact Suite Evaluation Case
 
-## 元信息
-- **来源项目**: gpt-researcher (assafelovic/gpt-researcher)
-- **子模块**: multi_agents/ (LangGraph 版本)
-- **许可证**: Apache-2.0
-- **工件类型**: 多 Agent 套件（8 个角色 × 3 类工件）
-- **采集日期**: 2026-10-10
-- **采集方式**: 文档汇总 + 代码结构分析
+## Metadata
+- **Source Project**: gpt-researcher (assafelovic/gpt-researcher)
+- **Submodule**: multi_agents/ (LangGraph version)
+- **License**: Apache-2.0
+- **Artifact Type**: Multi-Agent suite (8 roles × 3 artifact types)
+- **Collection Date**: 2026-10-10
+- **Collection Method**: Documentation summary + code structure analysis
 
 ---
 
-## 项目概述
+## Project Overview
 
-GPT Researcher Multi-Agent 是一个**完整的 Agent 协作系统**，包含 8 个专门化的 Agent 角色，通过 LangGraph 状态机编排完成从研究规划到报告发布的全流程。
+GPT Researcher Multi-Agent is a **complete Agent collaboration system** containing 8 specialized Agent roles, orchestrated through a LangGraph state machine to complete the full flow from research planning to report publication.
 
-### 8 个 Agent 角色
+### 8 Agent Roles
 
-| 角色 | 职责 | 主要工件类型 |
+| Role | Responsibility | Primary Artifact Type |
 |------|------|-------------|
-| **Chief Editor** | 主协调器，管理 LangGraph 状态机 | System Prompt + Tool Schema |
-| **Editor** | 规划报告大纲和结构 | System Prompt |
-| **Researcher** | 执行深度研究（封装 GPTResearcher） | System Prompt + Tool Schema |
-| **Reviewer** | 验证研究结果的正确性 | System Prompt + 评估标准 |
-| **Revisor** | 根据反馈修订草稿 | System Prompt |
-| **Writer** | 编译并撰写最终报告 | System Prompt |
-| **Publisher** | 发布多格式报告 | System Prompt + Tool Schema |
-| **Human** | 人工审核节点（人在回路） | 交互配置 |
+| **Chief Editor** | Main coordinator, manages the LangGraph state machine | System Prompt + Tool Schema |
+| **Editor** | Plans the report outline and structure | System Prompt |
+| **Researcher** | Executes deep research (wraps GPTResearcher) | System Prompt + Tool Schema |
+| **Reviewer** | Validates the correctness of research results | System Prompt + evaluation criteria |
+| **Revisor** | Revises drafts based on feedback | System Prompt |
+| **Writer** | Compiles and writes the final report | System Prompt |
+| **Publisher** | Publishes multi-format reports | System Prompt + Tool Schema |
+| **Human** | Human review node (human-in-the-loop) | Interaction configuration |
 
 ---
 
-## 逻辑工件清单
+## Logical Artifact Inventory
 
-### 1. System Prompts（8 个）
+### 1. System Prompts (8)
 
 #### 1.1 Chief Editor (Orchestrator)
 ```python
@@ -231,7 +231,7 @@ system_message = """You are the human oversight interface. Present research find
 
 ---
 
-### 2. Tool Schemas（3 个核心工具集）
+### 2. Tool Schemas (3 core tool sets)
 
 #### 2.1 Research Tools
 ```json
@@ -305,7 +305,7 @@ system_message = """You are the human oversight interface. Present research find
 
 ---
 
-### 3. Configuration Artifacts（2 个）
+### 3. Configuration Artifacts (2)
 
 #### 3.1 Task Configuration (task.json)
 ```json
@@ -359,86 +359,86 @@ class ResearchState(TypedDict):
 
 ---
 
-## 评估维度（多工件套件专用）
+## Evaluation Dimensions (multi-artifact suite specific)
 
-### 1. 角色分工清晰度 (Role Clarity)
-- [ ] 8 个 Agent 职责边界清晰，无重叠
-- [ ] 每个角色的 System Prompt 明确其独特定位
-- [ ] 角色间依赖关系（输入/输出）定义清楚
+### 1. Role Clarity
+- [ ] 8 Agents with clear responsibility boundaries, no overlap
+- [ ] Each role's System Prompt clearly defines its unique positioning
+- [ ] Inter-role dependencies (input/output) are clearly defined
 
-### 2. 协作流程完整性 (Workflow Completeness)
-- [ ] 5 阶段流程覆盖完整研究生命周期
-- [ ] 状态机转换（LangGraph）定义明确
-- [ ] 质量门控（Reviewer → Revisor 循环）机制健全
+### 2. Workflow Completeness
+- [ ] 5-stage workflow covers the complete research lifecycle
+- [ ] State machine transitions (LangGraph) clearly defined
+- [ ] Quality gating (Reviewer → Revisor loop) mechanism is sound
 
-### 3. Prompt 一致性 (Prompt Consistency)
-- [ ] 跨角色术语使用一致
-- [ ] 输出格式规范统一（JSON Schema）
-- [ ] 引用格式、质量标准等全局配置共享
+### 3. Prompt Consistency
+- [ ] Terminology usage is consistent across roles
+- [ ] Output format specifications are unified (JSON Schema)
+- [ ] Global configurations (citation format, quality standards) are shared
 
-### 4. Tool Schema 模块化 (Tool Modularity)
-- [ ] 工具按功能域分组（Research/Review/Publish）
-- [ ] 参数定义完整，包含类型/约束/默认值
-- [ ] 工具与角色的映射关系清晰
+### 4. Tool Modularity
+- [ ] Tools grouped by functional domain (Research/Review/Publish)
+- [ ] Parameter definitions complete, including types/constraints/defaults
+- [ ] Tool-to-role mapping is clear
 
-### 5. 可观测性 (Observability)
-- [ ] ResearchState 包含完整上下文
-- [ ] 错误日志和阶段追踪
-- [ ] 人工介入点（Human Agent）设计合理
+### 5. Observability
+- [ ] ResearchState contains complete context
+- [ ] Error logging and stage tracking
+- [ ] Human intervention point (Human Agent) reasonably designed
 
-### 6. 扩展性 (Extensibility)
-- [ ] 新 Agent 角色的接入成本
-- [ ] 新 Tool 的 Schema 兼容性
-- [ ] 配置驱动（task.json）的灵活性
+### 6. Extensibility
+- [ ] Cost of onboarding new Agent roles
+- [ ] Schema compatibility for new Tools
+- [ ] Flexibility of configuration-driven approach (task.json)
 
 ---
 
-## 评分标准
+## Scoring Criteria
 
-| 维度 | 权重 | 得分 (1-5) | 备注 |
+| Dimension | Weight | Score (1-5) | Notes |
 |------|------|------------|------|
-| 角色分工清晰度 | 20% | | |
-| 协作流程完整性 | 25% | | |
-| Prompt 一致性 | 15% | | |
-| Tool Schema 模块化 | 20% | | |
-| 可观测性 | 10% | | |
-| 扩展性 | 10% | | |
-| **总分** | 100% | | |
+| Role Clarity | 20% | | |
+| Workflow Completeness | 25% | | |
+| Prompt Consistency | 15% | | |
+| Tool Modularity | 20% | | |
+| Observability | 10% | | |
+| Extensibility | 10% | | |
+| **Total** | 100% | | |
 
 ---
 
-## 测试建议
+## Test Suggestions
 
-### 端到端测试
-1. **完整流程**: 从 query 输入到多格式报告输出
-2. **人工介入**: 在 planning/review 阶段插入反馈
-3. **错误恢复**: 模拟 Researcher 失败，验证重试机制
+### End-to-End Tests
+1. **Full flow**: from query input to multi-format report output
+2. **Human intervention**: insert feedback at the planning/review stages
+3. **Error recovery**: simulate Researcher failure and verify retry mechanism
 
-### 单元测试
-1. **各 Agent 独立**: 单独测试 Editor 的大纲生成
-2. **Tool 调用**: 验证 Tool Schema 的参数校验
-3. **状态转换**: LangGraph 节点间的状态传递
+### Unit Tests
+1. **Per-Agent independence**: test the Editor's outline generation separately
+2. **Tool invocation**: verify Tool Schema parameter validation
+3. **State transitions**: state passing between LangGraph nodes
 
-### 压力测试
-1. **并行研究**: max_sections=10 时的并发处理
-2. **长报告**: 生成 50+ 页报告的性能
-3. **多源混合**: Web + Local + MCP 同时检索
+### Stress Tests
+1. **Parallel research**: concurrent processing at max_sections=10
+2. **Long reports**: performance of generating 50+ page reports
+3. **Multi-source mixing**: Web + Local + MCP retrieval simultaneously
 
 ---
 
-## 与其他用例的关系
+## Relationship to Other Test Cases
 
-| 本用例组件 | 对应独立用例 | 关系 |
+| Component of This Case | Corresponding Standalone Case | Relationship |
 |-----------|-------------|------|
-| Researcher System Prompt | TC-001 | TC-001 是单 Agent 版本，本用例是多 Agent 协作中的角色 |
-| MCP Tool Schema | TC-003 | TC-003 是通用 MCP 配置，本用例是集成到多 Agent 中的实例 |
-| PDF Publication | TC-002 | TC-002 是 Skill 实现，本用例是 Publisher Agent 的调用目标 |
+| Researcher System Prompt | TC-001 | TC-001 is the single-Agent version; this case is the role within multi-Agent collaboration |
+| MCP Tool Schema | TC-003 | TC-003 is a generic MCP configuration; this case is the instance integrated into multi-Agent |
+| PDF Publication | TC-002 | TC-002 is a Skill implementation; this case is the invocation target of the Publisher Agent |
 
 ---
 
-## 备注
+## Notes
 
-- **Apache-2.0 许可**允许完整引用和修改
-- 该套件展示了**多 Agent 系统的最佳实践**：角色专业化 + 状态机编排 + 质量迭代
-- 可作为**复杂 Agent 系统**的评估基准（vs 单 Agent 的简单场景）
-- 实际代码位于 `multi_agents/` 目录，本用例基于文档和代码结构汇总
+- The **Apache-2.0 license** allows full quotation and modification
+- This suite demonstrates **best practices for multi-Agent systems**: role specialization + state machine orchestration + quality iteration
+- Can serve as an evaluation baseline for **complex Agent systems** (vs the simple single-Agent scenario)
+- The actual code resides in the `multi_agents/` directory; this case is a summary based on documentation and code structure

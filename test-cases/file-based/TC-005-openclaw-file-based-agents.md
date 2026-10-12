@@ -1,30 +1,30 @@
-# TC-005: OpenClaw - 文件式多逻辑工件 Agent 套件
+# TC-005: OpenClaw - File-Based Multi-Logical-Artifact Agent Suite
 
-## 元信息
-- **来源项目**: OpenClaw（原 Clawdbot/Moltbot）
+## Metadata
+- **Source Project**: OpenClaw (formerly Clawdbot/Moltbot)
 - **GitHub**: github.com/openclaw-foundation/openclaw
-- **许可证**: MIT
-- **工件类型**: 文件式逻辑工件（Markdown 配置驱动）
-- **采集日期**: 2026-10-10
-- **采集方式**: 文档汇总 + 架构分析
+- **License**: MIT
+- **Artifact Type**: File-based logical artifacts (Markdown config-driven)
+- **Collection Date**: 2026-10-10
+- **Collection Method**: Documentation summary + architecture analysis
 
 ---
 
-## 项目概述
+## Project Overview
 
-OpenClaw 是一个**配置优先（config-first）**的 AI Agent 框架，通过纯 Markdown 文件定义 Agent，无需编写代码。每个 Agent 的"大脑"由多个 Markdown 文件组成，形成完整的逻辑工件套件。
+OpenClaw is a **config-first** AI Agent framework that defines Agents through pure Markdown files, with no code writing required. Each Agent's "brain" is composed of multiple Markdown files, forming a complete logical artifact suite.
 
-### 核心特点
-- **文件即配置**：SOUL.md + AGENTS.md + USER.md + IDENTITY.md
-- **多 Agent 隔离**：每个 Agent 有独立的工作空间和状态目录
-- **消息平台集成**：WhatsApp、Telegram、Slack、Discord 等 25+ 渠道
-- **本地优先**：所有数据本地存储，支持 Ollama 离线运行
+### Key Features
+- **File as configuration**: SOUL.md + AGENTS.md + USER.md + IDENTITY.md
+- **Multi-Agent isolation**: each Agent has an independent workspace and state directory
+- **Messaging platform integration**: 25+ channels including WhatsApp, Telegram, Slack, Discord
+- **Local-first**: all data stored locally, supports offline operation with Ollama
 
 ---
 
-## 逻辑工件清单（4 类核心文件）
+## Logical Artifact Inventory (4 core file types)
 
-### 1. SOUL.md - 人格与边界（≈ System Prompt）
+### 1. SOUL.md - Personality & Boundaries (≈ System Prompt)
 
 ```markdown
 ---
@@ -68,7 +68,7 @@ model: claude-sonnet-4-5
 ❌ "You should have read the manual."
 ```
 
-### 2. AGENTS.md - 多 Agent 路由配置
+### 2. AGENTS.md - Multi-Agent Routing Configuration
 
 ```markdown
 ---
@@ -139,7 +139,7 @@ keywords:
 - `@onboarding` → onboarding-guide
 ```
 
-### 3. USER.md - 用户模型与偏好（可选）
+### 3. USER.md - User Model & Preferences (optional)
 
 ```markdown
 ---
@@ -179,7 +179,7 @@ user_id: user_12345
 3. "Can I export my data?"
 ```
 
-### 4. IDENTITY.md - Agent 身份标识
+### 4. IDENTITY.md - Agent Identity
 
 ```markdown
 ---
@@ -206,7 +206,7 @@ updated: 2026-10-05
 - **Escalation**: "Let me connect you with a human specialist."
 ```
 
-### 5. HEARTBEAT.md - 定时任务配置
+### 5. HEARTBEAT.md - Scheduled Task Configuration
 
 ```markdown
 ---
@@ -257,7 +257,7 @@ for (const user of stuckUsers) {
 ```
 ```
 
-### 6. MEMORY.md - 长期记忆（运行时生成）
+### 6. MEMORY.md - Long-Term Memory (runtime-generated)
 
 ```markdown
 ---
@@ -294,88 +294,88 @@ last_updated: 2026-10-10
 
 ---
 
-## 评估维度（文件式工件专用）
+## Evaluation Dimensions (file-based artifacts specific)
 
-### 1. 文件组织清晰度 (File Organization)
-- [ ] 4 类核心文件职责边界清晰
-- [ ] 命名规范统一（SOUL.md、AGENTS.md 等）
-- [ ] 多 Agent 时目录结构合理
+### 1. File Organization Clarity
+- [ ] Clear responsibility boundaries across the 4 core file types
+- [ ] Unified naming conventions (SOUL.md, AGENTS.md, etc.)
+- [ ] Reasonable directory structure for multi-Agent scenarios
 
-### 2. Markdown 结构化程度 (Markdown Structure)
- [ ] YAML frontmatter 使用规范
-- [ ] 标题层级清晰（# ## ###）
-- [ ] 列表、代码块等格式使用恰当
+### 2. Markdown Structure
+- [ ] YAML frontmatter used properly
+- [ ] Clear heading hierarchy (# ## ###)
+- [ ] Appropriate use of lists, code blocks, and other formats
 
-### 3. 配置可维护性 (Config Maintainability)
-- [ ] 关键配置集中管理（AGENTS.md）
-- [ ] 环境变量与文件配置的分离
-- [ ] 版本控制友好（纯文本 diff）
+### 3. Configuration Maintainability
+- [ ] Key configuration centrally managed (AGENTS.md)
+- [ ] Separation of environment variables from file configuration
+- [ ] Version-control friendly (plain-text diff)
 
-### 4. 多 Agent 隔离性 (Agent Isolation)
-- [ ] 每个 Agent 独立 workspace
-- [ ] 会话状态隔离（SQLite per agent）
-- [ ] 权限边界清晰（不能跨 Agent 访问）
+### 4. Multi-Agent Isolation
+- [ ] Independent workspace for each Agent
+- [ ] Session state isolation (SQLite per agent)
+- [ ] Clear permission boundaries (no cross-Agent access)
 
-### 5. 可审计性 (Auditability)
-- [ ] 所有逻辑工件是纯 Markdown，可读可编辑
-- [ ] 变更历史可追溯（git）
-- [ ] 运行时行为可预测（配置即代码）
+### 5. Auditability
+- [ ] All logical artifacts are pure Markdown, readable and editable
+- [ ] Change history traceable (git)
+- [ ] Runtime behavior predictable (configuration as code)
 
-### 6. 扩展性 (Extensibility)
-- [ ] 新 Agent 创建成本低（复制模板）
-- [ ] 新渠道接入配置驱动
-- [ ] Skill 共享机制（~/.openclaw/skills）
+### 6. Extensibility
+- [ ] Low cost to create new Agents (copy template)
+- [ ] Config-driven onboarding of new channels
+- [ ] Skill sharing mechanism (~/.openclaw/skills)
 
 ---
 
-## 评分标准
+## Scoring Criteria
 
-| 维度 | 权重 | 得分 (1-5) | 备注 |
+| Dimension | Weight | Score (1-5) | Notes |
 |------|------|------------|------|
-| 文件组织清晰度 | 20% | | |
-| Markdown 结构化程度 | 15% | | |
-| 配置可维护性 | 20% | | |
-| 多 Agent 隔离性 | 20% | | |
-| 可审计性 | 15% | | |
-| 扩展性 | 10% | | |
-| **总分** | 100% | | |
+| File Organization Clarity | 20% | | |
+| Markdown Structure | 15% | | |
+| Configuration Maintainability | 20% | | |
+| Multi-Agent Isolation | 20% | | |
+| Auditability | 15% | | |
+| Extensibility | 10% | | |
+| **Total** | 100% | | |
 
 ---
 
-## 测试建议
+## Test Suggestions
 
-### 配置验证测试
-1. **Schema 校验**：验证 SOUL.md frontmatter 完整性
-2. **路由测试**：模拟消息，验证 AGENTS.md 路由规则
-3. **隔离测试**：验证 Agent A 不能访问 Agent B 的内存
+### Configuration Validation Tests
+1. **Schema validation**: verify SOUL.md frontmatter completeness
+2. **Routing tests**: simulate messages and verify AGENTS.md routing rules
+3. **Isolation tests**: verify that Agent A cannot access Agent B's memory
 
-### 运行时测试
-1. **启动加载**：Gateway 启动时正确解析所有 Markdown 文件
-2. **热更新**：修改 SOUL.md 后无需重启生效
-3. **错误处理**：损坏的 Markdown 文件优雅降级
+### Runtime Tests
+1. **Startup loading**: Gateway correctly parses all Markdown files on startup
+2. **Hot reload**: modifying SOUL.md takes effect without restart
+3. **Error handling**: corrupted Markdown files degrade gracefully
 
-### 多 Agent 协作测试
-1. **@Mention 路由**：用户 @sales 正确路由到 sales-assistant
-2. **Handoff**：support-main 正确移交到 billing-agent
-3. **并发**：多个 Agent 同时处理不同渠道消息
+### Multi-Agent Collaboration Tests
+1. **@Mention routing**: user @sales is correctly routed to sales-assistant
+2. **Handoff**: support-main correctly hands off to billing-agent
+3. **Concurrency**: multiple Agents simultaneously handle messages from different channels
 
 ---
 
-## 与其他用例的对比
+## Comparison with Other Test Cases
 
-| 特性 | TC-004 (GPT Researcher) | TC-005 (OpenClaw) |
+| Feature | TC-004 (GPT Researcher) | TC-005 (OpenClaw) |
 |------|------------------------|-------------------|
-| **工件形式** | Python 代码 + Prompts | Markdown 文件 |
-| **编排方式** | LangGraph 状态机 | Gateway 路由 |
-| **多 Agent 关系** | 流水线协作 | 隔离并行 |
-| **可编辑性** | 需改代码 | 纯文本编辑 |
-| **适用场景** | 复杂研究任务 | 消息客服/助手 |
+| **Artifact Form** | Python code + Prompts | Markdown files |
+| **Orchestration** | LangGraph state machine | Gateway routing |
+| **Multi-Agent Relationship** | Pipeline collaboration | Isolated parallelism |
+| **Editability** | Requires code changes | Plain-text editing |
+| **Applicable Scenario** | Complex research tasks | Messaging customer service/assistant |
 
 ---
 
-## 备注
+## Notes
 
-- **MIT 许可**允许完整引用和修改
-- 这是**文件式 Agent**的典型代表，vs 代码式 Agent（如 GPT Researcher）
-- 适合作为**非技术用户**创建 Agent 的评估基准
-- 展示了"配置即代码"理念在 Agent 领域的实践
+- The **MIT license** allows full quotation and modification
+- This is a typical representative of **file-based Agents**, vs code-based Agents (such as GPT Researcher)
+- Suitable as an evaluation baseline for **non-technical users** creating Agents
+- Demonstrates the "configuration as code" philosophy applied in the Agent domain

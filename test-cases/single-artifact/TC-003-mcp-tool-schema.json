@@ -1,5 +1,5 @@
 {
-  "_comment": "TC-003: MCP Tool Schema 评估用例 - 基于 GPT Researcher MCP 集成",
+  "_comment": "TC-003: MCP Tool Schema evaluation case - based on the GPT Researcher MCP integration",
   "meta": {
     "source_project": "gpt-researcher (assafelovic/gpt-researcher)",
     "license": "Apache-2.0",
@@ -77,52 +77,52 @@
     "schema_completeness": {
       "weight": 25,
       "criteria": [
-        "包含完整的 JSON Schema 定义",
-        "参数类型定义准确（string/array/object/enum）",
-        "required 字段明确标注",
-        "默认值和约束条件清晰"
+        "Contains a complete JSON Schema definition",
+        "Parameter types defined accurately (string/array/object/enum)",
+        "Required fields clearly marked",
+        "Defaults and constraints are clear"
       ]
     },
     "description_clarity": {
       "weight": 20,
       "criteria": [
-        "工具用途描述清晰",
-        "每个参数的作用说明完整",
-        "枚举值选项解释到位"
+        "Tool purpose description is clear",
+        "The purpose of each parameter is fully explained",
+        "Enum value options are explained thoroughly"
       ]
     },
     "integration_compatibility": {
       "weight": 25,
       "criteria": [
-        "符合 MCP (Model Context Protocol) 规范",
-        "与主流 LLM 框架兼容（LangChain、OpenAI 等）",
-        "支持动态工具选择"
+        "Conforms to the MCP (Model Context Protocol) specification",
+        "Compatible with mainstream LLM frameworks (LangChain, OpenAI, etc.)",
+        "Supports dynamic tool selection"
       ]
     },
     "example_quality": {
       "weight": 20,
       "criteria": [
-        "提供可运行的代码示例",
-        "环境配置说明完整",
-        "错误处理示例到位"
+        "Provides runnable code examples",
+        "Environment configuration instructions are complete",
+        "Error handling examples are thorough"
       ]
     },
     "extensibility": {
       "weight": 10,
       "criteria": [
-        "支持多 MCP 服务器配置",
-        "参数设计具有扩展性",
-        "文档指向 REFERENCE.md 等扩展资源"
+        "Supports multiple MCP server configurations",
+        "Parameter design is extensible",
+        "Documentation points to extension resources such as REFERENCE.md"
       ]
     }
   },
   "scoring_template": {
     "dimensions": [
-      {"name": "Schema 完整性", "weight": 25, "score": null, "notes": ""},
-      {"name": "描述清晰度", "weight": 20, "score": null, "notes": ""},
-      {"name": "集成兼容性", "weight": 25, "score": null, "notes": ""},
-      {"name": "示例质量", "weight": 20, "score": null, "notes": ""},
-      {"name": "可扩展性", "weight": 10, "score": null, "notes": ""}
+      {"name": "Schema Completeness", "weight": 25, "score": null, "notes": ""},
+      {"name": "Description Clarity", "weight": 20, "score": null, "notes": ""},
+      {"name": "Integration Compatibility", "weight": 25, "score": null, "notes": ""},
+      {"name": "Example Quality", "weight": 20, "score": null, "notes": ""},
+      {"name": "Extensibility", "weight": 10, "score": null, "notes": ""}
     ],
     "total_score": null,
     "overall_notes": ""
@@ -130,63 +130,63 @@
   "test_cases": {
     "positive": [
       {
-        "name": "基础 MCP 研究",
+        "name": "Basic MCP research",
         "input": {
           "query": "Latest trends in AI agents",
           "mcp_configs": [{"name": "github", "command": "npx", "args": ["-y", "@modelcontextprotocol/server-github"], "env": {}}]
         },
-        "expected": "成功调用 MCP 工具并返回研究结果"
+        "expected": "Successfully calls the MCP tool and returns research results"
       },
       {
-        "name": "多源混合研究",
+        "name": "Multi-source hybrid research",
         "input": {
           "query": "Open source alternatives to GPT Researcher",
           "report_source": "hybrid",
           "report_format": "apa"
         },
-        "expected": "同时搜索 Web 和 MCP 数据源，生成 APA 格式报告"
+        "expected": "Searches both Web and MCP data sources simultaneously and generates an APA-formatted report"
       }
     ],
     "boundary": [
       {
-        "name": "空 MCP 配置",
+        "name": "Empty MCP configuration",
         "input": {
           "query": "Test query",
           "mcp_configs": []
         },
-        "expected": "回退到纯 Web 搜索模式"
+        "expected": "Falls back to pure Web search mode"
       },
       {
-        "name": "无效 MCP 服务器",
+        "name": "Invalid MCP server",
         "input": {
           "query": "Test query",
           "mcp_configs": [{"name": "invalid", "command": "nonexistent", "args": []}]
         },
-        "expected": "优雅降级，记录错误并继续"
+        "expected": "Degrades gracefully, logs the error and continues"
       }
     ],
     "negative": [
       {
-        "name": "缺少必需参数",
+        "name": "Missing required parameter",
         "input": {
           "mcp_configs": [{"name": "github", "command": "npx", "args": ["-y", "@modelcontextprotocol/server-github"]}]
         },
-        "expected": "参数验证失败，返回错误信息"
+        "expected": "Parameter validation fails and returns an error message"
       },
       {
-        "name": "无效 report_format",
+        "name": "Invalid report_format",
         "input": {
           "query": "Test",
           "report_format": "invalid_format"
         },
-        "expected": "Schema 验证失败，提示有效选项"
+        "expected": "Schema validation fails and prompts for valid options"
       }
     ]
   },
   "notes": [
-    "该 Tool Schema 展示了 MCP 与 Agent 集成的典型模式",
-    "支持多检索器混合（tavily + mcp）",
-    "Schema 设计遵循 OpenAPI 3.0 规范子集",
-    "Apache-2.0 许可允许完整引用和修改"
+    "This Tool Schema demonstrates a typical pattern for MCP and Agent integration",
+    "Supports mixing multiple retrievers (tavily + mcp)",
+    "The Schema design follows a subset of the OpenAPI 3.0 specification",
+    "The Apache-2.0 license allows full quotation and modification"
   ]
 }

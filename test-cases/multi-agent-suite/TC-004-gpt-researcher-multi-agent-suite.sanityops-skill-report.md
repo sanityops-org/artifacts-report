@@ -42,7 +42,7 @@
 │  Stage B (Cross-artifact) │  ████████░░  FAIL  (9 P0)          │
 │  Stage C (Gate-0)         │  ██████░░░░  PARTIAL (G0-1)        │
 │  Stage D (Permission)     │  ██████████  FAIL  (9 P0)          │
-│  Stage E (Risk Explicit)  │  ██░░░░░░░░  S1    (3项风险)        │
+│  Stage E (Risk Explicit)  │  ██░░░░░░░░  S1    (3 risks)        │
 │  Stage F (Impact)         │  ████░░░░░░  MAPPED                 │
 ├─────────────────────────────────────────────────────────────────┤
 │  OVERALL: PARTIAL - 30 P0 findings, requires remediation        │

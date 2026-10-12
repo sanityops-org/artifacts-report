@@ -1,29 +1,29 @@
-# TC-006: Agency Agents - Marketing 部门多角色套件
+# TC-006: Agency Agents - Marketing Department Multi-Role Suite
 
-## 元信息
-- **来源项目**: agency-agents (msitarzewski/agency-agents)
+## Metadata
+- **Source Project**: agency-agents (msitarzewski/agency-agents)
 - **GitHub**: github.com/msitarzewski/agency-agents
-- **许可证**: MIT
-- **工件类型**: 专门化 Agent 角色定义（非编码类）
-- **采集日期**: 2026-10-10
-- **采集方式**: 文档汇总 + 角色模板分析
-- **筛选范围**: Marketing 部门（非编码角色）
+- **License**: MIT
+- **Artifact Type**: Specialized Agent role definitions (non-coding)
+- **Collection Date**: 2026-10-10
+- **Collection Method**: Documentation summary + role template analysis
+- **Screening Scope**: Marketing department (non-coding roles)
 
 ---
 
-## 项目概述
+## Project Overview
 
-Agency Agents 是一个包含 **230+ 专门化 AI Agent** 的开源项目，按 12 个部门组织。每个 Agent 是一个**完整的角色定义**，包含身份、使命、工作流程和成功指标。
+Agency Agents is an open-source project containing **230+ specialized AI Agents**, organized by 12 departments. Each Agent is a **complete role definition** including identity, mission, workflow, and success metrics.
 
-### 本用例筛选原则
-- ✅ 包含：**Marketing、Sales、Community** 等非编码角色
-- ❌ 排除：Frontend Developer、Backend Architect 等编码类角色
+### Screening Principles for This Case
+- ✅ Included: **Marketing, Sales, Community** and other non-coding roles
+- ❌ Excluded: Frontend Developer, Backend Architect and other coding roles
 
 ---
 
-## Marketing 部门 Agent 套件（6 个角色）
+## Marketing Department Agent Suite (6 roles)
 
-### 1. Content Creator（内容创作者）
+### 1. Content Creator
 
 ```markdown
 ---
@@ -139,7 +139,7 @@ Visual: [suggested image/graphic description]
 **Why it fails**: No value in the post itself, lazy promotion
 ```
 
-### 2. Reddit Community Builder（Reddit 社区运营）
+### 2. Reddit Community Builder
 
 ```markdown
 ---
@@ -271,7 +271,7 @@ Example: "How I reduced AWS costs by 60% without performance loss"
 - ❌ "Get rich quick" content
 ```
 
-### 3. Growth Hacker（增长黑客）
+### 3. Growth Hacker
 
 ```markdown
 ---
@@ -404,7 +404,7 @@ Optimization Levers:
 | Product-led | Very Low | High | Medium | SaaS products |
 ```
 
-### 4. Social Media Strategist（社交媒体策略师）
+### 4. Social Media Strategist
 
 ```markdown
 ---
@@ -524,7 +524,7 @@ Instagram:
 - **Traffic Referral**: 500+ visits/month from social
 ```
 
-### 5. SEO Specialist（SEO 专家）
+### 5. SEO Specialist
 
 ```markdown
 ---
@@ -641,7 +641,7 @@ Content:
 - **Domain Authority**: +5 points per year
 ```
 
-### 6. LinkedIn Content Creator（LinkedIn 内容创作者）
+### 6. LinkedIn Content Creator
 
 ```markdown
 ---
@@ -774,89 +774,89 @@ Goal: Drive comments and discussion
 
 ---
 
-## 评估维度（专门化角色套件专用）
+## Evaluation Dimensions (specialized role suite specific)
 
-### 1. 角色定义完整性 (Role Definition)
-- [ ] 每个角色有清晰的 Identity（身份、性格、声音）
-- [ ] Core Mission 明确且可衡量
-- [ ] Critical Rules 约束清晰
+### 1. Role Definition Completeness
+- [ ] Each role has a clear Identity (identity, personality, voice)
+- [ ] Core Mission is clear and measurable
+- [ ] Critical Rules constraints are clear
 
-### 2. 工作流程可操作性 (Workflow Actionability)
-- [ ] 分阶段流程清晰（Phase 1/2/3/4）
-- [ ] 每个阶段有具体任务和时间估算
-- [ ] 有明确的交付物模板
+### 2. Workflow Actionability
+- [ ] Phased workflow is clear (Phase 1/2/3/4)
+- [ ] Each phase has concrete tasks and time estimates
+- [ ] Clear deliverable templates
 
-### 3. 成功指标可量化 (Measurable Metrics)
-- [ ] 每个角色有 3-5 个核心 KPI
-- [ ] 指标有基准值和目标值
-- [ ] 指标与业务结果挂钩
+### 3. Measurable Success Metrics
+- [ ] Each role has 3-5 core KPIs
+- [ ] Metrics have baseline and target values
+- [ ] Metrics tied to business outcomes
 
-### 4. 输出模板实用性 (Template Utility)
-- [ ] 提供可直接使用的模板
-- [ ] 有 ✅/❌ 示例对比
-- [ ] 模板覆盖主要交付场景
+### 4. Output Template Utility
+- [ ] Provides ready-to-use templates
+- [ ] Has ✅/❌ example comparisons
+- [ ] Templates cover major delivery scenarios
 
-### 5. 跨角色协作性 (Cross-Role Collaboration)
-- [ ] 角色间职责边界清晰
-- [ ] 有 handoff/协作机制说明
-- [ ] 避免内容重复或冲突
+### 5. Cross-Role Collaboration
+- [ ] Clear responsibility boundaries between roles
+- [ ] Has handoff/collaboration mechanism documentation
+- [ ] Avoids content duplication or conflict
 
-### 6. 非编码定位清晰度 (Non-Coding Focus)
-- [ ] 所有交付物为内容/策略/运营
-- [ ] 不涉及代码编写或技术实现
-- [ ] 适合营销/运营人员直接使用
+### 6. Non-Coding Positioning Clarity
+- [ ] All deliverables are content/strategy/operations
+- [ ] Does not involve code writing or technical implementation
+- [ ] Suitable for direct use by marketing/operations staff
 
 ---
 
-## 评分标准
+## Scoring Criteria
 
-| 维度 | 权重 | 得分 (1-5) | 备注 |
+| Dimension | Weight | Score (1-5) | Notes |
 |------|------|------------|------|
-| 角色定义完整性 | 20% | | |
-| 工作流程可操作性 | 25% | | |
-| 成功指标可量化 | 20% | | |
-| 输出模板实用性 | 15% | | |
-| 跨角色协作性 | 10% | | |
-| 非编码定位清晰度 | 10% | | |
-| **总分** | 100% | | |
+| Role Definition Completeness | 20% | | |
+| Workflow Actionability | 25% | | |
+| Measurable Success Metrics | 20% | | |
+| Output Template Utility | 15% | | |
+| Cross-Role Collaboration | 10% | | |
+| Non-Coding Positioning Clarity | 10% | | |
+| **Total** | 100% | | |
 
 ---
 
-## 测试建议
+## Test Suggestions
 
-### 角色激活测试
-1. 输入"帮我写一篇小红书文案"，验证 Content Creator 角色激活
-2. 输入"Reddit 怎么推广"，验证 Reddit Community Builder 激活
-3. 输入"增长策略"，验证 Growth Hacker 激活
+### Role Activation Tests
+1. Input "Help me write a Xiaohongshu (Little Red Book) copy" and verify Content Creator role activation
+2. Input "How to promote on Reddit" and verify Reddit Community Builder activation
+3. Input "Growth strategy" and verify Growth Hacker activation
 
-### 输出质量测试
-1. 检查输出是否符合角色定义的 Tone
-2. 验证是否包含模板中的关键要素
-3. 确认成功指标是否可衡量
+### Output Quality Tests
+1. Check whether the output matches the role-defined Tone
+2. Verify whether key elements from the templates are included
+3. Confirm whether success metrics are measurable
 
-### 跨角色协作测试
-1. Content Creator + SEO Specialist：内容优化协作
-2. Growth Hacker + LinkedIn Creator：增长渠道协作
-3. 验证角色切换时上下文保持
+### Cross-Role Collaboration Tests
+1. Content Creator + SEO Specialist: content optimization collaboration
+2. Growth Hacker + LinkedIn Creator: growth channel collaboration
+3. Verify context is maintained during role switching
 
 ---
 
-## 与其他用例的关系
+## Relationship to Other Test Cases
 
-| 特性 | TC-004 (GPT Researcher) | TC-005 (OpenClaw) | TC-006 (Agency Agents) |
+| Feature | TC-004 (GPT Researcher) | TC-005 (OpenClaw) | TC-006 (Agency Agents) |
 |------|------------------------|-------------------|------------------------|
-| **工件形式** | Python + Prompts | Markdown 文件 | Markdown 角色定义 |
-| **多 Agent 关系** | 流水线协作 | 隔离并行 | 部门内协作 |
-| **编码/非编码** | 研究类（非编码） | 消息助手（非编码） | **营销运营（非编码）** |
-| **适用用户** | 研究人员 | 个人助手用户 | **营销运营人员** |
-| **协作深度** | 深度协作（多阶段） | 轻度协作（路由） | 中度协作（项目制） |
+| **Artifact Form** | Python + Prompts | Markdown files | Markdown role definitions |
+| **Multi-Agent Relationship** | Pipeline collaboration | Isolated parallelism | Intra-department collaboration |
+| **Coding / Non-Coding** | Research (non-coding) | Messaging assistant (non-coding) | **Marketing operations (non-coding)** |
+| **Target User** | Researchers | Personal assistant users | **Marketing/operations staff** |
+| **Collaboration Depth** | Deep collaboration (multi-stage) | Light collaboration (routing) | Medium collaboration (project-based) |
 
 ---
 
-## 备注
+## Notes
 
-- **MIT 许可**允许完整引用和修改
-- 这是**非编码类 Agent**的典型代表，适合营销/运营场景
-- 展示了"角色即服务"（Role-as-a-Service）的设计理念
-- 每个角色定义可作为独立 Skill 或 System Prompt 使用
-- 与 TC-005（OpenClaw）的区别：Agency Agents 是角色定义库，OpenClaw 是运行时框架
+- The **MIT license** allows full quotation and modification
+- This is a typical representative of **non-coding Agents**, suitable for marketing/operations scenarios
+- Demonstrates the "Role-as-a-Service" design philosophy
+- Each role definition can be used as a standalone Skill or System Prompt
+- Difference from TC-005 (OpenClaw): Agency Agents is a role definition library, while OpenClaw is a runtime framework
