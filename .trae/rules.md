@@ -8,6 +8,12 @@
 
 ## Mandatory Rules (Read First)
 
+### Rule 0: Read This File First ⭐ MANDATORY AT SESSION START
+**This file is auto-loaded whenever this folder is opened.** Before answering any
+question or performing any action in this folder, you MUST treat its content as
+already-loaded session context, and you MUST consult the sections below
+(especially "Repository Ecosystem & Authority") before reading other repos.
+
 ### Rule 1: Language Policy ⭐ HIGHEST PRIORITY
 **ALL files in this folder MUST be written in English**, including:
 - All generated reports
@@ -45,6 +51,55 @@
 ## Folder Purpose
 
 This folder serves as the **Internet Use Case Defect Verification Report Repository** for the **SanityOps Project**. It is primarily used for collecting, storing, and managing Agent logical artifact samples from multiple open-source GitHub projects, along with their defect verification reports.
+
+---
+
+## Repository Ecosystem & Authority
+
+This folder (`artifacts-report`) is **one node** in the SanityOps project. It produces
+neither the specification nor the tools — it stores **samples + verification reports**.
+Its sibling directories under `d:\My Docunments\AI\` are:
+
+| Directory | Role | Language | Form | When to use it |
+|-----------|------|----------|------|----------------|
+| `sanityops-framework-cn` | **Specification — Chinese mirror** of the SanityOps Framework (Inspect / Risk / Quality / Relevance / Core) | Chinese | VitePress-style docs | Chinese Q&A, reading path, DMC/sales material |
+| `sanityops-inspect-lite` | **Lite Skill implementation** of the Inspect pillar — zero-install, detect-only, seven-stage flow, no repair | English | Claude Code plugin + standalone Skill | Run a lightweight inspection of a Prompt / Skill / Tool Schema |
+| `inspect-cli` | **Full CLI implementation** (`sanityops-cli`) — L1/L2/L3 depth, `inspect repair`, P0-blocking, CI/CD ready | English | Python package + standalone binary | Production / pre-release full inspection |
+| `SanityOps-Sider` | Flattened Chinese doc set snapshot for the Sider agent (includes DMC, which framework v1.0 does not) | Chinese | Flat single-layer files | Fast Chinese retrieval, earlier-generation compilation |
+| `promotion` | Outbound promotion material | Mixed | Ad-hoc | Marketing / launch content |
+
+### Default Aliases (Read This Before Interpreting User Requests)
+
+| User says | Default meaning | Resolve to |
+|-----------|-----------------|------------|
+| **"the skill" / "skill"** | The SanityOps Inspect **lite** skill | `d:\My Docunments\AI\sanityops-inspect-lite\plugins\sanityops-inspect-lite\skills\sanityops-inspect-lite\SKILL.md` |
+| **"the CLI" / "cli"** | The SanityOps Inspect **full** CLI | `d:\My Docunments\AI\inspect-cli\` (`sanityops-cli`) |
+
+> These are the **default referents**. Do NOT reinterpret them as "a skill" or "a CLI"
+> in the generic sense. Expand to another tool only when the user names it explicitly.
+
+### Authority Chain (highest → lowest)
+
+```
+sanityops-framework       <- authoritative source specification (English, CC BY-SA 4.0)
+  └── sanityops-framework-cn   <- Chinese mirror; on conflict, the English source governs
+        ├── sanityops-inspect-lite  <- condensed extraction of Inspect; NON-normative, defines no new rules
+        └── inspect-cli             <- full-fidelity implementation (Apache 2.0)
+```
+- If a rule conflict appears, always fall back to the authoritative sub-specification
+  (`inspect/`, `risk/`, `quality/`, `framework/relevance.md`).
+- `sanityops-inspect-lite` is executed by a **host model**; it never overrides the spec.
+
+### Division of Labor — One Sentence
+
+> **The framework defines *what to check*; inspect-lite / inspect-cli are *the checkers*;
+> artifacts-report is the *result repository* produced by running those checkers.**
+
+### Doc Router
+
+A skill at `d:\My Docunments\AI\.trae\skills\sanityops-docs-router\SKILL.md` routes
+SanityOps documentation questions to the correct directory/file. **Use it to locate the
+right file first instead of reading every document.**
 
 ---
 
@@ -187,17 +242,32 @@ test-cases/
 └── sanityops-cli-inspection-summary.md
 ```
 
-### Related References
+### Related References (absolute paths)
 
-- Framework docs → `../sanityops-framework/`
-- Skill tool → `../sanityops-inspect-lite/`
-- CLI tool → `../inspect-cli/`
+- Framework specification (CN mirror) → `d:\My Docunments\AI\sanityops-framework-cn\`
+- Framework authoritative source (EN) → `sanityops-framework` (not present locally; governs on conflict)
+- Skill tool (lite) → `d:\My Docunments\AI\sanityops-inspect-lite\`
+- CLI tool (full) → `d:\My Docunments\AI\inspect-cli\`
+- Doc router → `d:\My Docunments\AI\.trae\skills\sanityops-docs-router\SKILL.md`
+
+---
+
+## Session Start Checklist
+
+When a new conversation begins in this folder, confirm in order:
+
+1. ✅ This `rules.md` is loaded (auto-injected on folder open).
+2. ✅ Output language = English (Rule 1).
+3. ✅ Naming pattern for any file to be created (Rule 2).
+4. ✅ Which sibling repo actually holds the answer — use the Doc Router before reading widely.
+
+> If any of the above is unclear, state the assumption explicitly before proceeding.
 
 ---
 
 ## Quick Start
 
-1. **Understand the framework**: Read `../sanityops-framework/README.md`
-2. **Quick experience**: Use `../sanityops-inspect-lite/` for zero-install inspection
-3. **Full inspection**: Install `../inspect-cli/` for production-grade inspection
+1. **Understand the framework**: Read `d:\My Docunments\AI\sanityops-framework-cn\README.md` (CN mirror; EN source governs on conflict)
+2. **Quick experience**: Use `d:\My Docunments\AI\sanityops-inspect-lite\` for zero-install inspection
+3. **Full inspection**: Install `d:\My Docunments\AI\inspect-cli\` for production-grade inspection
 4. **Store reports**: Save verification reports to this folder, archived per naming conventions
