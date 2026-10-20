@@ -1,0 +1,37 @@
+2026-10-20 18:12:19.376 [INFO] [session] Command started: inspect
+2026-10-20 18:12:19.382 [INFO] [config] Configuration loaded | project_id=not set
+2026-10-20 18:12:19.384 [INFO] [artifacts] Resolved artifacts | prompts=1 tools=0 skills=0
+2026-10-20 18:12:19.405 [INFO] [qc_lint] Code Contract inspection completed | duration=0.00s total_defects=2 p0=0 p1=2 p2=0 gate=PASS
+2026-10-20 18:12:19.418 [INFO] [agent] Agent started
+2026-10-20 18:12:22.550 [ERROR] [agent] Artifact analysis failed
+2026-10-20 18:12:22.550 [ERROR] [agent_traceback]   Traceback (most recent call last):
+2026-10-20 18:12:22.551 [ERROR] [agent_traceback]     File "/Users/a1234/Documents/project/gitlab/deeplogic-cli/src/deeplogic_cli/commands/inspect.py", line 819, in inspect
+2026-10-20 18:12:22.551 [ERROR] [agent_traceback]       result = agent.analyze_files_sync(
+2026-10-20 18:12:22.551 [ERROR] [agent_traceback]                ^^^^^^^^^^^^^^^^^^^^^^^^^
+2026-10-20 18:12:22.552 [ERROR] [agent_traceback]     File "/Users/a1234/Documents/project/gitlab/deeplogic-cli/src/deeplogic_cli/agents/scanner_agent/agent.py", line 261, in analyze_files_sync
+2026-10-20 18:12:22.552 [ERROR] [agent_traceback]       return anyio.run(self.analyze_files, prompts, tools, skills)
+2026-10-20 18:12:22.552 [ERROR] [agent_traceback]              ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+2026-10-20 18:12:22.552 [ERROR] [agent_traceback]     File "/Users/a1234/.browser-use-env/lib/python3.11/site-packages/anyio/_core/_eventloop.py", line 83, in run
+2026-10-20 18:12:22.553 [ERROR] [agent_traceback]       return async_backend.run(func, args, {}, backend_options)
+2026-10-20 18:12:22.553 [ERROR] [agent_traceback]              ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+2026-10-20 18:12:22.553 [ERROR] [agent_traceback]     File "/Users/a1234/.browser-use-env/lib/python3.11/site-packages/anyio/_backends/_asyncio.py", line 2481, in run
+2026-10-20 18:12:22.554 [ERROR] [agent_traceback]       return runner.run(wrapper())
+2026-10-20 18:12:22.554 [ERROR] [agent_traceback]              ^^^^^^^^^^^^^^^^^^^^^
+2026-10-20 18:12:22.554 [ERROR] [agent_traceback]     File "/Users/a1234/.local/share/uv/python/cpython-3.11.15-macos-aarch64-none/lib/python3.11/asyncio/runners.py", line 118, in run
+2026-10-20 18:12:22.554 [ERROR] [agent_traceback]       return self._loop.run_until_complete(task)
+2026-10-20 18:12:22.555 [ERROR] [agent_traceback]              ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+2026-10-20 18:12:22.555 [ERROR] [agent_traceback]     File "/Users/a1234/.local/share/uv/python/cpython-3.11.15-macos-aarch64-none/lib/python3.11/asyncio/base_events.py", line 654, in run_until_complete
+2026-10-20 18:12:22.555 [ERROR] [agent_traceback]       return future.result()
+2026-10-20 18:12:22.555 [ERROR] [agent_traceback]              ^^^^^^^^^^^^^^^
+2026-10-20 18:12:22.556 [ERROR] [agent_traceback]     File "/Users/a1234/.browser-use-env/lib/python3.11/site-packages/anyio/_backends/_asyncio.py", line 2464, in wrapper
+2026-10-20 18:12:22.556 [ERROR] [agent_traceback]       return await func(*args)
+2026-10-20 18:12:22.556 [ERROR] [agent_traceback]              ^^^^^^^^^^^^^^^^^
+2026-10-20 18:12:22.556 [ERROR] [agent_traceback]     File "/Users/a1234/Documents/project/gitlab/deeplogic-cli/src/deeplogic_cli/agents/scanner_agent/agent.py", line 249, in analyze_files
+2026-10-20 18:12:22.557 [ERROR] [agent_traceback]       raise ValidationError(f"Agent execution failed: {error_msg}")
+2026-10-20 18:12:22.557 [ERROR] [agent_traceback]   deeplogic_cli.exceptions.base_exceptions.ValidationError: Agent execution failed: Connection error.
+2026-10-20 18:12:22.557 [ERROR] [agent_traceback]   Error Detail:
+2026-10-20 18:12:22.557 [ERROR] [agent_traceback]     - llm_error: Connection error.
+2026-10-20 18:12:22.558 [ERROR] [agent_traceback]     - llm_error: Connection error.
+2026-10-20 18:12:22.558 [ERROR] [agent_traceback]     - llm_error: Connection error.
+2026-10-20 18:12:22.558 [ERROR] [agent_traceback]     - llm_error: Connection error.
+2026-10-20 18:12:22.561 [WARNING] [session] Command completed: inspect | status=failed duration=3.2s tool_calls=0 errors=1 error=artifact_analysis

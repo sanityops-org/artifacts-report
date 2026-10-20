@@ -1,0 +1,12 @@
+2026-10-20 18:14:53.274 [INFO] [session] Command started: inspect
+2026-10-20 18:14:53.277 [INFO] [config] Configuration loaded | project_id=not set
+2026-10-20 18:14:53.279 [INFO] [artifacts] Resolved artifacts | prompts=1 tools=0 skills=0
+2026-10-20 18:14:53.288 [INFO] [qc_lint] Code Contract inspection completed | duration=0.00s total_defects=2 p0=0 p1=2 p2=0 gate=PASS
+2026-10-20 18:14:53.298 [INFO] [agent] Agent started
+2026-10-20 18:15:05.387 [INFO] [agent] Sub-agent started | goal=Analyze prompt files and extract metadata sub_agent_id=1
+2026-10-20 18:15:35.489 [INFO] [agent] Sub-agent completed
+2026-10-20 18:15:43.982 [INFO] [agent] Artifact analysis completed | duration=50.7s prompts=1 tools=0 skills=0 loops=3 tokens=0
+2026-10-20 18:15:43.989 [INFO] [defect] Starting defect check | check_level=L2
+2026-10-20 18:20:35.629 [INFO] [defect] Defect check completed | duration=291.6s total_defects=18 p0=10 p1=7 p2=1 status=completed
+2026-10-20 18:20:35.640 [INFO] [report] Markdown report saved: /Users/a1234/Documents/project/tmp/artifacts-report/report-onlybyLLM/TC-005-openclaw-file-based-agents/.deeplogic/results/inspect-20261020-182035.md
+2026-10-20 18:20:35.641 [INFO] [session] Command completed: inspect | status=success duration=342.4s tool_calls=0 errors=0 artifacts=1p,0t,0s defects=18

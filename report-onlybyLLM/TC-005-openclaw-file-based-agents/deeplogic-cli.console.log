@@ -1,0 +1,170 @@
+Log file: 
+/Users/a1234/Documents/project/tmp/artifacts-report/report-onlybyLLM/TC-005-open
+claw-file-based-agents/.deeplogic/logs/inspect/2026-10-20/inspect-181453.log
+                               Inspect Artifacts                                
+┏━━━━━━━━┳━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━┓
+┃ Type   ┃ Absolute Path                                                       ┃
+┡━━━━━━━━╇━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━┩
+│ Prompt │ /Users/a1234/Documents/project/tmp/artifacts-report/test-cases/age… │
+└────────┴─────────────────────────────────────────────────────────────────────┘
+Project ID: not set
+Total: 1 prompts, 0 tools, 0 skills
+
+
+[Code Contract Inspection (QC Lint)]
+Running QC lint checks...
+  Checking: syntax, resources, code patterns
+     Code Contract Inspection Summary      
+┏━━━━━━━━━━━━━━━━━┳━━━━━━━━━━━━━━━━━━━━━━━┓
+┃ Metric          ┃ Value                 ┃
+┡━━━━━━━━━━━━━━━━━╇━━━━━━━━━━━━━━━━━━━━━━━┩
+│ Total artifacts │ 1                     │
+│ Total defects   │ 2                     │
+│ Severity        │ P0: 0   P1: 2   P2: 0 │
+│ QC Gate         │ PASS                  │
+│ Inspection time │ 0.00s                 │
+└─────────────────┴───────────────────────┘
+
+╭──────────────── Prompt TC-005-openclaw-file-based-agents.md ─────────────────╮
+│ X [P1] QC-0.2 - Language Declaration                                         │
+│   Desc     : Code block has no explicit language identifier                  │
+│   Location : $.content.code_blocks[3]                                        │
+│   Evidence : ```                                                             │
+│   Line     : 140                                                             │
+│   Fix      : Add language identifier after opening backticks (e.g.,          │
+│ ```python)                                                                   │
+│ X [P1] QC-0.2 - Language Declaration                                         │
+│   Desc     : Code block has no explicit language identifier                  │
+│   Location : $.content.code_blocks[7]                                        │
+│   Evidence : ```                                                             │
+│   Line     : 258                                                             │
+│   Fix      : Add language identifier after opening backticks (e.g.,          │
+│ ```python)                                                                   │
+╰──────────────────────────────────────────────────────────────────────────────╯
+
+╭──────────────────────────────────────────────────────────────────────────────╮
+│ QC Gate: PASS                                                                │
+│                                                                              │
+│ No blocking defects found. Proceeding to LLM analysis.                       │
+╰──────────────────────────────────────────────────────────────────────────────╯
+
+[Artifact Analysis]
+  Provider:     anthropic
+  Model:        test-assistant
+  Timeout:      1800s
+  Max loops:    30
+  Token budget: 200000
+Analyzing configured artifacts...
+
+▶ Agent started
+  ⟳ LLM call (iteration 1)
+  ↓ received response (tokens: 0, 12.1s)
+  ◇ Starting sub Agent #1: Analyze prompt files and extract metadata...
+  ⟳ LLM call (iteration 1)
+  ⚡ read: 
+/Users/a1234/Documents/project/tmp/artifacts-report/test-cases/agent-suite/TC-00
+5-openclaw-file-base
+  ⟳ LLM call (iteration 1)
+  ⚡ store_findings: prompt TC-005-openclaw-file-based-agents.md
+  ⟳ LLM call (iteration 1)
+  ⚡ store_findings: artifact
+  ⟳ LLM call (iteration 1)
+  ✓ Sub Agent completed
+  ⟳ LLM call (iteration 2)
+  ↓ received response (tokens: 0, 3.0s)
+  ⚡ store_findings: artifact
+  ⟳ LLM call (iteration 3)
+  ↓ received response (tokens: 0, 5.5s)
+
+✓ Artifact analysis completed in 50.7s
+  Loops:    3
+  Tokens:   0
+  Findings: 1 prompt, 0 tools, 0 skills
+Synchronizing artifacts...
+
+[Artifact Synchronization]
+API key not configured, skip auto upload.
+Running QDS/QDT/QDP inspections concurrently...
+
+[Defect Check]
+  SDK:         defect-check 1.2.8
+  Check level: L2
+  Concurrency: 2
+  Req timeout: 600s
+  Scheduled:
+    QDS:   0 skills
+    QDT:   0 tools
+    QDP:   1 prompt
+    CROSS: enabled
+    QD-PM: enabled (or_level=OR-L2)
+  [QD-P] Before inspection, input length: 10685 
+(TC-005-openclaw-file-based-agents.md)
+LLM response is not valid JSON (attempt 1/4), requesting a corrected response
+✓ Defect check completed in 291.6s
+
+Module results
+
+  ✗ QDP  TC-005-openclaw-file-based-agents.md
+    Status:      completed
+    Check level: L2
+    Defects:     18
+    Severity:    P0 10 / P1 7 / P2 1
+    Score:       52.63/100.0
+    Grade:       C
+    Gate:        FAIL
+
+  ⚠ QD-PM  TC-005-openclaw-file-based-agents.md
+    Status:      skipped
+    Check level: L2
+    Defects:     0
+    Severity:    P0 0 / P1 0 / P2 0
+    Error code:  GATE0_BLOCKED
+    Message:     evaluation cannot be performed effectively: Gate-0 pre-check 
+failed: single-artifact check (QD-P / QD-S / QD-T) has an unfixed P0; 
+responsibility boundary statement missing; unable to locate a specific position
+
+  Status:   completed
+  Duration: 291.6s
+           Defect Check Summary           
+┏━━━━━━━━━━━━━━━┳━━━━━━━━━━━━━━━━━━━━━━━━┓
+┃ Metric        ┃ Value                  ┃
+┡━━━━━━━━━━━━━━━╇━━━━━━━━━━━━━━━━━━━━━━━━┩
+│ Total defects │ 18                     │
+│ Severity      │ P0: 10   P1: 7   P2: 1 │
+│ Gate          │ FAIL                   │
+└───────────────┴────────────────────────┘
+
+╭──────────────── Prompt TC-005-openclaw-file-based-agents.md ─────────────────╮
+│ ✗ [P0] QDP-1.1.1 — Direct Conflict — Core File Type Count                    │
+│   Desc     : The inventory title says '4 core file types' and Key Features   │
+│ lists only SOUL.md, AGENTS.md, USER.md, and IDENTITY.md, but the Logical     │
+│ Artifact Inventory includes HEARTBEAT.md and MEMORY.md, making the count     │
+│ contradictory.                                                               │
+│   Location : Logical Artifact Inventory heading / Key Features               │
+│   Impact   : The LLM's behavior is unpredictable under contradictory         │
+│ instructions; it may choose any one of them, resulting in inconsistent       │
+│ output                                                                       │
+│   Fix      : Remove one of the conflicting rules, or add a priority          │
+│ declaration specifying which rule takes precedence                           │
+│ ✗ [P1] QDP-2.5.4 — Undefined Constraint Priority                             │
+│   Desc     : Multiple routing rule sets and agent constraints apply          │
+│ simultaneously without any precedence or priority, so the LLM cannot         │
+│ determine which routing or boundary takes effect when they conflict.         │
+│   Location : AGENTS.md - Routing Rules; SOUL.md - Rules & Boundaries         │
+│   Impact   : The LLM chooses which constraint to apply on its own and may    │
+│ skip critical constraints                                                    │
+│   Fix      : Declare constraint priorities: safety constraints > format      │
+│ constraints > style constraints                                              │
+│ ... 16 more defects not shown                                                │
+╰──────────────────────────────────────────────────────────────────────────────╯
+
+Saving Markdown report...
+
+[Report]
+╭──────────────────────────────────────────────────────────────────────────────╮
+│ Report saved to                                                              │
+│ /Users/a1234/Documents/project/tmp/artifacts-report/report-onlybyLLM/TC-005- │
+│ openclaw-file-based-agents/.deeplogic/results/inspect-20261020-182035.md     │
+│ For the full experience, visit                                               │
+│ http://112.94.11.111:16666/                                                  │
+╰──────────────────────────────────────────────────────────────────────────────╯

@@ -1,0 +1,9 @@
+2026-10-20 18:12:37.966 [INFO] [session] Command started: inspect
+2026-10-20 18:12:37.970 [INFO] [config] Configuration loaded | project_id=not set
+2026-10-20 18:12:37.972 [INFO] [artifacts] Resolved artifacts | prompts=1 tools=0 skills=0
+2026-10-20 18:12:37.984 [INFO] [qc_lint] Code Contract inspection completed | duration=0.00s total_defects=2 p0=0 p1=2 p2=0 gate=PASS
+2026-10-20 18:12:37.995 [INFO] [agent] Agent started
+2026-10-20 18:12:45.397 [INFO] [agent] Sub-agent started | goal=Analyze prompt files and extract metadata sub_agent_id=1
+2026-10-20 18:13:16.952 [INFO] [agent] Sub-agent completed
+2026-10-20 18:13:24.083 [INFO] [agent] Artifact analysis completed | duration=46.1s prompts=1 tools=0 skills=0 loops=3 tokens=0
+2026-10-20 18:13:24.093 [INFO] [defect] Starting defect check | check_level=L2
