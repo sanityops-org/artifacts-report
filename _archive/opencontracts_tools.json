@@ -1,0 +1,316 @@
+{
+  "root": "d:\\My Docunments\\AI\\artifacts-report\\_archive\\_clones\\opencontracts\\opencontractserver\\llms\\tools",
+  "call_sites_found": 18,
+  "tools_resolved": 12,
+  "unresolved": 6,
+  "unresolved_calls": [
+    {
+      "file": "d:\\My Docunments\\AI\\artifacts-report\\_archive\\_clones\\opencontracts\\opencontractserver\\llms\\tools\\pydantic_ai_tools.py",
+      "line": 1004,
+      "func_ref": null
+    },
+    {
+      "file": "d:\\My Docunments\\AI\\artifacts-report\\_archive\\_clones\\opencontracts\\opencontractserver\\llms\\tools\\pydantic_ai_tools.py",
+      "line": 886,
+      "func_ref": null
+    },
+    {
+      "file": "d:\\My Docunments\\AI\\artifacts-report\\_archive\\_clones\\opencontracts\\opencontractserver\\llms\\tools\\pydantic_ai_tools.py",
+      "line": 942,
+      "func_ref": null
+    },
+    {
+      "file": "d:\\My Docunments\\AI\\artifacts-report\\_archive\\_clones\\opencontracts\\opencontractserver\\llms\\tools\\pydantic_ai_tools.py",
+      "line": 976,
+      "func_ref": null
+    },
+    {
+      "file": "d:\\My Docunments\\AI\\artifacts-report\\_archive\\_clones\\opencontracts\\opencontractserver\\llms\\tools\\tool_factory.py",
+      "line": 284,
+      "func_ref": null
+    },
+    {
+      "file": "d:\\My Docunments\\AI\\artifacts-report\\_archive\\_clones\\opencontracts\\opencontractserver\\llms\\tools\\tool_registry.py",
+      "line": 1539,
+      "func_ref": "async_func"
+    }
+  ],
+  "tools": [
+    {
+      "name": "start_deep_research",
+      "description": "Kick off a long-running, autonomous deep-research job over the current corpus. The research agent crawls the corpus with read-only retrieval tools, accumulates findings with citations, and writes a markdown report. Returns a job ID. The user will be notified via the notifications panel and a message in this chat when the report is ready (5-30 minutes typical). Use this ONLY when the user asks for a thorough multi-step investigation or a written research report — not for quick lookups.",
+      "parameters": {
+        "type": "object",
+        "properties": {
+          "task_description": {
+            "type": "string",
+            "description": "The natural-language research task the user"
+          },
+          "title": {
+            "type": "string",
+            "description": "Optional short title for the report. Defaults to a"
+          },
+          "corpus_group_slug": {
+            "type": "string",
+            "description": "Optional Corpus Group to search across instead of"
+          }
+        },
+        "required": [
+          "task_description"
+        ]
+      },
+      "source": "d:\\My Docunments\\AI\\artifacts-report\\_archive\\_clones\\opencontracts\\opencontractserver\\llms\\tools\\research_tools.py:231",
+      "func": "astart_deep_research"
+    },
+    {
+      "name": "check_deep_research_status",
+      "description": "Check the status of deep-research jobs on the current corpus. Use this when the user asks whether their research is finished, how a running job is progressing, or wants the link to a completed report. Returns a short summary (status, step progress, and the report link) for the user's most recent research jobs on this corpus. Read-only — does not start anything.",
+      "parameters": {
+        "type": "object",
+        "properties": {},
+        "required": []
+      },
+      "source": "d:\\My Docunments\\AI\\artifacts-report\\_archive\\_clones\\opencontracts\\opencontractserver\\llms\\tools\\research_tools.py:257",
+      "func": "acheck_deep_research_status"
+    },
+    {
+      "name": "search_exact_text_as_sources",
+      "description": "Search for exact text matches in a document and return them as source nodes with page numbers and bounding boxes.",
+      "parameters": {
+        "type": "object",
+        "properties": {
+          "document_id": {
+            "type": "integer",
+            "description": ""
+          },
+          "search_strings": {
+            "type": "array",
+            "items": {
+              "type": "string"
+            },
+            "description": ""
+          },
+          "corpus_id": {
+            "type": "integer",
+            "description": ""
+          }
+        },
+        "required": [
+          "document_id",
+          "search_strings"
+        ]
+      },
+      "source": "d:\\My Docunments\\AI\\artifacts-report\\_archive\\_clones\\opencontracts\\opencontractserver\\llms\\tools\\tool_factory.py:368",
+      "func": "asearch_exact_text_as_sources"
+    },
+    {
+      "name": "load_document_md_summary",
+      "description": "Load markdown summary of a document, optionally truncated.",
+      "parameters": {
+        "type": "object",
+        "properties": {
+          "document_id": {
+            "type": "integer",
+            "description": "The primary key (ID) of the Document"
+          },
+          "truncate_length": {
+            "type": "integer",
+            "description": "Optional length to truncate the content"
+          },
+          "from_start": {
+            "type": "boolean",
+            "description": "If True, truncate from start; if False, truncate from end"
+          }
+        },
+        "required": [
+          "document_id"
+        ]
+      },
+      "source": "d:\\My Docunments\\AI\\artifacts-report\\_archive\\_clones\\opencontracts\\opencontractserver\\llms\\tools\\tool_factory.py:376",
+      "func": "aload_document_md_summary"
+    },
+    {
+      "name": "get_md_summary_token_length",
+      "description": "Get the token length of a document's markdown summary.",
+      "parameters": {
+        "type": "object",
+        "properties": {
+          "document_id": {
+            "type": "integer",
+            "description": "The primary key (ID) of the Document"
+          }
+        },
+        "required": [
+          "document_id"
+        ]
+      },
+      "source": "d:\\My Docunments\\AI\\artifacts-report\\_archive\\_clones\\opencontracts\\opencontractserver\\llms\\tools\\tool_factory.py:381",
+      "func": "aget_md_summary_token_length"
+    },
+    {
+      "name": "get_notes_for_document_corpus",
+      "description": "Get notes associated with a document and optional corpus.",
+      "parameters": {
+        "type": "object",
+        "properties": {
+          "document_id": {
+            "type": "integer",
+            "description": "The primary key (ID) of the Document"
+          },
+          "corpus_id": {
+            "type": "integer",
+            "description": "The primary key (ID) of the Corpus, or None if unspecified"
+          }
+        },
+        "required": [
+          "document_id"
+        ]
+      },
+      "source": "d:\\My Docunments\\AI\\artifacts-report\\_archive\\_clones\\opencontracts\\opencontractserver\\llms\\tools\\tool_factory.py:386",
+      "func": "aget_notes_for_document_corpus"
+    },
+    {
+      "name": "get_note_content_token_length",
+      "description": "Get the token length of a note's content.",
+      "parameters": {
+        "type": "object",
+        "properties": {
+          "note_id": {
+            "type": "integer",
+            "description": "The primary key (ID) of the Note"
+          }
+        },
+        "required": [
+          "note_id"
+        ]
+      },
+      "source": "d:\\My Docunments\\AI\\artifacts-report\\_archive\\_clones\\opencontracts\\opencontractserver\\llms\\tools\\tool_factory.py:391",
+      "func": "aget_note_content_token_length"
+    },
+    {
+      "name": "get_partial_note_content",
+      "description": "Get a substring of a note's content by start/end indices.",
+      "parameters": {
+        "type": "object",
+        "properties": {
+          "note_id": {
+            "type": "integer",
+            "description": "The primary key (ID) of the Note"
+          },
+          "start": {
+            "type": "integer",
+            "description": "The starting position for extraction"
+          },
+          "end": {
+            "type": "integer",
+            "description": "The position at which to stop before extraction (non-inclusive)"
+          }
+        },
+        "required": [
+          "note_id"
+        ]
+      },
+      "source": "d:\\My Docunments\\AI\\artifacts-report\\_archive\\_clones\\opencontracts\\opencontractserver\\llms\\tools\\tool_factory.py:396",
+      "func": "aget_partial_note_content"
+    },
+    {
+      "name": "get_page_image",
+      "description": "Get a visual image of a specific page from a PDF document. Useful for inspecting diagrams, tables, images, and other visual content that may not be captured in text.",
+      "parameters": {
+        "type": "object",
+        "properties": {
+          "document_id": {
+            "type": "integer",
+            "description": ""
+          },
+          "page_number": {
+            "type": "integer",
+            "description": ""
+          },
+          "image_format": {
+            "type": "string",
+            "description": ""
+          },
+          "dpi": {
+            "type": "integer",
+            "description": ""
+          }
+        },
+        "required": [
+          "document_id",
+          "page_number"
+        ]
+      },
+      "source": "d:\\My Docunments\\AI\\artifacts-report\\_archive\\_clones\\opencontracts\\opencontractserver\\llms\\tools\\tool_factory.py:401",
+      "func": "aget_page_image"
+    },
+    {
+      "name": "list_document_images",
+      "description": "List all images in a document. Returns metadata (position, size, format) without the actual image data. Use get_document_image to retrieve specific images.",
+      "parameters": {
+        "type": "object",
+        "properties": {
+          "document_id": {
+            "type": "integer",
+            "description": ""
+          },
+          "page_index": {
+            "type": "integer",
+            "description": ""
+          }
+        },
+        "required": [
+          "document_id"
+        ]
+      },
+      "source": "d:\\My Docunments\\AI\\artifacts-report\\_archive\\_clones\\opencontracts\\opencontractserver\\llms\\tools\\tool_factory.py:411",
+      "func": "alist_document_images"
+    },
+    {
+      "name": "get_document_image",
+      "description": "Get image data (base64) for a specific image in a document. Returns data URL suitable for LLM vision input. Use list_document_images first to find available images by page and index.",
+      "parameters": {
+        "type": "object",
+        "properties": {
+          "document_id": {
+            "type": "integer",
+            "description": ""
+          },
+          "page_index": {
+            "type": "integer",
+            "description": ""
+          },
+          "token_index": {
+            "type": "integer",
+            "description": ""
+          }
+        },
+        "required": [
+          "document_id",
+          "page_index",
+          "token_index"
+        ]
+      },
+      "source": "d:\\My Docunments\\AI\\artifacts-report\\_archive\\_clones\\opencontracts\\opencontractserver\\llms\\tools\\tool_factory.py:419",
+      "func": "aget_document_image"
+    },
+    {
+      "name": "get_annotation_images",
+      "description": "Get all images referenced by an annotation. Use for figure, chart, or image annotations that have embedded or referenced images in their bounds.",
+      "parameters": {
+        "type": "object",
+        "properties": {
+          "annotation_id": {
+            "type": "integer",
+            "description": ""
+          }
+        },
+        "required": [
+          "annotation_id"
+        ]
+      },
+      "source": "d:\\My Docunments\\AI\\artifacts-report\\_archive\\_clones\\opencontracts\\opencontractserver\\llms\\tools\\tool_factory.py:428",
+      "func": "aget_annotation_images"
+    }
+  ]
+}

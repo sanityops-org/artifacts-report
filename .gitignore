@@ -1,0 +1,11 @@
+# Local clones used only for verbatim extraction (565 MB). Never commit.
+_archive/_clones/
+
+# Local benchmark dataset kept out of the case corpus.
+_archive/power-agent-sanityops-cases/
+_archive/power-agent-sanityops-cases.zip
+
+# Tooling caches
+__pycache__/
+*.pyc
+.trae-html-share-packages/

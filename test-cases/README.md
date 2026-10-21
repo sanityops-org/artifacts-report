@@ -1,135 +1,117 @@
-# SanityOps Agent Logical Artifact Evaluation Test Case Set
+# SanityOps Test Case Set — Organized by Logic-Artifact Combination
 
-## Project Overview
-
-This folder collects open-source Agent **logical artifact samples** (System Prompt / Skill / Tool Schema) for the SanityOps project, used to run static defect inspection and store the verification reports.
-
-- **Inclusion Criteria** (a case qualifies when ALL hold):
-  1. Real open-source project with a clear license (Apache-2.0 / MIT preferred)
-  2. End-user-facing scenario (excludes code-development agents, dev toolchains, IDE plugins, development frameworks, and research simulations/benchmarks)
-  3. Contains auditable logic artifacts (System Prompt / Skill / Tool Schema)
-
-## Current Progress — 200 cases
-
-| Object kind | Folder | Count | Meaning |
-|---|---|---|---|
-| Single logical artifact | `single-artifact/system-prompt/` | **50** | One System Prompt |
-| Single logical artifact | `single-artifact/skill/` | **50** | One Skill (`SKILL.md`) |
-| Single logical artifact | `single-artifact/tool-schema/` | **50** | One Tool Schema |
-| Complete Agent / group of Agents | `agent-suite/` | **50** | One Agent bundling multiple logical artifacts |
-| | **TOTAL** | **200** | |
+> Corpus of open-source Agent logic artifacts, organized by **which artifact types are actually loadable** in each case.
+> Restructured 2026-10-21. Case files are unchanged; only the folder layout changed.
 
 ---
 
-## Classification: two kinds of evaluation object
+## 1. Why organize by combination
 
-Only two kinds of object are actually evaluated:
+The three artifact types (System Prompt / Skill / Tool Schema) are not interchangeable, and a case that ships only one of them cannot exercise the cross-artifact checks. Grouping by combination makes two things visible at a glance:
 
-| Category | What it is | Reusable? |
+1. **Which combinations have enough samples** to support statistics.
+2. **Which combinations are structurally empty** in the real open-source ecosystem — that emptiness is itself a finding, not a collection gap.
+
+A case is placed in exactly one folder, named by the set of artifact types that are **directly loadable** from the text shipped in the case file.
+
+---
+
+## 2. Combination matrix
+
+| Folder | Combination | Cases | Single-artifact | Agent-suite | Usable artifacts |
+|---|---|---:|---:|---:|---:|
+| [prompt-only](prompt-only/) | Prompt | **67** | 50 | 17 | 67 |
+| [skill-only](skill-only/) | Skill | **65** | 50 | 15 | 65 |
+| [tool-only](tool-only/) | Tool Schema | **49** | 49 | 0 | 49 |
+| [prompt-skill](prompt-skill/) | Prompt + Skill | **0** | 0 | 0 | 0 |
+| [prompt-tool](prompt-tool/) | Prompt + Tool Schema | **0** | 0 | 0 | 0 |
+| [skill-tool](skill-tool/) | Skill + Tool Schema | **0** | 0 | 0 | 0 |
+| [prompt-skill-tool](prompt-skill-tool/) | All three | **0** | 0 | 0 | 0 |
+| [none](none/) | No loadable artifact | **24** | 0 | 24 | 0 |
+| **Total** | | **205** | **149** | **56** | **181** |
+
+`TC-003-mcp-tool-schema.json` (a 50th tool-schema case) currently sits in `_archive/temp/` and is not counted above.
+
+---
+
+## 3. What the matrix says
+
+**Single-artifact cases cover all three types evenly** (50 / 50 / 49). This is the usable statistical base: 149 independent artifacts, each one directly loadable and independently gradeable.
+
+**Multi-type combinations are empty across the entire corpus.** No case ships two or more loadable artifact types together. Two independent sampling frames produced the same result:
+
+| Frame | Sample | Result |
 |---|---|---|
-| **single-artifact** | One logical artifact (System Prompt / Skill / Tool Schema); may be reused across multiple Agents, so it has standalone value | Yes, by many Agents |
-| **agent-suite** | A complete Agent, or a group of Agents, bundling multiple logical artifacts into one business expression | No, it is the whole |
+| Artifact-first (2026-10-10 → 10-14) | 51 agent cases | 15 skill-only + 12 prompt-only + 24 none |
+| Agent-first (2026-10-21) | 5 production products | 5 prompt-only |
 
-`single-artifact/` is further split by artifact type into `system-prompt/`, `skill/`, and `tool-schema/`.
+This is not a collection failure. It reflects how production agents are actually built:
 
-> The earlier four-way split (`single-artifact` / `multi-agent-suite` / `file-based` / `role-library`) mixed *evaluation object* with *implementation shape* (file storage, role content, collaboration topology) and has been retired.
-
----
-
-## Folder Structure
-
-```
-test-cases/
-├── README.md
-├── single-artifact/
-│   ├── system-prompt/        # 50 System Prompt cases
-│   ├── skill/                # 50 Skill cases
-│   └── tool-schema/          # 50 Tool Schema cases
-└── agent-suite/              # 50 complete-Agent / group-of-Agents cases
-```
-
-Each `TC-*` file is self-describing: its `## Metadata` block records the source project, GitHub URL, license, artifact type, collection date, and the exact source URLs used to quote the artifact verbatim.
+- **Prompt is universal** — every product ships instruction text.
+- **Skill (`SKILL.md`) is a file-based-agent convention** — used by Claude-style agents, absent from business products.
+- **Tool Schema as a loadable document is rare** — tools live as Python signatures, Go structs, PHP task definitions, or MCP servers, and are converted to schema at runtime rather than shipped as schema.
 
 ---
 
-## Evaluation Dimensions
+## 4. Folder contents
 
-### single-artifact — per artifact type
+### Covered combinations
 
-| Artifact Type | Core Evaluation Dimensions | Weight Distribution |
-|----------|-------------|----------|
-| **System Prompt** | Instruction clarity, structure, citation handling, quality control, testability | 25%/20%/25%/20%/10% |
-| **Skill** | Metadata completeness, trigger conditions, instruction structure, code example quality, maintainability | 15%/20%/25%/25%/15% |
-| **Tool Schema** | Schema completeness, description clarity, integration compatibility, example quality, extensibility | 25%/20%/25%/20%/10% |
+- **[prompt-only](prompt-only/)** — 50 single System Prompt cases (`TC-018`–`TC-137` range) + 17 agent cases.
+  Agent cases: `TC-064`, `065`, `066`, `067`, `071`, `090`, `091`, `092`, `094`, `095`, `096`, `101`, `247`, `248`, `249`, `250`, `251`.
+- **[skill-only](skill-only/)** — 50 single Skill cases (`TC-002`–`TC-181` range) + 15 agent cases.
+  Agent cases: `TC-006`, `007`, `031`, `032`, `033`, `034`, `039`, `041`, `056`, `057`, `058`, `059`, `068`, `069`, `070`.
+- **[tool-only](tool-only/)** — 49 MCP / function-calling Tool Schema cases (`TC-050`, `TC-182`–`TC-246`).
+- **[none](none/)** — 24 agent cases with no loadable artifact: summarised, truncated, missing frontmatter, or logic embedded in code. Retained as exclusion evidence, not as an analysis denominator.
 
-### agent-suite — complete Agent / group of Agents
+### Empty combinations
 
-| Dimension | Description | Weight |
-|------|------|------|
-| Role / responsibility division | Clear boundaries between roles/artifacts, no overlap | 20% |
-| Workflow / lifecycle completeness | Full lifecycle coverage, sound quality gating | 25% |
-| Artifact consistency | Unified terminology, format, and standards across artifacts | 15% |
-| Tool / artifact modularity | Artifacts grouped by domain, complete parameters | 20% |
-| Auditability / observability | Readable structure, traceable changes, error tracking | 10% |
-| Extensibility | Low cost to add new roles/artifacts | 10% |
+Each empty folder carries a short `README.md` recording why it is empty, so the absence is documented rather than looking like an oversight.
 
 ---
 
-## Domain Coverage (indicative)
+## 5. Counting standard
 
-- **single-artifact / system-prompt** — research & report, customer service, travel, finance/investing, legal, healthcare, education, e-commerce, productivity, CRM, data analysis, multilingual, real-estate.
-- **single-artifact / skill** — marketing, HR/recruiting, legal, finance/trading, design, education, media/journalism, product management, real estate, travel, health billing, negotiation.
-- **single-artifact / tool-schema** — search, maps/geocoding, messaging, memory, time, finance/crypto, weather, cloud files, e-commerce, music, books, news, transit, sports, translation, movies/TV, calendar, documents, public health.
-- **agent-suite** — multi-role agents across customer service, travel, finance, legal, healthcare, e-commerce, sales, research, personal assistant, and content generation.
+A text counts as an artifact only when it can be loaded directly, without editing:
 
----
+| Type | Requirement |
+|---|---|
+| System Prompt | Complete instruction unit usable as a system message: task plus its own constraints or output contract |
+| Skill | `SKILL.md` with `name` and `description` frontmatter and a complete body |
+| Tool Schema | Single tool in OpenAI / Anthropic / MCP structure with `type: object`, `properties`, `required` |
 
-## Usage Guide
+Not counted: summaries, excerpts, `...`-truncated text, missing frontmatter, non-standard tool definitions (decorators, TypeBox/Zod source, LangChain `Tool(...)`), backend code, configuration.
 
-### Quick Location
-
-1. **Evaluate a single System Prompt** → `single-artifact/system-prompt/`
-2. **Evaluate a single Skill** → `single-artifact/skill/`
-3. **Evaluate a single Tool Schema** → `single-artifact/tool-schema/`
-4. **Evaluate a complete Agent / group of Agents** → `agent-suite/`
-
-### Batch Evaluation
-
-```bash
-find test-cases/single-artifact/system-prompt -name "TC-*" | wc -l
-find test-cases/single-artifact/skill         -name "TC-*" | wc -l
-find test-cases/single-artifact/tool-schema   -name "TC-*" | wc -l
-find test-cases/agent-suite                   -name "TC-*" | wc -l
-```
-
-### New Case Workflow
-
-1. Decide the object type → `single-artifact/{system-prompt|skill|tool-schema}/` or `agent-suite/`
-2. Copy the structure of an existing case in that folder
-3. Fill in meta information → source / license / collection method (exact URLs)
-4. Quote the artifact **verbatim**; never fabricate
-5. Keep the evaluation dimensions consistent with the artifact type
+Template variables (`{var}`, `${var}`, `{{.Var}}`) do not disqualify a case; they are runtime inputs.
 
 ---
 
-## License Notes
+## 6. Pending reclassification
 
-- **Apache-2.0 / MIT**: May be fully quoted and modified
-- **Proprietary**: Structure outline only + ≤10-line short quotes
-- **Split-licensed repos** (e.g. chatwoot `enterprise/`, Onyx `ee/`): quote only the permissive-licensed parts; flag the rest
-- A few cases use other OSI licenses (e.g. AGPL-3.0); each flags its license explicitly in its own `## Metadata` / `## Notes`
+Two agent cases have **deterministically extracted** tool schemas that are verified but not yet written into the case file:
 
----
+| Case | Product | Extracted tools | Extractor |
+|---|---|---:|---|
+| `TC-247` | OpenContracts | 12 | Python AST (`_archive/extract_tool_schema.py`, output `_archive/opencontracts_tools.json`) |
+| `TC-251` | Mattermost Agents | MCP tools via `jsonschema` struct tags | Not yet written |
 
-## Changelog
-
-| Date | Update |
-|------|----------|
-| 2026-10-13 | Restructured to two evaluation-object kinds and expanded to **200 cases**: `single-artifact/` split into `system-prompt/` (50), `skill/` (50), `tool-schema/` (50); `agent-suite/` expanded to 50. Removed duplicate-project cases found during collection. |
-| 2026-10-13 | Merged the former `multi-agent-suite`, `file-based`, and `role-library` folders into `agent-suite/`. |
-| 2026-10-12 | Migrated 37 TC files from demo-agent. |
-| 2026-10-10 | Initialized with 6 original cases (TC-001 to TC-006). |
+Both currently sit in `prompt-only`. Once the tool schemas are materialised into their case files, they move to `prompt-tool` — making it the only non-empty multi-type combination in the corpus.
 
 ---
 
-*SanityOps Agent Logical Artifact Test Case Set*
+## 7. Provenance
+
+- **Single-artifact cases** — 149 cases collected 2026-10-10 → 10-14 from 176 unique source projects; see [STATISTICS.md](STATISTICS.md) for the per-project appendix.
+- **Agent-first cases (TC-247–251)** — 5 production products collected 2026-10-21 at pinned commits. Statistics: `_archive/agent-suite/README-2026-10-21-agent-first-5cases.md`.
+- **Archived agent batch (TC-004–107)** — 51 cases, 2026-10-10 → 10-14. Statistics: `_archive/agent-suite/README.md`.
+- Local clones used for verbatim extraction: `_archive/_clones/` (read-only, shallow, commit pinned per case).
+
+---
+
+## 8. Naming convention
+
+`TC-{NNN}-{project-name}-{artifact-type}.{ext}`
+
+- `{artifact-type}` reflects what the case was originally collected as (`system-prompt`, `skill`, `tool-schema`, `multi-agent-suite`, `agent-suite`, `file-based-agents`).
+- The **folder** now reflects the loadable combination, which may differ from the filename suffix — for example `TC-031-...-file-based-agents.md` lives in `skill-only/`.
+- Filenames were not changed, so external references remain valid.
