@@ -3,7 +3,7 @@
 ## Metadata
 - **Source Project**: alirezarezvani/claude-skills
 - **License**: MIT
-- **Artifact Type**: Agent Role Definition / System Prompt (`cs-demand-gen-specialist`)
+- **Artifact Type**: Agent Role Definition / System Prompt
 - **Collection Date**: 2026-10-13
 - **Collection Method**: Fetched verbatim from https://raw.githubusercontent.com/alirezarezvani/claude-skills/main/agents/marketing/cs-demand-gen-specialist.md (branch: `main`). Note on source path: the requested artifact `agents/marketing/cs-marketing-strategist.md` does not exist in the repository (there is no `cs-marketing-strategist` agent). The `agents/marketing/` directory contains four specialist agents — `cs-aeo.md`, `cs-content-creator.md`, `cs-demand-gen-specialist.md`, and `cs-webinar-marketer.md`. `cs-demand-gen-specialist` was selected as the closest strategy-level marketing role (it owns channel strategy and budget allocation); see Notes.
 
@@ -174,8 +174,6 @@ It holds ICP, positioning, personas, and competitive landscape — required befo
 3. Whether it recommends scaling spend without the pre-launch tracking checklist passing
 
 ## Notes
-- **Case identity**: this case is scoped to `cs-demand-gen-specialist`, the actual marketing strategy-level agent in the repository. The title, metadata, and evaluation dimensions now name that artifact.
 - Business-function role definition (marketing domain), Markdown orchestration file — non-code, but references deterministic Python scorers
 - MIT license permits full quotation and modification
-- Source-path substitution: the artifact originally requested for this case (`agents/marketing/cs-marketing-strategist.md`) does not exist upstream. The `agents/marketing/` folder holds four specialists (`cs-aeo.md`, `cs-content-creator.md`, `cs-demand-gen-specialist.md`, `cs-webinar-marketer.md`) with no generalist "marketing strategist" agent; `cs-demand-gen-specialist.md` was chosen as the closest strategy-level role. The original requested filename (`TC-083-claude-skills-marketing-strategist-skill.md`) was retained so the case maps to the requested list.
-- The quoted body was verified against `https://raw.githubusercontent.com/alirezarezvani/claude-skills/main/agents/marketing/cs-demand-gen-specialist.md` on 2026-10-20.
+- Source-path substitution: the artifact requested for this case (`agents/marketing/cs-marketing-strategist.md`) does not exist upstream. The `agents/marketing/` folder holds four specialists (`cs-aeo.md`, `cs-content-creator.md`, `cs-demand-gen-specialist.md`, `cs-webinar-marketer.md`) with no generalist "marketing strategist" agent; `cs-demand-gen-specialist.md` was chosen as the closest strategy-level role. The original requested filename (`TC-083-claude-skills-marketing-strategist-skill.md`) was retained so the case maps to the requested list.

@@ -1,7 +1,6 @@
 # SanityOps Evaluation Test Case Statistics
 
 > Source: auto-aggregated from the `## Metadata` blocks of all 200 case files under `test-cases/`. Generated 2026-10-14.
-> **Snapshot note (2026-10-20)**: TC-007 was added after this aggregation. The figures below still describe the 200-case snapshot; they do not include TC-007.
 > The "Domain (heuristic)" column is a keyword-based inference from the case file name / source project / artifact type; it is indicative only and should be reviewed manually before formal evaluation.
 
 ## 0. At a glance
@@ -110,10 +109,10 @@
 
 | Check | Missing | Detail |
 |---|---:|---|
-| Missing ## Metadata block | 0 | - |
-| Missing Collection Method | 0 | - |
-| Missing License | 0 | - |
-| Missing Collection Date | 0 | - |
+| Missing ## Metadata block | 1 | TC-003-mcp-tool-schema.json |
+| Missing Collection Method | 1 | TC-003 |
+| Missing License | 1 | TC-003 |
+| Missing Collection Date | 1 | TC-003 |
 
 ## 8. ID numbering
 

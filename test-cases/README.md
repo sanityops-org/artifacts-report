@@ -9,15 +9,15 @@ This folder collects open-source Agent **logical artifact samples** (System Prom
   2. End-user-facing scenario (excludes code-development agents, dev toolchains, IDE plugins, development frameworks, and research simulations/benchmarks)
   3. Contains auditable logic artifacts (System Prompt / Skill / Tool Schema)
 
-## Current Progress — 201 cases
+## Current Progress — 200 cases
 
 | Object kind | Folder | Count | Meaning |
 |---|---|---|---|
 | Single logical artifact | `single-artifact/system-prompt/` | **50** | One System Prompt |
 | Single logical artifact | `single-artifact/skill/` | **50** | One Skill (`SKILL.md`) |
 | Single logical artifact | `single-artifact/tool-schema/` | **50** | One Tool Schema |
-| Complete Agent / group of Agents | `agent-suite/` | **51** | One Agent bundling multiple logical artifacts |
-| | **TOTAL** | **201** | |
+| Complete Agent / group of Agents | `agent-suite/` | **50** | One Agent bundling multiple logical artifacts |
+| | **TOTAL** | **200** | |
 
 ---
 
@@ -45,7 +45,7 @@ test-cases/
 │   ├── system-prompt/        # 50 System Prompt cases
 │   ├── skill/                # 50 Skill cases
 │   └── tool-schema/          # 50 Tool Schema cases
-└── agent-suite/              # 51 complete-Agent / group-of-Agents cases
+└── agent-suite/              # 50 complete-Agent / group-of-Agents cases
 ```
 
 Each `TC-*` file is self-describing: its `## Metadata` block records the source project, GitHub URL, license, artifact type, collection date, and the exact source URLs used to quote the artifact verbatim.
@@ -125,7 +125,6 @@ find test-cases/agent-suite                   -name "TC-*" | wc -l
 
 | Date | Update |
 |------|----------|
-| 2026-10-20 | Added **TC-007 OpenClaw three-layer suite** (`agent-suite/`): system prompt (`SOUL.md` / `AGENTS.md`) + Skill (`browser-automation/SKILL.md`) + tool schema (`browser`). Total **201 cases**. |
 | 2026-10-13 | Restructured to two evaluation-object kinds and expanded to **200 cases**: `single-artifact/` split into `system-prompt/` (50), `skill/` (50), `tool-schema/` (50); `agent-suite/` expanded to 50. Removed duplicate-project cases found during collection. |
 | 2026-10-13 | Merged the former `multi-agent-suite`, `file-based`, and `role-library` folders into `agent-suite/`. |
 | 2026-10-12 | Migrated 37 TC files from demo-agent. |

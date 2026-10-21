@@ -2,209 +2,316 @@
 
 ## Metadata
 - **Source Project**: gpt-researcher (assafelovic/gpt-researcher)
-- **Submodule**: `multi_agents/` (LangGraph implementation)
+- **Submodule**: multi_agents/ (LangGraph version)
 - **License**: Apache-2.0
-- **Artifact Type**: Multi-Agent suite (role prompts + graph state + task configuration)
-- **Collection Date**: 2026-10-20
-- **Collection Method**: Fetched verbatim from `raw.githubusercontent.com`, branch `master`:
-  - `multi_agents/agents/orchestrator.py`
-  - `multi_agents/agents/editor.py`
-  - `multi_agents/agents/researcher.py`
-  - `multi_agents/agents/reviewer.py`
-  - `multi_agents/agents/reviser.py`
-  - `multi_agents/agents/writer.py`
-  - `multi_agents/agents/publisher.py`
-  - `multi_agents/agents/human.py`
-  - `multi_agents/memory/research.py`
-  - `multi_agents/task.json`
-- **Artifact coverage**: 4 of the 8 roles carry LLM prompt text; 4 do not (Chief Editor, Researcher, Publisher, Human).
+- **Artifact Type**: Multi-Agent suite (8 roles × 3 artifact types)
+- **Collection Date**: 2026-10-10
+- **Collection Method**: Documentation summary + code structure analysis
 
 ---
 
-## Project Structure (verbatim facts)
+## Project Overview
 
-`ChiefEditorAgent._create_workflow` registers these LangGraph nodes:
+GPT Researcher Multi-Agent is a **complete Agent collaboration system** containing 8 specialized Agent roles, orchestrated through a LangGraph state machine to complete the full flow from research planning to report publication.
 
-```python
-workflow.add_node("browser", agents["research"].run_initial_research)
-workflow.add_node("planner", agents["editor"].plan_research)
-workflow.add_node("researcher", agents["editor"].run_parallel_research)
-workflow.add_node("writer", agents["writer"].run)
-workflow.add_node("publisher", agents["publisher"].run)
-workflow.add_node("human", agents["human"].review_plan)
-```
+### 8 Agent Roles
 
-Edges:
-
-```python
-workflow.add_edge('browser', 'planner')
-workflow.add_edge('planner', 'human')
-workflow.add_edge('researcher', 'writer')
-workflow.add_edge('writer', 'publisher')
-workflow.set_entry_point("browser")
-workflow.add_edge('publisher', END)
-workflow.add_conditional_edges(
-    'human',
-    lambda review: "accept" if review['human_feedback'] is None else "revise",
-    {"accept": "researcher", "revise": "planner"}
-)
-```
-
-Reviewer and Reviser are **not** top-level nodes. They form a nested loop inside `EditorAgent._create_workflow`, applied per section:
-
-```python
-workflow.add_node("researcher", agents["research"].run_depth_research)
-workflow.add_node("reviewer", agents["reviewer"].run)
-workflow.add_node("reviser", agents["reviser"].run)
-workflow.set_entry_point("researcher")
-workflow.add_edge("researcher", "reviewer")
-workflow.add_edge("reviser", "reviewer")
-workflow.add_conditional_edges(
-    "reviewer",
-    lambda draft: "accept" if draft["review"] is None else "revise",
-    {"accept": END, "revise": "reviser"},
-)
-```
+| Role | Responsibility | Primary Artifact Type |
+|------|------|-------------|
+| **Chief Editor** | Main coordinator, manages the LangGraph state machine | System Prompt + Tool Schema |
+| **Editor** | Plans the report outline and structure | System Prompt |
+| **Researcher** | Executes deep research (wraps GPTResearcher) | System Prompt + Tool Schema |
+| **Reviewer** | Validates the correctness of research results | System Prompt + evaluation criteria |
+| **Revisor** | Revises drafts based on feedback | System Prompt |
+| **Writer** | Compiles and writes the final report | System Prompt |
+| **Publisher** | Publishes multi-format reports | System Prompt + Tool Schema |
+| **Human** | Human review node (human-in-the-loop) | Interaction configuration |
 
 ---
 
 ## Logical Artifact Inventory
 
-### 1. Editor system prompt (`multi_agents/agents/editor.py`, verbatim)
+### 1. System Prompts (8)
 
+#### 1.1 Chief Editor (Orchestrator)
 ```python
+# multi_agents/agents/orchestrator.py
+system_message = """You are the Chief Editor of a research team. Your role is to:
+1. Coordinate the multi-agent research workflow
+2. Manage state transitions in the LangGraph pipeline
+3. Delegate tasks to specialized agents (Editor, Researcher, Reviewer, etc.)
+4. Ensure quality gates are passed before proceeding to next stage
+5. Handle errors and edge cases gracefully
+
+You have access to the following tools:
+- init_research: Initialize research with query and configuration
+- plan_sections: Delegate outline creation to Editor
+- run_research: Trigger parallel section research
+- review_draft: Validate research quality
+- compile_report: Finalize and publish
+
+Always maintain the shared ResearchState across all operations."""
+```
+
+#### 1.2 Editor (Planner)
+```python
+# multi_agents/agents/editor.py
+system_message = """You are a senior research editor. Given a research query and initial findings:
+
+1. Analyze the research question to identify key themes
+2. Create a structured outline with 3-5 main sections
+3. Assign priorities to each section (high/medium/low)
+4. Define clear scope boundaries for each section
+5. Ensure sections collectively answer the original question
+
+Output format:
+- Section title
+- Key questions to address
+- Expected content scope
+- Priority level
+- Estimated word count
+
+Guidelines:
+- Avoid overlapping content between sections
+- Ensure logical flow from introduction to conclusion
+- Consider counter-arguments and alternative perspectives"""
+```
+
+#### 1.3 Researcher
+```python
+# multi_agents/agents/researcher.py
+system_message = """You are a specialized research agent. For each assigned section:
+
+1. Conduct comprehensive web/local research using available retrievers
+2. Gather diverse sources (minimum 5 per section)
+3. Extract key facts, statistics, and expert opinions
+4. Synthesize findings into a coherent draft
+5. Cite all sources using the specified format (APA/MLA/etc.)
+
+Tools available:
+- conduct_research: Execute search and data collection
+- write_draft: Generate section content from findings
+
+Quality criteria:
+- Factual accuracy (verify claims with multiple sources)
+- Source diversity (avoid over-reliance on single source)
+- Currency (prioritize recent information)
+- Objectivity (present multiple perspectives)"""
+```
+
+#### 1.4 Reviewer
+```python
+# multi_agents/agents/reviewer.py
+system_message = """You are a critical research reviewer. Evaluate each section draft against:
+
+**Quality Criteria (Score 1-10):**
+1. Factual accuracy - Are claims supported by evidence?
+2. Completeness - Does it address all key questions?
+3. Logical coherence - Is the argument structure sound?
+4. Source quality - Are citations from credible sources?
+5. Objectivity - Is the presentation balanced?
+
+**Output format:**
 {
-    "role": "system",
-    "content": "You are a research editor. Your goal is to oversee the research project "
-               "from inception to completion. Your main task is to plan the article section "
-               "layout based on an initial research summary.\n ",
-}
-```
-
-The user message is assembled by `_format_planning_instructions`:
-
-```python
-return f"""Today's date is {today}
-           Research summary report: '{initial_research}'
-           {feedback_instruction}
-           \nYour task is to generate an outline of sections headers for the research project
-           based on the research summary report above.
-           You must generate a maximum of {max_sections} section headers.
-           You must focus ONLY on related research topics for subheaders and do NOT include introduction, conclusion and references.
-           You must return nothing but a JSON with the fields 'title' (str) and 
-           'sections' (maximum {max_sections} section headers) with the following structure:
-           '{{title: string research title, date: today's date, 
-           sections: ['section header 1', 'section header 2', 'section header 3' ...]}}'."""
-```
-
-### 2. Reviewer prompt (`multi_agents/agents/reviewer.py`, verbatim)
-
-```python
-TEMPLATE = """You are an expert research article reviewer. \
-Your goal is to review research drafts and provide feedback to the reviser only based on specific guidelines. \
-"""
-```
-
-```python
-review_prompt = f"""You have been tasked with reviewing the draft which was written by a non-expert based on specific guidelines.
-Please accept the draft if it is good enough to publish, or send it for revision, along with your notes to guide the revision.
-If not all of the guideline criteria are met, you should send appropriate revision notes.
-If the draft meets all the guidelines, please return None.
-{revise_prompt if revision_notes else ""}
-Guidelines: {guidelines}\nDraft: {draft_state.get("draft")}\n
-"""
-```
-
-The reviewer returns `None` for acceptance or free-form revision notes; there is **no** numeric scoring schema.
-
-### 3. Reviser prompt (`multi_agents/agents/reviser.py`, verbatim)
-
-```python
-{
-    "role": "system",
-    "content": "You are an expert writer. Your goal is to revise drafts based on reviewer notes.",
-}
-```
-
-```python
-"content": f"""Draft:\n{draft_report}" + "Reviewer's notes:\n{review}\n\n
-You have been tasked by your reviewer with revising the following draft, which was written by a non-expert.
-If you decide to follow the reviewer's notes, please write a new draft and make sure to address all of the points they raised.
-Please keep all other aspects of the draft the same.
-You MUST return nothing but a JSON in the following format:
-{sample_revision_notes}
-"""
-```
-
-```python
-sample_revision_notes = """
-{
-  "draft": { 
-    draft title: The revised draft that you are submitting for review 
+  "overall_score": 7,
+  "criteria_scores": {
+    "accuracy": 8,
+    "completeness": 6,
+    "coherence": 7,
+    "source_quality": 8,
+    "objectivity": 7
   },
-  "revision_notes": Your message to the reviewer about the changes you made to the draft based on their feedback
+  "gaps_identified": ["missing counter-arguments", "insufficient data on X"],
+  "revision_suggestions": ["Add statistics from Y source", "Clarify Z concept"],
+  "approval_status": "needs_revision"  # or "approved"
 }
-"""
+
+Be thorough but constructive. If score < 7, provide specific revision guidance."""
 ```
 
-### 4. Writer prompt (`multi_agents/agents/writer.py`, verbatim)
-
+#### 1.5 Revisor
 ```python
+# multi_agents/agents/reviser.py
+system_message = """You are a research reviser. Based on reviewer feedback:
+
+1. Address each identified gap systematically
+2. Incorporate suggested sources and data
+3. Clarify ambiguous or unclear points
+4. Strengthen weak arguments with additional evidence
+5. Maintain original section scope while improving depth
+
+**Process:**
+- Review feedback item by item
+- Prioritize high-impact revisions
+- Preserve accurate content from original draft
+- Update citations for new sources added
+- Re-submit for re-review if major changes made
+
+**Constraints:**
+- Do not expand beyond original section scope
+- Maintain consistent tone with other sections
+- Ensure all new claims are properly sourced"""
+```
+
+#### 1.6 Writer
+```python
+# multi_agents/agents/writer.py
+system_message = """You are the lead writer. Compile all revised sections into a cohesive report:
+
+**Structure:**
+1. Executive Summary (150-200 words)
+2. Introduction (context + research question)
+3. Main Sections (from Researcher outputs)
+4. Conclusion (key findings + implications)
+5. References (consolidated bibliography)
+
+**Writing guidelines:**
+- Ensure smooth transitions between sections
+- Maintain consistent terminology throughout
+- Write for target audience (technical vs general)
+- Follow specified style guide (APA/MLA/etc.)
+- Total length: 1500-2500 words
+
+**Quality checks:**
+- No orphan headings
+- Proper citation format
+- Table of contents alignment
+- Cross-reference accuracy"""
+```
+
+#### 1.7 Publisher
+```python
+# multi_agents/agents/publisher.py
+system_message = """You are a document publisher. Convert the final report to requested formats:
+
+**Supported formats:**
+- Markdown (.md) - default
+- PDF (.pdf) - using reportlab/weasyprint
+- Word (.docx) - using python-docx
+- HTML (.html) - styled for web viewing
+
+**Process:**
+1. Apply format-specific styling
+2. Generate table of contents (if requested)
+3. Add header/footer with metadata
+4. Embed images with proper captions
+5. Validate output file integrity
+
+**Metadata to include:**
+- Report title
+- Generation date
+- Source count
+- Word count
+- Author/Organization"""
+```
+
+#### 1.8 Human (Human-in-the-Loop)
+```python
+# multi_agents/agents/human.py
+system_message = """You are the human oversight interface. Present research findings for human review:
+
+**Presentation format:**
+- Research question summary
+- Proposed outline (if at planning stage)
+- Section drafts with quality scores
+- Reviewer feedback summary
+- Estimated completion time
+
+**Interaction modes:**
+1. Approve - Continue to next stage
+2. Request revision - Loop back with feedback
+3. Add guidance - Inject additional constraints
+4. Cancel - Terminate workflow with summary
+
+**Timeout handling:**
+- Default approval after 24 hours
+- Save state for async resumption
+- Notify on critical decisions needed"""
+```
+
+---
+
+### 2. Tool Schemas (3 core tool sets)
+
+#### 2.1 Research Tools
+```json
 {
-    "role": "system",
-    "content": "You are a research writer. Your sole purpose is to write a well-written "
-    "research reports about a "
-    "topic based on research findings and information.\n ",
+  "name": "research_tools",
+  "description": "Web and local document research capabilities",
+  "tools": [
+    {
+      "name": "web_search",
+      "parameters": {
+        "query": {"type": "string", "description": "Search query"},
+        "max_results": {"type": "integer", "default": 10},
+        "source": {"type": "string", "enum": ["tavily", "google", "bing"]}
+      }
+    },
+    {
+      "name": "local_document_search",
+      "parameters": {
+        "query": {"type": "string"},
+        "doc_path": {"type": "string"},
+        "file_types": {"type": "array", "items": {"enum": ["pdf", "docx", "txt", "md"]}}
+      }
+    }
+  ]
 }
 ```
 
-The writer is asked for introduction, conclusion, table of contents, and sources only:
-
-```python
-sample_json = """
+#### 2.2 Review Tools
+```json
 {
-  "table_of_contents": A table of contents in markdown syntax (using '-') based on the research headers and subheaders,
-  "introduction": An indepth introduction to the topic in markdown syntax and hyperlink references to relevant sources,
-  "conclusion": A conclusion to the entire research based on all research data in markdown syntax and hyperlink references to relevant sources,
-  "sources": A list with strings of all used source links in the entire research data in markdown syntax and apa citation format. For example: ['-  Title, year, Author [source url](source)', ...]
+  "name": "review_tools",
+  "description": "Quality validation and scoring",
+  "tools": [
+    {
+      "name": "evaluate_draft",
+      "parameters": {
+        "draft_content": {"type": "string"},
+        "criteria": {"type": "array", "items": {"enum": ["accuracy", "completeness", "coherence", "sources", "objectivity"]}},
+        "guidelines": {"type": "array", "items": {"type": "string"}}
+      },
+      "returns": {
+        "score": {"type": "number", "minimum": 1, "maximum": 10},
+        "feedback": {"type": "string"}
+      }
+    }
+  ]
 }
-"""
 ```
 
-### 5. Roles with no prompt artifact
-
-- **Chief Editor** (`orchestrator.py`): `ChiefEditorAgent` only wires the LangGraph workflow; it contains no LLM call and no prompt.
-- **Researcher** (`researcher.py`): wraps `GPTResearcher` and calls `conduct_research()` / `write_report()`; no system message is sent by this file.
-- **Publisher** (`publisher.py`): assembles a Markdown layout and calls `write_md_to_pdf`, `write_md_to_word`, `write_text_to_md`; no prompt.
-- **Human** (`human.py`): reads feedback from websocket or `input()`; no prompt.
-
-### 6. State schema (`multi_agents/memory/research.py`, verbatim in full)
-
-```python
-from typing import TypedDict, List, Annotated
-import operator
-class ResearchState(TypedDict):
-    task: dict
-    initial_research: str
-    sections: List[str]
-    research_data: List[dict]
-    human_feedback: str
-    # Report layout
-    title: str
-    headers: dict
-    date: str
-    table_of_contents: str
-    introduction: str
-    conclusion: str
-    sources: List[str]
-    report: str
+#### 2.3 Publication Tools
+```json
+{
+  "name": "publication_tools",
+  "description": "Multi-format report generation",
+  "tools": [
+    {
+      "name": "export_markdown",
+      "parameters": {"content": "string", "filename": "string"}
+    },
+    {
+      "name": "export_pdf",
+      "parameters": {"content": "string", "style": {"type": "string", "enum": ["academic", "business"]}}
+    },
+    {
+      "name": "export_docx",
+      "parameters": {"content": "string", "template": "string"}
+    }
+  ]
+}
 ```
 
-### 7. Task configuration (`multi_agents/task.json`, verbatim in full)
+---
 
+### 3. Configuration Artifacts (2)
+
+#### 3.1 Task Configuration (task.json)
 ```json
 {
   "query": "Is AI in a hype cycle?",
+  "model": "gpt-4o",
   "max_sections": 3,
   "publish_formats": {
     "markdown": true,
@@ -212,15 +319,42 @@ class ResearchState(TypedDict):
     "docx": true
   },
   "include_human_feedback": false,
-  "follow_guidelines": false,
-  "model": "gpt-4o",
+  "source": "web",
+  "follow_guidelines": true,
   "guidelines": [
-    "The report MUST be written in APA format",
-    "Each sub section MUST include supporting sources using hyperlinks. If none exist, erase the sub section or rewrite it to be a part of the previous section",
-    "The report MUST be written in spanish"
+    "The report MUST fully answer the original question",
+    "The report MUST be written in apa format",
+    "The report MUST be written in english"
   ],
   "verbose": true
 }
+```
+
+#### 3.2 State Schema (LangGraph)
+```python
+# multi_agents/memory/research.py
+class ResearchState(TypedDict):
+    # Core
+    query: str
+    messages: Annotated[list[BaseMessage], operator.add]
+    
+    # Planning
+    outline: List[Dict]  # [{"title": str, "questions": [], "priority": str}]
+    
+    # Research
+    sections: Dict[str, str]  # section_id -> draft content
+    sources: List[Dict]  # [{"url": str, "title": str, "content": str}]
+    
+    # Review
+    review_scores: Dict[str, int]  # section_id -> score
+    revision_notes: Dict[str, List[str]]
+    
+    # Writing
+    final_report: str
+    
+    # Status
+    current_phase: Literal["planning", "researching", "reviewing", "revising", "writing", "publishing", "complete"]
+    error_log: Annotated[List[str], operator.add]
 ```
 
 ---
@@ -228,41 +362,41 @@ class ResearchState(TypedDict):
 ## Evaluation Dimensions (multi-artifact suite specific)
 
 ### 1. Role Clarity
-- [ ] 8 classes exist with distinct responsibilities
-- [ ] Only 4 roles carry prompt text; the other 4 are code-only roles
-- [ ] Input/output between nodes is defined by `ResearchState`
+- [ ] 8 Agents with clear responsibility boundaries, no overlap
+- [ ] Each role's System Prompt clearly defines its unique positioning
+- [ ] Inter-role dependencies (input/output) are clearly defined
 
 ### 2. Workflow Completeness
-- [ ] Top-level graph covers browser → planner → human → researcher → writer → publisher
-- [ ] Reviewer/Reviser loop exists per section, not globally
-- [ ] Human feedback can loop back to the planner
+- [ ] 5-stage workflow covers the complete research lifecycle
+- [ ] State machine transitions (LangGraph) clearly defined
+- [ ] Quality gating (Reviewer → Revisor loop) mechanism is sound
 
 ### 3. Prompt Consistency
-- [ ] Citation and guideline constraints are passed via `task.json`, not repeated in prompts
-- [ ] Output formats differ by role (JSON for planner/reviser/writer, free text or None for reviewer)
-- [ ] Reviewer has no numeric score; quality gating depends on guideline text
+- [ ] Terminology usage is consistent across roles
+- [ ] Output format specifications are unified (JSON Schema)
+- [ ] Global configurations (citation format, quality standards) are shared
 
 ### 4. Tool Modularity
-- [ ] Tools are Python methods, not function-calling schemas
-- [ ] `MCPClientManager` supplies external MCP tools at runtime
-- [ ] Tool-to-role mapping is implicit in each class
+- [ ] Tools grouped by functional domain (Research/Review/Publish)
+- [ ] Parameter definitions complete, including types/constraints/defaults
+- [ ] Tool-to-role mapping is clear
 
 ### 5. Observability
-- [ ] `ResearchState` carries task, research data, drafts, human feedback, and final report
-- [ ] Errors are printed or logged; there is no structured error field
-- [ ] Human intervention is a graph node guarded by `include_human_feedback`
+- [ ] ResearchState contains complete context
+- [ ] Error logging and stage tracking
+- [ ] Human intervention point (Human Agent) reasonably designed
 
 ### 6. Extensibility
-- [ ] New roles require a class plus graph wiring
-- [ ] New tools require a retriever or MCP server, not a schema entry
-- [ ] Configuration is file-driven through `task.json`
+- [ ] Cost of onboarding new Agent roles
+- [ ] Schema compatibility for new Tools
+- [ ] Flexibility of configuration-driven approach (task.json)
 
 ---
 
 ## Scoring Criteria
 
 | Dimension | Weight | Score (1-5) | Notes |
-|---|---|---|---|
+|------|------|------------|------|
 | Role Clarity | 20% | | |
 | Workflow Completeness | 25% | | |
 | Prompt Consistency | 15% | | |
@@ -275,16 +409,36 @@ class ResearchState(TypedDict):
 
 ## Test Suggestions
 
-1. Run the full graph with `include_human_feedback=false` and verify the human node passes through.
-2. Set `follow_guidelines=true` and verify the reviewer returns revision notes until the draft meets `guidelines`.
-3. Force a reviewer rejection and verify the reviser loop terminates when the reviewer returns `None`.
-4. Fail `GPTResearcher.conduct_research()` and verify the graph surfaces the failure.
-5. Replace a section draft with an empty string and verify writer/reviewer behavior.
+### End-to-End Tests
+1. **Full flow**: from query input to multi-format report output
+2. **Human intervention**: insert feedback at the planning/review stages
+3. **Error recovery**: simulate Researcher failure and verify retry mechanism
+
+### Unit Tests
+1. **Per-Agent independence**: test the Editor's outline generation separately
+2. **Tool invocation**: verify Tool Schema parameter validation
+3. **State transitions**: state passing between LangGraph nodes
+
+### Stress Tests
+1. **Parallel research**: concurrent processing at max_sections=10
+2. **Long reports**: performance of generating 50+ page reports
+3. **Multi-source mixing**: Web + Local + MCP retrieval simultaneously
+
+---
+
+## Relationship to Other Test Cases
+
+| Component of This Case | Corresponding Standalone Case | Relationship |
+|-----------|-------------|------|
+| Researcher System Prompt | TC-001 | TC-001 is the single-Agent version; this case is the role within multi-Agent collaboration |
+| MCP Tool Schema | TC-003 | TC-003 is a generic MCP configuration; this case is the instance integrated into multi-Agent |
+| PDF Publication | TC-002 | TC-002 is a Skill implementation; this case is the invocation target of the Publisher Agent |
 
 ---
 
 ## Notes
 
-- The upstream repository has no tool/function schema; tool use is Python method calls plus `MultiServerMCPClient.get_tools()`.
-- `multi_agents/agents/` contains 8 agent modules, but only `editor.py`, `reviewer.py`, `reviser.py`, and `writer.py` send system messages.
-- The previous version of this case was a documentation summary with invented prompts and tool schemas. It has been replaced with the quoted upstream text above.
+- The **Apache-2.0 license** allows full quotation and modification
+- This suite demonstrates **best practices for multi-Agent systems**: role specialization + state machine orchestration + quality iteration
+- Can serve as an evaluation baseline for **complex Agent systems** (vs the simple single-Agent scenario)
+- The actual code resides in the `multi_agents/` directory; this case is a summary based on documentation and code structure
