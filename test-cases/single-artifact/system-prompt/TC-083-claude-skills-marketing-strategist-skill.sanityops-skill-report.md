@@ -1,3 +1,5 @@
+> **STALE (2026-10-20)**: the inspected artifact was replaced with upstream-verified content. Re-run the inspection before using these findings.
+
 # SanityOps Inspect Lite - Report
 
 Artifact: TC-083-claude-skills-marketing-strategist-skill.md (System Prompt / Agent Role Definition; source file cs-demand-gen-specialist.md)

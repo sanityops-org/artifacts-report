@@ -1,178 +1,209 @@
-# TC-106: PrivateGPT - Agent Suite Evaluation Case
+# TC-106: PrivateGPT - Chat Prompt Template Suite
 
 ## Metadata
 - **Source Project**: PrivateGPT (zylon-ai/private-gpt)
-- **Submodule**: `private_gpt/components/prompts/` (prompt components) + `private_gpt/components/llm/prompt_helper.py` (prompt-style/tokenizer dispatch) + built-in tool components (`code_execution/`, `database/`, `multimodality/`, `files/`) + `private_gpt/components/chat/`
 - **License**: Apache-2.0
-- **Artifact Type**: Single-Agent suite (private AI application layer: messages API + retrieval-with-citations + built-in tools + custom tools + MCP connectors + skills)
-- **Collection Date**: 2026-10-13
-- **Collection Method**: GitHub API metadata + README + raw source / file-tree retrieval, exact URLs:
-  - `https://github.com/zylon-ai/private-gpt`
-  - `https://raw.githubusercontent.com/zylon-ai/private-gpt/main/README.md`
-  - `https://raw.githubusercontent.com/zylon-ai/private-gpt/main/private_gpt/components/llm/prompt_helper.py`
-  - `https://api.github.com/repos/zylon-ai/private-gpt/contents/private_gpt/components` (directory listing)
-  - `https://api.github.com/repos/zylon-ai/private-gpt/contents/private_gpt/components/chat` (directory listing)
-  - `https://data.jsdelivr.com/v1/packages/gh/zylon-ai/private-gpt@main` (file-tree listing)
-  - `https://api.github.com/repos/zylon-ai/private-gpt` (repository metadata, license = Apache-2.0)
+- **Artifact Type**: System prompt / prompt template suite (Jinja2 templates loaded by the chat pipeline)
+- **Collection Date**: 2026-10-20
+- **Collection Method**: Fetched verbatim from `raw.githubusercontent.com`, branch `main`:
+  - `private_gpt/components/prompts/templates/chat/system/base.j2`
+  - `private_gpt/components/prompts/templates/chat/condense/condense.j2`
+  - `private_gpt/components/prompts/templates/context/context.j2`
+  - `private_gpt/components/prompts/prompt_builder.py`
+  - `private_gpt/components/prompts/prompt_template.py`
+- **Re-scope note**: The previous version of this case quoted README tables and directory listings instead of prompt text. It has been replaced with the actual templates.
 
 ---
 
-## Project Overview
+## Original Artifact Content
 
-PrivateGPT is an open-source **API layer that turns locally-run models into production AI applications**. It is an end-user-facing private assistant: it ships a workbench chat UI, document ingestion with citations, agentic RAG, and a tool/skill surface — while connecting to any OpenAI-compatible inference server.
+### 1. Chat system prompt (`chat/system/base.j2`, verbatim in full)
 
-From the project README (verbatim):
-
-> "**PrivateGPT is the open-source API layer that turns local models into production AI applications.**"
-
-> "PrivateGPT ships a built-in workbench UI for testing and demos, available at `/ui`. The API is the actual product."
-
-> "## What PrivateGPT gives you
-> - Standard messages API (streaming, async, token counting)
-> - File and artifact ingestion
-> - Retrieval with citations and agentic RAG
-> - Built-in tools mirroring the Claude API (web search, web fetch, code execution)
-> - Custom tools and MCP connectors
-> - Structured access to databases and CSVs
-> - Embeddings and orchestration"
-
-> "PrivateGPT started as a proof of concept in 2023: a script that let you chat with your documents, fully offline, with no data leaving your machine. It went viral on GitHub, crossed 50K stars..."
-
----
-
-## Logical Artifact Inventory
-
-### 1. Tool / Skill Surface (from README, verbatim — Claude-API compatibility table)
-
-| Area | Capability | PrivateGPT |
-|---|---|---|
-| Tools | Tool use | ✅ |
-| Tools | Tools in streaming | ✅ |
-| Tools | Built-in web search | ✅ |
-| Tools | Web extraction / fetch | ✅ |
-| Tools | Custom tools | ✅ |
-| Data | Database querying | ✅ built-in |
-| Data | CSV / tabular analysis | ✅ built-in |
-| Agents | MCP in the API | ✅ |
-| Agents | Remote MCP servers | ✅ |
-| Agents | Skills | ⚙️ basic |
-
-### 2. Prompt Components (`private_gpt/components/prompts/`, directory verification)
-
-The repository ships a dedicated prompt component package (verified as a directory under `private_gpt/components/` via the GitHub contents API and the jsDelivr file tree). Prompt-style dispatch is wired through the LLM component:
-
-```
-private_gpt/components/prompts/               (prompt components)
-private_gpt/components/llm/prompt_helper.py   (prompt style + tokenizer dispatch)
+```jinja
+You are {{ assistant_name }}, an AI assistant.
+{% if assistant_description is defined and assistant_description != "" %}
+{{ assistant_description }}
+{% endif %}
+{% if system_prompt is defined and system_prompt != "" %}
+{{ system_prompt }}
+{% endif %}
+{% if current_date is defined and current_date != "" %}
+Current date: {{ current_date }}.
+{% endif %}
+{% block guidelines_block %}
+{% endblock %}
+{% block context_block %}
+{% endblock %}
 ```
 
-### 3. Prompt-style dispatch (`private_gpt/components/llm/prompt_helper.py`, verbatim)
+### 2. Follow-up condensing prompt (`chat/condense/condense.j2`, verbatim in full)
 
+```jinja
+Your task is to rewrite follow-up questions into clear, standalone questions that can be understood without chat history context.
+Given a chat history and a follow-up question, create a self-contained question that:
+1. Can be understood without any chat history
+2. Captures all relevant information from both history and follow-up
+3. Is optimized for semantic search
+4. Contains only the question itself (no explanations or additional text)
+5. Stays as-is if the follow-up is unrelated to chat history
+{% if max_words is defined and max_words != "0" %}
+6. Uses no more than {{ max_words }} words
+{% endif %}
+Guidelines:
+- Replace pronouns (it, they, he, she) with their actual references from chat history
+- Replace comparative references ("better", "worse") with specific items being compared
+- Include quoted content from chat history when referenced
+- Keep the question as-is if it's already self-contained
+- Output only the rewritten question - no additional text
+{% if max_words is defined and max_words != "0" %}
+- Stay within {{ max_words }} words
+{% endif %}
+{% if few_shots == "True" %}
+Examples:
+Chat History: User asked about best practices for React component lifecycle methods.
+Follow-up: "How do I implement these in my code?"
+Standalone Question: How do I implement React component lifecycle methods in my code?
+Chat History: User asked about MongoDB and SQL performance.
+Follow-up: "Which one is better for high traffic?"
+Standalone Question: Which database is better between MongoDB and SQL for high traffic?
+Chat History: User discussed React hooks and their benefits in functional components.
+Follow-up: "Can these solve the problems we talked about with those?"
+Standalone Question: Can React hooks solve state management problems in functional components?
+Chat History: User asked about Tesla's newest car model.
+Follow-up: "What is the capital of Germany?"
+Standalone Question: What is the capital of Germany?
+{% endif %}
+{% if chat_history is defined and chat_history != "" %}
+Chat History:
+{{ chat_history }}
+{% endif %}
+Follow-up Question: {{ question }}
+Standalone Question:
 ```
-def get_prompt_style(
-    prompt_style: str,
-    *args: Any,
-    **kwargs: Any,
-) -> PromptStyleBase:
-    """Get a tokenizer formatter by name."""
-    from private_gpt.components.llm.prompt_styles.registry import PromptStyleRegistry
-    return PromptStyleRegistry.get_prompt_style(
-        prompt_style,
-        *args,
-        **kwargs,
-    )
+
+### 3. Retrieval context block (`context/context.j2`, verbatim in full)
+
+```jinja
+{% if included_in_system_prompt is defined and included_in_system_prompt %}
+**Context Information**:
+Below is important information to help you provide the most accurate and relevant responses.
+=====================
+{% endif %}
+{{ context_str }}
+{% if included_in_system_prompt %}
+=====================
+{% endif %}
 ```
 
-### 4. Component Inventory (`private_gpt/components/` — directory listing, verbatim, abbreviated)
+### 4. Prompt assembly (`prompt_builder.py`, verbatim excerpt)
 
+```python
+    def create_chat_system_prompt(
+        self,
+        assistant_name: str | None = None,
+        assistant_description: str | None = None,
+        system_prompt: str | None = None,
+        current_date: datetime | None = None,
+    ) -> BasePromptTemplate:
+        if not current_date:
+            current_date = datetime.now()
+        return self.template_service.create_prompt_template(
+            "chat/system/base.j2",
+            system_prompt=None,
+            assistant_name=assistant_name or settings().chat.assistant_name,
+            assistant_description=assistant_description
+            or settings().chat.assistant_description,
+            # ... (date and remaining kwargs elided at the excerpt boundary)
+            current_date=current_date.astimezone().date().isoformat(),
+        )
 ```
-chat/            (models/, processors/ — request/response processing)
-code_execution/  (code execution tool)
-context/         database/       embedding/      engines/
-files/           filesystems/    ingest/         ingestion/
-llm/             (prompt_helper.py, prompt_styles/, tokenizers/)
-markdown/        memory/         migrations/     model_discovery/
-multimodality/   node_store/     persistence/    postgres/
-postprocessor/   prompts/        ...
+
+```python
+    def create_chat_condense_prompt(
+        self,
+        question: str,
+        chat_history: list[ChatMessage],
+        max_words: int = 0,
+        few_shots: bool = True,
+    ) -> BasePromptTemplate:
+        return self.template_service.create_prompt_template(
+            "chat/condense/condense.j2",
+            question=question,
+            chat_history=chat_history,
+            max_words=max_words,
 ```
 
-### 5. Integrations (README, verbatim)
+### 5. Template loader (`prompt_template.py`, verbatim excerpt)
 
-> "PrivateGPT works natively as the local backend for the tools developers and end users already use."
-> - Claude Code · Claude Desktop / Cowork · Claude for Microsoft 365 · OpenCode
-> - Also: n8n, OpenClaw, Hermes Agent, VS Code, Cline
+```python
+@singleton
+class PromptTemplateService:
+    def __init__(self, templates_dir: Path = prompt_templates_path) -> None:
+        self.templates_dir = templates_dir
+        self.env = Environment(
+            loader=FileSystemLoader(templates_dir),
+            trim_blocks=True,
+            lstrip_blocks=True,
+            extensions=["jinja2.ext.do"],
+        )
+```
 
 ---
 
 ## Evaluation Dimensions
 
-### 1. Role & Capability Clarity
-- [ ] Assistant role and system prompt are configurable per chat
-- [ ] Built-in tools (web search, web fetch, code execution) are distinctly declared
-- [ ] Skills and custom tools are separated from built-in tools
+### 1. Instruction Clarity
+- [ ] Assistant identity and description are parameterized, not hardcoded
+- [ ] Date is injected once and formatted unambiguously
+- [ ] Optional blocks degrade cleanly when empty
 
-### 2. Workflow Completeness
-- [ ] Messages API (streaming, async, token counting) → retrieval (citations) → tool use → answer
-- [ ] Agentic RAG path distinct from plain retrieval
-- [ ] Request/response processors normalise model I/O
+### 2. Grounding and Context
+- [ ] Retrieved context is delimited from instructions
+- [ ] Context can be embedded in the system prompt or sent separately
+- [ ] No instruction inside retrieved text can override the system prompt boundary
 
-### 3. Prompt Consistency
-- [ ] Prompt styles dispatched by name via `PromptStyleRegistry`
-- [ ] Tokenizer/prompt-style abstraction keeps prompts model-agnostic
-- [ ] Prompt components centralised under `private_gpt/components/prompts/`
+### 3. Condensing Behavior
+- [ ] Follow-up rewriting preserves entities from history
+- [ ] Unrelated questions are left unchanged
+- [ ] Word limits are honored when configured
 
-### 4. Tool Modularity
-- [ ] Each tool is its own component directory (code_execution, database, multimodality, files)
-- [ ] Custom tools and MCP connectors pluggable
-- [ ] Built-in tools mirror the Claude API surface
+### 4. Template Extensibility
+- [ ] Blocks (`guidelines_block`, `context_block`) allow overrides
+- [ ] Templates are loaded by path, not concatenated in code
+- [ ] New prompts follow the same `.j2` convention
 
-### 5. Observability
-- [ ] API Debugger in the workbench UI (inspect requests/responses)
-- [ ] Token-based auth; structured outputs
-- [ ] Retrieval with citations
-
-### 6. Extensibility
-- [ ] Any OpenAI-compatible inference server (Ollama, llama.cpp, vLLM)
-- [ ] MCP (local + remote) connectors
-- [ ] Skills system (basic, in progress)
+### 5. Testability
+- [ ] Rendered prompts can be snapshotted
+- [ ] Empty and missing variables produce deterministic output
+- [ ] Condensing can be evaluated with paired history/question cases
 
 ---
 
 ## Scoring Criteria
 
 | Dimension | Weight | Score (1-5) | Notes |
-|------|------|------------|------|
-| Role & Capability Clarity | 15% | | |
-| Workflow Completeness | 20% | | |
-| Prompt Consistency | 15% | | |
-| Tool Modularity | 25% | | |
-| Observability | 15% | | |
-| Extensibility | 10% | | |
+|---|---|---|---|
+| Instruction Clarity | 20% | | |
+| Grounding and Context | 25% | | |
+| Condensing Behavior | 20% | | |
+| Template Extensibility | 20% | | |
+| Testability | 15% | | |
 | **Total** | 100% | | |
 
 ---
 
 ## Test Suggestions
 
-### End-to-End Tests
-1. **Document RAG**: ingest a PDF, ask a question, and verify a cited answer via the workbench UI.
-2. **Built-in tool**: ask a question requiring web search and confirm the built-in web-search tool is invoked.
-3. **Custom tool / MCP**: register a custom tool (or MCP connector) and verify it is callable and surfaces in the UI.
-
-### Unit Tests
-1. **Prompt style dispatch**: `get_prompt_style(...)` returns the registered style; unknown names raise.
-2. **Tool registry**: assert built-in tools are individually addressable components.
-3. **Streaming tool use**: verify tools work in streaming mode.
-
-### Stress Tests
-1. **Large ingestion**: many documents through the ingestion component.
-2. **Concurrent requests**: token-based auth under load.
-3. **Model swap**: point `OPENAI_API_BASE` at different servers and confirm prompt-styles adapt.
+1. Render `base.j2` with an empty `assistant_description` and `system_prompt`; verify no blank labeled sections remain.
+2. Provide retrieved context and verify the `=====================` delimiters appear only when the context is embedded.
+3. Submit a follow-up containing pronouns and verify `condense.j2` replaces them with the referenced entities.
+4. Submit an unrelated follow-up and verify it is returned unchanged.
+5. Set `max_words` and verify both the instruction and the output respect it.
+6. Override `context_block` and verify the base template still renders.
 
 ---
 
 ## Notes
 
-- **License**: Apache-2.0 (verified via GitHub API `license.spdx_id = "apache-2.0"`). Verbatim quotation is permitted.
-- **Scope**: PrivateGPT is positioned as an "API layer", but it ships a full end-user workbench application (document chat, tools, skills) and is maintained by Zylon as the open-source application layer. This positioning should be weighed as a baseline; compared with pure developer frameworks, its artifact surface is the end-user assistant (tools + prompt components + skills), not a coding agent.
-- All quoted text was retrieved verbatim from the raw URLs listed in Metadata on 2026-10-13.
+- These templates are loaded by `PromptTemplateService` from `private_gpt/components/prompts/templates`, the path resolved in `private_gpt/paths.py`.
+- The previous version of this case contained no prompt text. It has been replaced with the upstream templates above.

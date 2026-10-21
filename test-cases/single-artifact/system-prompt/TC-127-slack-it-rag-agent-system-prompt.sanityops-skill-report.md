@@ -1,3 +1,5 @@
+> **STALE (2026-10-20)**: the inspected artifact was replaced with upstream-verified content. Re-run the inspection before using these findings.
+
 # SanityOps Inspect Lite - Report
 
 Artifact: TC-127-slack-it-rag-agent-system-prompt.md (System Prompt)

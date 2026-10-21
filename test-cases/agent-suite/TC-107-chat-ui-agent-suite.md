@@ -1,40 +1,23 @@
-# TC-107: Chat UI (HuggingChat) - Agent Suite Evaluation Case
+# TC-107: Chat UI (HuggingChat) - Prompt Assembly and Preprompt Configuration
 
 ## Metadata
 - **Source Project**: Chat UI (huggingface/chat-ui) — powers the HuggingChat app
-- **Submodule**: `src/lib/buildPrompt.ts` (prompt assembly) + `src/lib/server/` (MCP tool integration, Omni LLM router, request processing) + environment-defined MCP tool schemas
 - **License**: Apache-2.0
-- **Artifact Type**: Single-Agent suite (AI chat assistant: prompt/preprompt assembly + MCP tool schemas + server-side LLM router policy + ML Intern mode)
-- **Collection Date**: 2026-10-13
-- **Collection Method**: GitHub API metadata + README + raw source / file-tree retrieval, exact URLs:
-  - `https://github.com/huggingface/chat-ui`
-  - `https://raw.githubusercontent.com/huggingface/chat-ui/main/README.md`
-  - `https://cdn.jsdelivr.net/gh/huggingface/chat-ui@main/src/lib/buildPrompt.ts`
-  - `https://api.github.com/repos/huggingface/chat-ui/contents/src/lib/server` (directory listing)
-  - `https://data.jsdelivr.com/v1/packages/gh/huggingface/chat-ui@main?structure=flat` (file-tree listing)
-  - `https://api.github.com/repos/huggingface/chat-ui` (repository metadata, license = Apache-2.0)
+- **Artifact Type**: Prompt assembly contract + `preprompt` model configuration (the repository ships **no** system prompt text)
+- **Collection Date**: 2026-10-20
+- **Collection Method**: Fetched verbatim from `raw.githubusercontent.com`, branch `main`:
+  - `src/lib/buildPrompt.ts`
+  - `src/lib/server/models.ts`
+  - `src/lib/server/endpoints/preprocessMessages.ts`
+- **Re-type note**: The previous version of this case claimed a shipped system prompt. Chat UI has none: `preprompt` is a model-config field with default `""`, and the final system message is whatever the deployment supplies. This case therefore evaluates the real prompt-assembly contract instead of a non-existent prompt.
 
 ---
 
-## Project Overview
+## Original Artifact Content
 
-Chat UI is the open-source chat application that powers **HuggingChat**. It is an end-user-facing conversational assistant with MCP tool-calling, a server-side model router, and an experimental "ML Intern" task mode. It speaks to any OpenAI-compatible API.
+### 1. Prompt assembly (`src/lib/buildPrompt.ts`, verbatim in full)
 
-From the project README (verbatim):
-
-> "A chat interface for LLMs. It is a SvelteKit app and it powers the [HuggingChat app on hf.co/chat](https://huggingface.co/chat)."
-
-> "Chat UI can call tools exposed by Model Context Protocol (MCP) servers and feed results back to the model using OpenAI function calling. You can preconfigure trusted servers via env, let users add their own, and optionally have the Omni router auto-select a tools-capable model."
-
-> "**ML Intern** is an experimental mode that plans and runs machine-learning work on the Hugging Face Hub: reproducing papers, finetuning and evaluating models, building datasets, and deploying demos as Spaces. It reads papers, models and datasets, writes scripts, and runs them as [Hugging Face Jobs]..."
-
----
-
-## Logical Artifact Inventory
-
-### 1. Prompt Assembly (`src/lib/buildPrompt.ts`, verbatim)
-
-```
+```typescript
 import type { EndpointParameters } from "./server/endpoints/endpoints";
 import type { BackendModel } from "./server/models";
 import { toLegacyShape } from "./utils/messageShape";
@@ -68,93 +51,143 @@ export async function buildPrompt({
 }
 ```
 
-### 2. MCP Tool Schemas (`MCP_SERVERS` env, from README verbatim)
+### 2. `preprompt` model configuration (`src/lib/server/models.ts`, verbatim excerpt)
 
-```env
-# JSON array of servers: name, url, optional headers
-MCP_SERVERS=[
-  {"name": "Web Search (Exa)", "url": "https://mcp.exa.ai/mcp"},
-  {"name": "Hugging Face MCP Login", "url": "https://hf.co/mcp?login"}
-]
-# Forward the signed-in user's Hugging Face token to the official HF MCP login endpoint
-# when no Authorization header is set on that server entry.
-MCP_FORWARD_HF_USER_TOKEN=true
+```typescript
+const modelConfig = z.object({
+	/** Used as an identifier in DB */
+	id: z.string().optional(),
+	/** Used to link to the model page, and for inference */
+	name: z.string().default(""),
+	displayName: z.string().min(1).optional(),
+	description: z.string().min(1).optional(),
+	logoUrl: z.string().url().optional(),
+	websiteUrl: z.string().url().optional(),
+	modelUrl: z.string().url().optional(),
+	tokenizer: z.never().optional(),
+	datasetName: z.string().min(1).optional(),
+	datasetUrl: z.string().url().optional(),
+	preprompt: z.string().default(""),
+	prepromptUrl: z.string().url().optional(),
+	chatPromptTemplate: z.never().optional(),
+	promptExamples: z
+		.array(
+			z.object({
+				title: z.string().min(1),
+				prompt: z.string().min(1),
+			})
+		)
+		.optional(),
 ```
 
-README (verbatim) on tool use:
-> "Use tools in the UI: Open "MCP Servers" from the top-right menu or from the `+` menu in the chat input to add servers, toggle them on, and run Health Check. The server card lists available tools."
-> "When a model calls a tool, the message shows a compact "tool" block with parameters, a progress bar while running, and the result (or error). Results are also provided back to the model for follow-up."
+### 3. Message preprocessing (`src/lib/server/endpoints/preprocessMessages.ts`, verbatim in full)
 
-### 3. Server-side LLM Router policy (README, verbatim)
+```typescript
+import type { Message } from "$lib/types/Message";
+import type { EndpointMessage } from "./endpoints";
+import { downloadFile } from "../files/downloadFile";
+import type { ObjectId } from "mongodb";
+import { withTrackioViewContext } from "$lib/utils/trackioView";
+import { plainMentions } from "$lib/utils/mentionTokens";
 
-> "The UI exposes a virtual model alias called "Omni" (configurable) that, when selected, chooses the best route/model for each message: image inputs go to a `multimodal` route, MCP-tool-enabled requests go to an `agentic` route, and everything else goes to a `default` route."
+export async function preprocessMessages(
+	messages: Message[],
+	convId: ObjectId
+): Promise<EndpointMessage[]> {
+	return Promise.resolve(messages)
+		.then((msgs) => downloadFiles(msgs, convId))
+		.then(injectTrackioViews)
+		.then(stripEmptyInitialSystemMessage);
+}
 
-> "Provide a routes policy JSON via `LLM_ROUTER_ROUTES_PATH`. ... Each route entry needs `name`, `description`, `primary_model`, and optional `fallback_models`. The router recognizes the route names `default`, `multimodal`, and `agentic`."
+/** pasted text stays a file, the prompt builder inlines it within the attachment budget */
+async function downloadFiles(messages: Message[], convId: ObjectId): Promise<EndpointMessage[]> {
+	return Promise.all(
+		messages.map<Promise<EndpointMessage>>((message) =>
+			Promise.all(
+				(message.files ?? []).map(async (file) => {
+					const downloaded = await downloadFile(file.value, convId);
+					// the bucket names a file by conversation id and hash, the message keeps the uploaded name
+					return { ...downloaded, name: file.name || downloaded.name };
+				})
+			).then((files) => ({ ...message, files }))
+		)
+	);
+}
 
-> "Multimodal: If `LLM_ROUTER_ENABLE_MULTIMODAL=true` and the user sends an image, the router bypasses the policy file and uses the model specified in `LLM_ROUTER_MULTIMODAL_MODEL`. Route name: `multimodal`."
-> "Tools: If `LLM_ROUTER_ENABLE_TOOLS=true` and the user has at least one MCP server enabled, the router bypasses the policy file and uses `LLM_ROUTER_TOOLS_MODEL`. ... Route name: `agentic`."
+function injectTrackioViews(messages: EndpointMessage[]): EndpointMessage[] {
+	return messages.map((message) => {
+		if (message.from !== "user") return message;
+		const content = withTrackioViewContext(
+			plainMentions(message.content),
+			message.dashboardViews ?? []
+		);
+		return content === message.content ? message : { ...message, content };
+	});
+}
 
-### 4. Server Modules (`src/lib/server/` — directory listing, verbatim paths)
-
+/**
+ * Remove an initial system message if its content is empty/whitespace only.
+ * This prevents sending an empty system prompt to any provider.
+ */
+function stripEmptyInitialSystemMessage(messages: EndpointMessage[]): EndpointMessage[] {
+	if (!messages?.length) return messages;
+	const first = messages[0];
+	if (first?.from !== "system") return messages;
+	const content = first?.content as unknown;
+	const isEmpty = typeof content === "string" ? content.trim().length === 0 : false;
+	if (isEmpty) {
+		return messages.slice(1);
+	}
+	return messages;
+}
 ```
-src/lib/server/askUserQuestion.ts       src/lib/server/config.ts
-src/lib/server/api/                     src/lib/server/conversation.ts
-src/lib/server/abortRegistry.ts         src/lib/server/abortedGenerations.ts
-src/lib/server/adminToken.ts            src/lib/server/apiToken.ts
-src/lib/server/auth.ts                  src/lib/server/billing*.ts
-...
-```
-
-### 5. ML Intern Mode (README coverage, verbatim)
-
-> "ML Intern is an experimental mode that plans and runs machine-learning work on the Hugging Face Hub... within a compute budget you set for each conversation."
-> Local setup: `docs/source/ml-intern/getting-started.md`, `docs/source/ml-intern/local-development.md`.
 
 ---
 
 ## Evaluation Dimensions
 
-### 1. Role & Capability Clarity
-- [ ] System prompt ("preprompt") assembly is explicit and model-aware
-- [ ] Tool-calling, multimodal, and default capabilities are distinguished as routes
-- [ ] ML Intern is a clearly separated experimental mode
+### 1. Prompt Assembly Correctness
+- [ ] `preprompt` replaces the first system message only when present
+- [ ] Message roles are preserved when converted to the chat template
+- [ ] Truncation is applied after rendering and is bounded
 
-### 2. Workflow Completeness
-- [ ] Message → prompt render (with truncation) → model → tool loop → answer
-- [ ] MCP server health-check, enable/disable, and per-call result surfacing
-- [ ] Router fallback chain (`fallback_models` → `LLM_ROUTER_FALLBACK_MODEL`)
+### 2. Preprompt Contract
+- [ ] `preprompt` is optional and defaults to an empty string
+- [ ] `prepromptUrl` is validated as a URL when supplied
+- [ ] `promptExamples` entries require both a title and a prompt
 
-### 3. Prompt Consistency
-- [ ] Single prompt-assembly path for all models (`chatPromptRender`)
-- [ ] Preprompt overrides the system message uniformly
-- [ ] Per-model overrides (tool calling, multimodal) applied consistently
+### 3. Message Preprocessing
+- [ ] Uploaded files are resolved before rendering
+- [ ] Empty initial system messages are removed
+- [ ] User mentions and dashboard views are injected deterministically
 
-### 4. Tool Modularity
-- [ ] Tools sourced from arbitrary MCP servers (preconfigured or user-added)
-- [ ] Tools surfaced via OpenAI function calling
-- [ ] Routed to a dedicated tools-capable model (`agentic` route)
+### 4. Provider Compatibility
+- [ ] The rendered prompt works with OpenAI-compatible chat and completion endpoints
+- [ ] No prompt is invented when the deployment supplies none
+- [ ] Multi-provider fallback does not change the prompt semantics
 
 ### 5. Observability
-- [ ] RouterMetadata emitted immediately (route + actual model used)
-- [ ] Tool block shows parameters, progress and result/error
-- [ ] Health Check per MCP server
+- [ ] The final prompt can be snapshotted before the provider call
+- [ ] Missing `preprompt` is distinguishable from an empty one
+- [ ] Truncation is observable from the rendered prompt length
 
 ### 6. Extensibility
-- [ ] OpenAI-compatible backends only (llama.cpp, Ollama, OpenRouter, Poe, …)
-- [ ] Users can add their own MCP servers
-- [ ] MongoDB-backed history/users/settings
+- [ ] New prompt sources can be added via `prepromptUrl`
+- [ ] New models can declare their own preprompt without code changes
+- [ ] Prompt examples are data, not code
 
 ---
 
 ## Scoring Criteria
 
 | Dimension | Weight | Score (1-5) | Notes |
-|------|------|------------|------|
-| Role & Capability Clarity | 15% | | |
-| Workflow Completeness | 20% | | |
-| Prompt Consistency | 15% | | |
-| Tool Modularity | 25% | | |
-| Observability | 15% | | |
+|---|---|---|---|
+| Prompt Assembly Correctness | 25% | | |
+| Preprompt Contract | 20% | | |
+| Message Preprocessing | 20% | | |
+| Provider Compatibility | 15% | | |
+| Observability | 10% | | |
 | Extensibility | 10% | | |
 | **Total** | 100% | | |
 
@@ -162,26 +195,16 @@ src/lib/server/auth.ts                  src/lib/server/billing*.ts
 
 ## Test Suggestions
 
-### End-to-End Tests
-1. **MCP tool call**: enable an MCP server, ask a question requiring it, and verify the tool block renders with parameters and result.
-2. **Omni routing**: select Omni with an image attached and confirm routing to the `multimodal` route/model.
-3. **Preprompt override**: set a custom preprompt and verify it replaces the system message.
-
-### Unit Tests
-1. **buildPrompt**: assert the system message is replaced by `preprompt` and truncation is applied.
-2. **Router policy**: given signals (image / MCP enabled / default), assert the selected route name.
-3. **Fallback chain**: simulate a primary-model failure and verify fallback selection order.
-
-### Stress Tests
-1. **Many MCP servers**: enable several servers and confirm tool selection stays correct.
-2. **Long conversations**: verify prompt truncation keeps requests within model limits.
-3. **ML Intern budget**: confirm compute-budget enforcement halts runaway Jobs.
+1. Configure a model with `preprompt` and verify it replaces the first system message.
+2. Configure a model without `preprompt` and verify no system message is fabricated.
+3. Send an empty initial system message and verify it is stripped before rendering.
+4. Attach a file and verify it is downloaded and passed to the prompt builder within the attachment budget.
+5. Set `truncate` and verify the rendered prompt is truncated to that many words.
+6. Supply `promptExamples` and verify each entry renders with its title.
 
 ---
 
 ## Notes
 
-- **License**: Apache-2.0 (verified via GitHub API `license.spdx_id = "apache-2.0"`). Verbatim quotation is permitted.
-- **Scope**: chatting, MCP tool use and ML Intern are end-user assistant scenarios. ML Intern's "reproducing papers / finetuning models" is one optional mode; the core product is a general chat assistant, not a coding agent.
-- **Collection note**: `PROMPTS.md` appeared in the jsDelivr file tree but was not retrievable via the raw/CDN endpoints at collection time; it is therefore not quoted. The verbatim prompt artifact used here is `src/lib/buildPrompt.ts`.
-- All quoted text was retrieved verbatim from the raw URLs listed in Metadata on 2026-10-13; long README sections are excerpted.
+- Chat UI deliberately ships no default system prompt. The `preprompt` slot is deployment- and model-specific.
+- The previous version of this case treated `buildPrompt.ts` and README configuration prose as a system prompt. It has been replaced with the actual assembly code and the preprompt schema.

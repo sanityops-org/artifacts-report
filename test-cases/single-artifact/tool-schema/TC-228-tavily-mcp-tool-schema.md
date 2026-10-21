@@ -36,8 +36,8 @@
               },
               topic : {
                 type: "string",
-                enum: ["general"],
-                description: "The category of the search. This will determine which of our agents will be used for the search",
+                enum: ["general", "news"],
+                description: "Search category. Use 'general' for almost all searches, including current events and requests that combine news with other information. Use 'news' only when the user explicitly asks for news, headlines, or news coverage.",
                 default: "general"
               },
               time_range: {
@@ -213,3 +213,5 @@
 - Tavily is a search API designed for LLM agents; this case quotes the two structurally representative tools from the official Tavily MCP server registry.
 - Schemas are hand-written JSON Schema (not derived from Zod), declared inline in the `ListToolsRequestSchema` handler.
 - License is MIT (the repository's license file is named `LICENCE`); long verbatim quotation is permissible.
+- **Correction (2026-10-20)**: the `topic` enum and description had been altered to `["general"]` and a generic sentence. They have been restored to the upstream values `["general", "news"]` and the original guidance text, verified against `src/index.ts` on branch `main`.
+- The upstream registry now also declares `tavily_extract`, `tavily_crawl`, `tavily_map`, `tavily_research`, and `tavily_feedback`; this case quotes only `tavily_search` and `tavily_extract`, so it remains a partial capture.
