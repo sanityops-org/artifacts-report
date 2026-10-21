@@ -1,200 +1,210 @@
 # Direct-Model vs deeplogic-cli Evaluation Comparison - TC-111, TC-213, TC-140
 
-## Scope
+> **Revision:** 2026-10-21
+> This revision replaces the earlier comparison based on the previous direct-model report. The updated direct-model source is now a combined defect, permission, and risk inspection for the three artifacts, not a per-case checklist with the earlier 59.0 / 64.5 / 58.0 scores.
 
-This report compares two independent evaluations of the same three verbatim artifacts:
+## Scope and Method
 
-- **Direct model evaluation:** the pre-existing `综合评测报告.md`, which applies case-specific dimensions, 1-5 rubric scores, weighted scores, and manual boundary checks.
-- **deeplogic-cli evaluation:** the three isolated L1/L2 inspections generated in this folder, using the CLI's QDP/QDT/QDS rule taxonomy, QC lint, quality gate, and raw-report evidence.
+This report compares two evaluations of the same three verbatim artifacts:
 
-The comparison does not merge the two scores into a single authoritative score. Their rating scales, defect taxonomies, and evidence methods are different.
+- **Direct-model evaluation:** the revised `综合评测报告.md`, which uses case-specific dimension scores, Draft-07 metadata validation, representative invalid-instance tests, a permission matrix, and cross-artifact threat modeling.
+- **deeplogic-cli evaluation:** three isolated QDP/QDT/QDS inspections with QC lint and quality gates. The final levels are L1 for TC-111, L1 for TC-213, and L2 for TC-140.
+
+The two evaluations answer different questions:
+
+- The direct report asks whether the three artifacts can be safely combined into a sales-agent workflow.
+- `deeplogic-cli` asks whether each artifact contains defects under its standardized single-artifact rules.
+
+That difference explains most of the disagreement. Scores and counts below are compared for orientation, not merged into a new authoritative score.
 
 ## Executive Summary
 
-The two methods agree on the relative order of artifact quality:
+The revised reports agree that the corpus is not production-ready, but they disagree strongly about the individual artifacts and the reasons:
 
-1. TC-213 Firecrawl Tool Schema
-2. TC-111 SalesGPT System Prompt
-3. TC-140 CSV Data Summarizer Skill
+- The direct report ranks the artifacts **TC-111 > TC-140 > TC-213** by case-specific weighted score.
+- `deeplogic-cli` ranks them **TC-213 > TC-111 > TC-140** by automated score and gate.
+- The direct report assigns TC-213 the lowest relative score because it provides concrete evidence that the `schema`, cross-field constraints, URL handling, and output contract are defective.
+- `deeplogic-cli` gives TC-213 **100/A/PASS** and reports no QD-T defects. Its single-artifact L1 check does not exercise those schema semantics.
+- Both identify TC-140 as unsafe because it reads and analyzes data automatically without sufficient size, failure, or permission boundaries.
+- The direct report adds a combined data-flow risk that the CLI cannot see: CSV → prompt/history → Firecrawl → third-party provider creates a plausible local-data exfiltration and prompt-injection chain.
+- The CLI contributes several TC-111 and TC-140 single-artifact findings that the revised direct report does not enumerate, including the first-turn greeting conflict and missing output-size/failure policies.
 
-They disagree sharply on magnitude, severity, and coverage:
-
-- The direct-model report gives an average of **60.5/100** and records **28 defects**: P0 1, P1 17, P2 10.
-- `deeplogic-cli` gives an unweighted average of **69.92/100** and records **19 defects**: P0 6, P1 13, P2 0.
-- The CLI is much more permissive on TC-213, awarding **100/A/PASS** while the direct review found seven contract-level defects, including schema behavior confirmed with executable validation.
-- The CLI is much harsher on TC-140, awarding **20.55/D/FAIL** and elevating resource, scope, and failure-boundary issues to P0.
-- Both methods find the TC-111 first-turn conflict, but the CLI assigns it P0 while the direct review assigns it P1.
-- The direct review finds a compliance P0 in TC-111 (`public records` disclosure) that the CLI misses completely.
-
-**Bottom line:** the direct-model evaluation is stronger on semantic compliance and JSON Schema correctness; `deeplogic-cli` is stronger on repeatable rule application, structural reporting, resource/security policy coverage, and evidence traceability. The methods are complementary, but neither should be used alone for release decisions.
+**Bottom line:** the revised direct report is materially stronger for combined deployment risk, JSON Schema semantics, permissions, and adversarial data flow. `deeplogic-cli` remains stronger for repeatable single-artifact rule application, severity gates, QC lint, and run evidence. TC-213's perfect CLI score should not be accepted without the direct report's schema evidence.
 
 ## Score Comparison
 
-| Case | Direct score | Direct 5-point score | CLI score | CLI grade / gate | CLI minus direct |
+| Case | Direct weighted score | Direct percentage | CLI score | CLI grade / gate | CLI minus direct |
 |---|---:|---:|---:|---|---:|
-| TC-111 SalesGPT Prompt | 59.0 | 3.0 | 89.22 | B / FAIL | +30.22 |
-| TC-213 Firecrawl Tool | 64.5 | 3.2 | 100.00 | A / PASS | +35.50 |
-| TC-140 CSV Skill | 58.0 | 2.9 | 20.55 | D / FAIL | -37.45 |
-| **Unweighted mean** | **60.5** | **3.0** | **69.92** | Mixed | **+9.42** |
+| TC-111 SalesGPT Prompt | 3.55 / 5 | 71% | 89.22 | B / FAIL | +18.22 |
+| TC-213 Firecrawl Schema | 2.65 / 5 | 53% | 100.00 | A / PASS | +47.00 |
+| TC-140 CSV Skill | 2.80 / 5 | 56% | 20.55 | D / FAIL | -35.45 |
+| **Unweighted mean** | **3.00 / 5** | **60.0%** | **69.92** | Mixed | **+9.92** |
 
-The averages are for orientation only. The direct report uses case-specific weighted dimensions, while the CLI applies module-level automated scoring and gates. A higher CLI score does not necessarily mean broader coverage, and a lower CLI score does not necessarily mean the direct review was more severe.
+Direct-model dimension scores:
 
-## Defect Count Comparison
-
-| Case | Direct P0/P1/P2 | Direct total | CLI P0/P1/P2 | CLI total | Difference |
+| Case | Dimension 1 | Dimension 2 | Dimension 3 | Dimension 4 | Dimension 5 |
 |---|---:|---:|---:|---:|---:|
-| TC-111 | 1 / 7 / 3 | 11 | 1 / 2 / 0 | 3 | -8 |
-| TC-213 | 0 / 4 / 3 | 7 | 0 / 0 / 0 | 0 | -7 |
-| TC-140 | 0 / 6 / 4 | 10 | 5 / 11 / 0 | 16 | +6 |
-| **Total** | **1 / 17 / 10** | **28** | **6 / 13 / 0** | **19** | **-9** |
+| TC-111 | 5 | 4 | 3 | 1 | 4 |
+| TC-213 | 4 | 2 | 2 | 2 | 3 |
+| TC-140 | 4 | 2 | 3 | 3 | 2 |
 
-The largest structural difference is that the CLI produced **no P2 findings** and used P0 much more aggressively for TC-140. The direct review spread findings across all three severities and treated some TC-140 permission issues as risks rather than immediate blockers.
+The direct percentages and CLI scores use different weighting and rule systems. The CLI mean being approximately 9.92 points higher does not mean it found a better product; it mainly reflects weaker coverage of TC-213 contract behavior and a different severity model.
 
-## Per-Case Comparison
+## Finding Counts
 
-### TC-111: SalesGPT System Prompt
+The revised direct report uses a different structure from its previous version. It does not publish one merged P0/P1/P2 count.
 
-**Agreement**
+### Direct-model confirmed findings
 
-- Both evaluations identify the conflict between the first-turn “greeting only, no pitch” instruction and the Introduction-stage requirement to introduce the company and explain the call.
-- Both flag the vague response-length instruction and the unclear `<END_OF_CALL>` output contract.
+| Severity in direct report | Count | IDs |
+|---|---:|---|
+| Severe | 1 | F-01 |
+| High | 6 | F-02, F-03, F-04, F-05, F-06, F-07 |
+| Medium | 2 | F-08, F-09 |
+| **Total confirmed findings** | **9** | F-01 through F-09 |
 
-**Differences**
+### Direct-model combination risks
 
-| Finding | Direct model | deeplogic-cli | Assessment |
+| Severity in direct report | Count | IDs |
+|---|---:|---|
+| Severe | 2 | R-01, R-02 |
+| High | 3 | R-03, R-04, R-05 |
+| Medium | 1 | R-06 |
+| **Total combination risks** | **6** | R-01 through R-06 |
+
+The confirmed findings and combination risks overlap in places. For example, source-authenticity concerns appear in both the confirmed-risk and combination-risk sections. They should not be added together as 15 independent defects.
+
+### deeplogic-cli findings
+
+| Case | P0 | P1 | P2 | Total |
+|---|---:|---:|---:|---:|
+| TC-111 | 1 | 2 | 0 | 3 |
+| TC-213 | 0 | 0 | 0 | 0 |
+| TC-140 | 5 | 11 | 0 | 16 |
+| **Total** | **6** | **13** | **0** | **19** |
+
+`deeplogic-cli` therefore detects more artifact-local defects overall, but most of that difference comes from its aggressive TC-140 resource and permission rules. It misses nearly all of the direct report's TC-213 contract findings and does not evaluate the three-artifact composition.
+
+## Cross-Artifact Finding Map
+
+| Direct-model finding | Direct severity | CLI equivalent | Assessment |
 |---|---|---|---|
-| First-turn greeting conflict | P1 | QDP-1.1.1, P0 | Same issue; severity calibration differs |
-| Vague “short length” | P2 | QDP-1.3.2, P1 | Both detect it; CLI is stricter |
-| `<END_OF_CALL>` format | P2 | QDP-2.3.1, P1 | Both detect it; CLI is stricter |
-| Unconditional “public records” source claim | P0 | Not detected | Major direct-model advantage |
-| Missing stage state machine and transition rules | P1 | Not detected | Direct review has broader workflow coverage |
-| Tool input forced to one simple string | P1 | Not detected | Direct review has deeper tool-contract analysis |
-| Missing tool failure/retry policy | P1 | Not detected | CLI focuses on prompt rule structure, not runtime failure behavior |
-| Prompt-injection isolation for user input/observations | P1 | Not detected | Direct review has stronger safety analysis |
-| Consent, opt-out, AI disclosure, recording notice | P1 | Not detected | Permission inspection was skipped and safety coverage is incomplete |
-| Evidence/testimonial verifiability | P1 | Not detected | Direct review captures marketing-risk constraints |
-| Internal `Thought:` exposure | P2 | Not detected | Direct review has additional privacy/architecture concern |
+| F-01 Firecrawl `schema` accepts only an empty object | Severe | Not detected | Direct-model advantage; confirmed with invalid-instance tests |
+| F-02 Cross-field constraints are not executable | High | Not detected | Direct-model advantage |
+| F-03 Claimed `outputSchema` is absent | High | Not emitted as QD-T defect | Direct-model advantage |
+| F-04 String `Action Input` conflicts with object-shaped Firecrawl input | High | Not detected | Cross-artifact issue outside CLI's isolated checks |
+| F-05 Async job ID conflicts with one-shot Observation flow | High | Not detected | Cross-artifact state-machine issue |
+| F-06 URL scope lacks protocol, count, and destination controls | High | Not detected | Direct-model advantage; SSRF/minimum-privilege analysis |
+| F-07 CSV auto-execution lacks sensitive-data and size gates | High | QDS-1.1, QDS-1.3, QDS-2.1, QDS-3.3, P0/P1 | Strong overlap; CLI gives a more explicit gate |
+| F-08 Date inference and graceful-missing-data claims lack evidence | Medium | Not directly detected | Direct-model advantage |
+| F-09 Firecrawl parameter descriptions and `maxCredits` bound are weak | Medium | Not detected | Direct-model advantage |
+| R-01 CSV → model → Firecrawl data exfiltration chain | Severe | Not evaluated | Requires the combined threat model |
+| R-02 CSV/web content prompt-injection chain | Severe | Not evaluated | Requires cross-artifact composition |
+| R-03 Sales-source and contact compliance risk | High | Not detected | Direct-model advantage |
+| R-04 Cost and approval controls can be bypassed | High | Not detected | Direct-model advantage |
+| R-05 Automated analysis can misrepresent statistics and business conclusions | High | Not directly detected | Direct-model advantage |
+| R-06 Incorrect sources can be presented as public records | Medium | Not detected | Direct-model advantage |
 
-**Judgment:** Both reports are directionally correct, but the direct review is more complete. The CLI gives a relatively high 89.22/B score while missing several safety and compliance concerns and produces a FAIL only from one P0 conflict. For production review, the direct report should drive remediation, while the CLI finding provides an additional standardized gate result.
+## CLI-Only Findings
 
-### TC-213: Firecrawl MCP Tool Schema
+The following material findings appear in the CLI reports but are not clearly enumerated in the revised direct report:
 
-**Agreement**
-
-- Both recognize the description as strong: clear capability, when-to-use guidance, sibling-tool disambiguation, asynchronous job flow, continuation, spend controls, and provider-approval workflow.
-- Both note the absence of `outputSchema` or otherwise flag missing output-contract coverage.
-
-**Differences**
-
-| Finding | Direct model | deeplogic-cli | Assessment |
+| Case | CLI finding | Severity | Relevance |
 |---|---|---|---|
-| `schema` accepts only an empty object under `additionalProperties: false` | P1, verified with Draft-07 instance tests | Not detected | Direct-model advantage; likely functional defect |
-| Cross-field constraints absent from JSON Schema | P1, multiple invalid instances pass | Not detected | Direct-model advantage |
-| `threadId` regex accepts literal `<uuid>` placeholders | P1, verified | Not detected | Direct-model advantage |
-| Missing `outputSchema` | P1 | Not emitted as a QD-T defect | Direct-model advantage |
-| Parameter descriptions and collection bounds incomplete | P2 | Not detected | Direct-model advantage in depth |
-| Cancellation, polling, and terminal-timeout contract missing | P2 | Not detected | Direct-model advantage in runtime integration analysis |
+| TC-111 | First-turn greeting conflict | P0 | Remains a credible instruction-consistency defect |
+| TC-111 | “Short length” is not measurable | P1 | Useful prompt-quality finding |
+| TC-111 | `<END_OF_CALL>` format is ambiguous | P1 | Useful output-contract finding |
+| TC-140 | Missing output-size limit | P1 | Complements the direct resource-risk analysis |
+| TC-140 | Missing non-activation conditions | P1 | Complements the direct over-triggering analysis |
+| TC-140 | Missing non-goals | P0 | Useful scope-boundary finding |
+| TC-140 | Partial completion and post-failure behavior are undefined | P1 | Complements the direct failure-path analysis |
+| TC-140 | Permission, environment, and chained-invocation matrices are absent | P1 | Useful policy-level findings, though some are stricter than the direct review |
 
-**Judgment:** This is the clearest disagreement. The CLI reports **0 defects and 100/A/PASS**, while the direct review provides executable evidence for several contract defects. At minimum, the empty `schema` object and cross-field validation gaps should be treated as real defects until disproved. The CLI's L1 result is not sufficient evidence that the schema is production-ready.
+These CLI-only findings should not be discarded merely because the direct report has broader combined-risk coverage.
 
-The CLI also had a tooling limitation: it did not recognize the MCP camel-case `inputSchema` key in its structured-tool parser. Mapping the key to `input_schema` was necessary before meaningful evaluation. That adapter preserved the schema content, but it also shows that the CLI pipeline needs an MCP-aware ingestion layer.
+## Per-Case Assessment
 
-### TC-140: CSV Data Summarizer Skill
+### TC-111 SalesGPT Prompt
 
-**Agreement**
+**Direct-model view:** 3.55/5 (71%). The persona and sales flow are understandable, but compliance, consent, opt-out, source authenticity, and tool-call compatibility are insufficient.
 
-- Both identify over-triggering and the lack of safe clarification behavior.
-- Both identify unbounded resource use and excessive “run everything” instructions.
-- Both identify the visualization-rule contradiction.
-- Both treat the Skill as unsuitable for direct production use.
+**CLI view:** 89.22/B, gate FAIL. The CLI reports one P0 greeting conflict plus two P1 clarity/output-format findings.
 
-**Differences**
+**Comparison:** The direct report looks beyond prompt wording and finds higher-value tool-chain and compliance problems. The CLI is better at enforcing measurable prompt-consistency rules. Both results support remediation, but neither alone covers both views.
 
-| Finding | Direct model | deeplogic-cli | Assessment |
-|---|---|---|---|
-| No input-size or row/column boundary | P1 | QDS-1.1, P0 | Same issue; CLI is stricter |
-| No timeout, retry, or tool-call boundary | P1 | QDS-1.3, P0 | Same issue; CLI is stricter |
-| Unbounded comprehensive analysis | P1 | QDS-2.1, P0 | Same issue; CLI maps it directly to resource risk |
-| No failure-handling policy | P1 | QDS-4.1, P0 | Same issue; CLI is stricter |
-| Over-triggering and no negative routing | P1/P2 | QDS-3.2, P1 | Broad agreement |
-| No ambiguous-input clarification policy | P1 | QDS-3.3, P1 | Broad agreement |
-| Visualization-rule contradiction | P1 | QDS-3.6, P1 | Broad agreement; CLI's recommended fix is contextually wrong |
-| Missing non-goals | Not separate | QDS-3.4, P0 | CLI adds a broad scope-boundary finding |
-| Read/write/delete permission matrix | Partial path-access finding | QDS-1.4, QDS-5.1, P1 | CLI is more systematic |
-| Data-source and environment boundaries | Partial path-access finding | QDS-1.5, QDS-5.3, P1 | CLI is more systematic |
-| Chained-invocation permissions | Not explicit | QDS-5.4, P1 | CLI adds a policy-level finding |
-| Execution contract for `analyze.py` | P1 | Not directly detected | Direct-model advantage |
-| Dependency failure and artifact completeness | P2 | Not detected | Direct-model advantage |
-| Example-output and statistical-causality quality | P2 | Not directly detected | Direct-model advantage |
+### TC-213 Firecrawl Tool Schema
 
-**Judgment:** The two reviews are complementary. The CLI gives a clearer policy-based P0 cluster for unsafe autonomy and missing boundaries. The direct review gives a better implementation-contract review. The 20.55/D score is useful as a release warning, but it should not replace the direct report's more specific execution and documentation findings.
+**Direct-model view:** 2.65/5 (53%). The description is good, but Draft-07 validation and representative instances expose real input/output contract defects.
 
-## Methodological Differences
+**CLI view:** 100/A, gate PASS, zero QD-T defects.
 
-| Dimension | Direct model report | deeplogic-cli report |
+**Comparison:** This is the largest disagreement and the strongest warning against relying on the CLI score alone. The direct report's concrete instance tests should carry more weight for schema release decisions. The CLI result is best treated as evidence that the description and basic structure look complete, not that the contract behaves correctly.
+
+The CLI pipeline also required a compatibility adapter from MCP `inputSchema` to its recognized `input_schema` key. This adapter preserved schema content, but the need for it reinforces that MCP contract evaluation requires a dedicated ingestion and validation path.
+
+### TC-140 CSV Skill
+
+**Direct-model view:** 2.80/5 (56%). The Skill auto-triggers, lacks sensitive-data and resource boundaries, and participates in a plausible cross-artifact exfiltration path.
+
+**CLI view:** 20.55/D, gate FAIL, with five P0 and eleven P1 findings.
+
+**Comparison:** The two methods agree on the central danger but use different severity and scope. The CLI gives a clear single-artifact blocker cluster for unbounded autonomy, resources, permissions, and failure handling. The direct report better explains why that autonomy becomes dangerous when combined with external tools and sales communications.
+
+## Methodological Comparison
+
+| Dimension | Revised direct-model report | deeplogic-cli |
 |---|---|---|
-| Primary method | Holistic semantic review plus targeted manual tests | Fixed defect rule engine, LLM inspectors, QC lint, and quality gates |
-| Rating | Case-specific 1-5 dimensions and weighted 100-point score | Module score, letter grade, severity counts, and gate |
-| Case-specific adaptation | High | Medium; rules are standardized across artifacts |
-| Repeatability | Lower without a saved prompt/model trace | Higher; config, console log, raw report, and extracted input are retained |
-| Schema validation | Can execute Draft-07 meta-schema and instance tests | QC lint is mostly syntax/structure; LLM may miss semantic schema defects |
-| Safety/compliance coverage | Stronger in the TC-111 review | Stronger TC-140 permission policy coverage, but QD-PM was skipped |
-| Severity consistency | More conservative; only one P0 | More aggressive; six P0 findings |
-| Evidence traceability | Strong narrative examples, but no model/version/run trace in the report | Strong: raw report, console log, configuration, and artifact copies |
-| Failure handling | Not a runtime dependency | Model timeouts and SDK incompatibilities affected L2 completion |
+| Primary unit | Three-artifact composition and individual implications | One isolated artifact per CLI run |
+| Scoring | Case-specific dimensions, weighted 5-point percentages | Module score, letter grade, gate |
+| JSON Schema analysis | Draft-07 meta-validation plus representative instances | QC structure/syntax plus LLM inspection |
+| Permission analysis | Explicit capability matrix and data-flow threat model | QD-PM attempted, skipped by Gate-0 |
+| Cross-artifact analysis | Central to the report | Not effective because each run contains one artifact |
+| Severity model | Severe / High / Medium in narrative findings | P0 / P1 / P2 |
+| Repeatability | Manual and model-assisted; no full run trace in the report | Config, console log, extracted input, and raw report retained |
+| Strength | Semantic depth, adversarial reasoning, combined risk | Standardization, repeatability, gates, and artifact-local coverage |
+| Weakness | Less standardized and harder to reproduce exactly | False confidence on TC-213 and blind to composition risk |
 
 ## Agreement Matrix
 
-| Area | Agreement level | Notes |
+| Area | Agreement | Notes |
 |---|---|---|
-| Relative ranking | High | Both rank TC-213 first, TC-111 second, TC-140 third |
-| TC-111 main behavior conflict | High | Same conflict; P1 vs P0 |
-| TC-213 schema correctness | Low | Direct review finds multiple concrete defects; CLI finds none |
-| TC-213 description quality | High | Both treat the description as strong |
-| TC-140 autonomy and resource risk | High | Both flag unbounded execution and missing limits |
-| TC-140 permission/environment policy | Medium | CLI is broader and more structured |
-| TC-140 execution/documentation contract | Low | Direct review is materially deeper |
-| Overall severity calibration | Low | CLI has more P0s and no P2s; direct review is more granular |
+| Overall production readiness | High | Both reject the corpus for direct production use |
+| TC-111 remediation need | High | Different findings; both see significant gaps |
+| TC-213 contract quality | Very low | Direct review finds serious defects; CLI finds none |
+| TC-140 autonomy/risk | High | Both identify the automatic execution path as unsafe |
+| TC-140 specific severity | Low | CLI uses five P0s; direct report uses one severe confirmed finding plus combined risks |
+| Cross-artifact data flow | None | Only the direct report evaluates the composition |
+| Relative artifact ranking | None | Direct: TC-111 > TC-140 > TC-213; CLI: TC-213 > TC-111 > TC-140 |
 
-## Which Evaluation Should Be Trusted?
+## Recommended Use
 
-There is no universal winner.
+Use the revised direct-model report as the **deployment and composition review**. It is the only one that evaluates the sales-agent workflow as a system and provides concrete JSON Schema counterexamples.
 
-**Use the direct-model report when:**
+Use `deeplogic-cli` as the **repeatable single-artifact gate**. It provides consistent P0/P1/P2 classification, QC lint, run artifacts, and resource/permission checks, but it must not be treated as sufficient for cross-artifact safety or contract correctness.
 
-- Reviewing semantic compliance and user-facing safety.
-- Evaluating JSON Schema behavior with concrete instances.
-- Checking implementation contracts, documentation completeness, and testability.
-- Comparing artifact quality against the case-specific evaluation dimensions.
+## Adjudication
 
-**Use `deeplogic-cli` when:**
-
-- A repeatable release gate and standardized rule taxonomy are required.
-- You need severity counts, QC lint, configuration, and raw execution evidence.
-- You want systematic policy coverage for resources, permissions, failure modes, and output contracts.
-- You need a consistent baseline across a larger artifact corpus.
-
-## Recommended Adjudication
-
-| Case | Recommended decision | Reason |
+| Case | Recommended decision | Basis |
 |---|---|---|
-| TC-111 | **FAIL / remediation required** | Accept the direct report's compliance P0 and the CLI's conflict finding. Add measurable length limits and a machine-readable end-of-call contract. |
-| TC-213 | **FAIL / conditional remediation** | Do not accept the CLI's 100/A as a release approval in isolation. Resolve the directly verified `schema`, cross-field, UUID, and `outputSchema` issues, then rerun both methods. |
-| TC-140 | **FAIL / redesign required** | Accept the CLI's resource and failure-boundary P0 cluster, and add the direct report's execution-contract, visualization, and documentation findings. |
+| TC-111 | **FAIL / remediate before use** | Direct compliance and tool-chain risks plus CLI greeting/output-contract findings |
+| TC-213 | **FAIL / contract remediation required** | Direct Draft-07 counterexamples outweigh the CLI's 100/A L1 result |
+| TC-140 | **FAIL / redesign required** | Both methods identify unsafe automatic analysis; combine direct composition risk with CLI resource/permission findings |
+| Combined workflow | **Do not deploy as-is** | Local file access, untrusted text, external network calls, third-party data transfer, paid calls, and automated outreach form an unsafe chain |
 
 ## Final Conclusion
 
-The two evaluation methods are not substitutes:
+The revised direct-model report changes the comparison materially:
 
-- The **direct model evaluation** has better semantic depth and catches high-value compliance and schema-contract defects.
-- The **CLI evaluation** has better repeatability, explicit severity policy, and audit evidence, but it can miss concrete contract defects and overstate or understate severity because its result depends on the model, check level, and parser ingestion.
-- The appropriate production workflow is **CLI as a repeatable gate plus direct review as a semantic and adversarial test layer**, followed by human adjudication of disagreements.
+- It is no longer a simple 28-defect checklist.
+- It now emphasizes combined execution paths and confirms schema defects with test instances.
+- The relative ranking no longer matches the CLI.
+- The CLI's most serious weakness is its TC-213 false-negative result; the direct report's most serious limitation is that it is less standardized and does not provide the same raw execution trace.
 
-For the current corpus, the combined evidence supports treating all three artifacts as not production-ready. TC-213 remains the strongest artifact, but its perfect CLI score should not be interpreted as a clean contract.
+The practical answer is not to choose one method. Use `deeplogic-cli` as a repeatable artifact gate, use the direct report as an adversarial and composition-level review, and require human adjudication whenever their severity or pass/fail decisions diverge.
 
 ## Evidence
 
-- [Direct-model report](./综合评测报告.md)
+- [Revised direct-model report](./综合评测报告.md)
 - [deeplogic-cli summary](./deeplogic-cli-evaluation-summary.md)
 - [TC-111 CLI report](./TC-111-salesgpt-system-prompt.deeplogic-cli-report.md)
 - [TC-213 CLI report](./TC-213-firecrawl-mcp-tool-schema.deeplogic-cli-report.md)
