@@ -1,3 +1,0 @@
-# Force local-only inspection by overriding the global Deeplogic server key.
-server:
-  api_key: ""
