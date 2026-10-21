@@ -1,0 +1,152 @@
+Log file: 
+/Users/a1234/Documents/project/tmp/artifacts-report/report-onlybyLLM/TC-111+213+
+140/runs/TC-140/logs/inspect/2026-10-20/inspect-184057.log
+                               Inspect Artifacts                                
+┏━━━━━━━┳━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━┓
+┃ Type  ┃ Absolute Path                                                        ┃
+┡━━━━━━━╇━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━┩
+│ Skill │ /Users/a1234/Documents/project/tmp/artifacts-report/report-onlybyLL… │
+└───────┴──────────────────────────────────────────────────────────────────────┘
+Project ID: not set
+Total: 0 prompts, 0 tools, 1 skills
+
+
+[Code Contract Inspection (QC Lint)]
+Running QC lint checks...
+  Checking: syntax, resources, code patterns
+     Code Contract Inspection Summary      
+┏━━━━━━━━━━━━━━━━━┳━━━━━━━━━━━━━━━━━━━━━━━┓
+┃ Metric          ┃ Value                 ┃
+┡━━━━━━━━━━━━━━━━━╇━━━━━━━━━━━━━━━━━━━━━━━┩
+│ Total artifacts │ 1                     │
+│ Total defects   │ 0                     │
+│ Severity        │ P0: 0   P1: 0   P2: 0 │
+│ QC Gate         │ PASS                  │
+│ Inspection time │ 0.00s                 │
+└─────────────────┴───────────────────────┘
+
+╭──────────────────────────────────────────────────────────────────────────────╮
+│ QC Gate: PASS                                                                │
+│                                                                              │
+│ No blocking defects found. Proceeding to LLM analysis.                       │
+╰──────────────────────────────────────────────────────────────────────────────╯
+
+[Artifact Analysis]
+  Provider:     anthropic
+  Model:        test-assistant
+  Timeout:      1800s
+  Max loops:    30
+  Token budget: 200000
+Analyzing configured artifacts...
+
+▶ Agent started
+  ⟳ LLM call (iteration 1)
+  ↓ received response (tokens: 0, 6.7s)
+  ◇ Starting sub Agent #1: Analyze skill files and extract metadata...
+  ⟳ LLM call (iteration 1)
+  ⚡ read: 
+/Users/a1234/Documents/project/tmp/artifacts-report/report-onlybyLLM/TC-111+213+
+140/artifacts/TC-140
+  ⟳ LLM call (iteration 1)
+  ⚡ store_findings: skill TC-140-csv-data-summarizer-skill.SKILL.md
+  ⟳ LLM call (iteration 1)
+  ⚡ store_findings: artifact
+  ⟳ LLM call (iteration 1)
+  ✓ Sub Agent completed
+  ⟳ LLM call (iteration 2)
+  ↓ received response (tokens: 0, 2.5s)
+  ⚡ store_findings: artifact
+  ⟳ LLM call (iteration 3)
+  ↓ received response (tokens: 0, 5.7s)
+
+✓ Artifact analysis completed in 37.3s
+  Loops:    3
+  Tokens:   0
+  Findings: 0 prompts, 0 tools, 1 skill
+Synchronizing artifacts...
+
+[Artifact Synchronization]
+API key not configured, skip auto upload.
+Running QDS/QDT/QDP inspections concurrently...
+
+[Defect Check]
+  SDK:         defect-check 1.2.8
+  Check level: L2
+  Concurrency: 2
+  Req timeout: 600s
+  Scheduled:
+    QDS:   1 skill
+    QDT:   0 tools
+    QDP:   0 prompts
+    CROSS: enabled
+    QD-PM: enabled (or_level=OR-L2)
+  [QD-S] Before inspection, input length: 5630 (csv-data-summarizer)
+✓ Defect check completed in 97.8s
+
+Module results
+
+  ✗ QDS  csv-data-summarizer
+    Status:      completed
+    Check level: L2
+    Defects:     16
+    Severity:    P0 5 / P1 11 / P2 0
+    Score:       20.55/100.0
+    Grade:       D
+    Gate:        FAIL
+
+  ⚠ QD-PM  csv-data-summarizer
+    Status:      skipped
+    Check level: L2
+    Defects:     0
+    Severity:    P0 0 / P1 0 / P2 0
+    Error code:  GATE0_BLOCKED
+    Message:     evaluation cannot be performed effectively: Gate-0 pre-check 
+failed: single-artifact check (QD-P / QD-S / QD-T) has an unfixed P0; 
+responsibility boundary statement missing; unable to locate a specific position
+
+  Status:   completed
+  Duration: 97.8s
+           Defect Check Summary           
+┏━━━━━━━━━━━━━━━┳━━━━━━━━━━━━━━━━━━━━━━━━┓
+┃ Metric        ┃ Value                  ┃
+┡━━━━━━━━━━━━━━━╇━━━━━━━━━━━━━━━━━━━━━━━━┩
+│ Total defects │ 16                     │
+│ Severity      │ P0: 5   P1: 11   P2: 0 │
+│ Gate          │ FAIL                   │
+└───────────────┴────────────────────────┘
+
+╭───────────────────────── Skill csv-data-summarizer ──────────────────────────╮
+│ ✗ [P0] QDS-1.1 — Missing input-count limit                                   │
+│   Desc     : The skill declares no maximum number of rows, columns, or file  │
+│ size, so it will process entire CSV files and can overflow context/token     │
+│ limits.                                                                      │
+│   Location : Skill metadata and Automatic Analysis Steps: 'Load and inspect  │
+│ the CSV file into pandas DataFrame'                                          │
+│   Impact   : The LLM processes all submitted content without truncation; if  │
+│ the user submits 500 items, it processes all 500, causing token overflow and │
+│ uncontrolled cost                                                            │
+│   Fix      : Add a limit: 'Process at most 50 items. If more are provided,   │
+│ process the first 50 and notify the user.'                                   │
+│ ✗ [P1] QDS-1.2 — Missing output-size limit                                   │
+│   Desc     : The skill requires comprehensive output and multiple            │
+│ visualizations but declares no output-size bound, which can overflow the     │
+│ context window.                                                              │
+│   Location : Automatic Analysis Steps: 'Generate comprehensive output        │
+│ automatically' and Example Output                                            │
+│   Impact   : The response size explodes and overflows the context window,    │
+│ and the LLM may generate extremely long output                               │
+│   Fix      : Add: 'Limit output to 1,500 Chinese characters or 1,000 English │
+│ words.'                                                                      │
+│ ... 14 more defects not shown                                                │
+╰──────────────────────────────────────────────────────────────────────────────╯
+
+Saving Markdown report...
+
+[Report]
+╭──────────────────────────────────────────────────────────────────────────────╮
+│ Report saved to                                                              │
+│ /Users/a1234/Documents/project/tmp/artifacts-report/report-onlybyLLM/TC-111+ │
+│ 213+140/runs/TC-140/results/inspect-20261020-184313.md                       │
+│ For the full experience, visit                                               │
+│ http://112.94.11.111:16666/                                                  │
+╰──────────────────────────────────────────────────────────────────────────────╯

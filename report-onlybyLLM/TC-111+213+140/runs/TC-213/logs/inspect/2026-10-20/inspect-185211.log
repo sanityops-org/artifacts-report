@@ -1,0 +1,10 @@
+2026-10-20 18:52:11.430 [INFO] [session] Command started: inspect
+2026-10-20 18:52:11.433 [INFO] [config] Configuration loaded | project_id=not set
+2026-10-20 18:52:11.435 [INFO] [artifacts] Resolved artifacts | prompts=0 tools=1 skills=0
+2026-10-20 18:52:11.440 [INFO] [qc_lint] Code Contract inspection completed | duration=0.00s total_defects=0 p0=0 p1=0 p2=0 gate=PASS
+2026-10-20 18:52:11.449 [INFO] [agent] Agent started
+2026-10-20 18:52:17.112 [INFO] [agent] Artifact analysis completed | duration=5.7s prompts=0 tools=1 skills=0 loops=1 tokens=0
+2026-10-20 18:52:17.114 [INFO] [defect] Starting defect check | check_level=L2
+2026-10-20 18:59:42.277 [INFO] [defect] Defect check completed | duration=445.2s total_defects=0 p0=0 p1=0 p2=0 status=failed
+2026-10-20 18:59:42.283 [INFO] [report] Markdown report saved: /Users/a1234/Documents/project/tmp/artifacts-report/report-onlybyLLM/TC-111+213+140/runs/TC-213/results/inspect-20261020-185942.md
+2026-10-20 18:59:42.283 [INFO] [session] Command completed: inspect | status=success duration=450.9s tool_calls=0 errors=0 artifacts=0p,1t,0s defects=0

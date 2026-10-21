@@ -1,0 +1,28 @@
+# deeplogic-cli evaluation configuration for TC-140-csv-data-summarizer-skill.
+# Credentials are supplied via LLM_* environment variables by the evaluation harness.
+project:
+  id: "00000000-0000-0000-0000-000000000000"
+  name: "TC-140-csv-data-summarizer-skill"
+
+logging:
+  enabled: true
+  level: INFO
+  directory: "/Users/a1234/Documents/project/tmp/artifacts-report/report-onlybyLLM/TC-111+213+140/runs/TC-140/logs"
+  retention_days: 30
+  redact_api_keys: true
+
+defect_check:
+  concurrency: 2
+  request_timeout: 600
+
+agent:
+  max_loops: 30
+  token_budget: 200000
+  timeout: 1800
+
+prompts: []
+
+tools: []
+
+skills:
+  - file: "/Users/a1234/Documents/project/tmp/artifacts-report/report-onlybyLLM/TC-111+213+140/artifacts/TC-140-csv-data-summarizer-skill.SKILL.md"

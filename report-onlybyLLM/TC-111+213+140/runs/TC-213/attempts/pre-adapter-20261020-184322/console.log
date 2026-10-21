@@ -1,0 +1,132 @@
+Log file: 
+/Users/a1234/Documents/project/tmp/artifacts-report/report-onlybyLLM/TC-111+213+
+140/runs/TC-213/logs/inspect/2026-10-20/inspect-183706.log
+                               Inspect Artifacts                                
+┏━━━━━━┳━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━┓
+┃ Type ┃ Absolute Path                                                         ┃
+┡━━━━━━╇━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━┩
+│ Tool │ /Users/a1234/Documents/project/tmp/artifacts-report/report-onlybyLLM… │
+└──────┴───────────────────────────────────────────────────────────────────────┘
+Project ID: not set
+Total: 0 prompts, 1 tools, 0 skills
+
+
+[Code Contract Inspection (QC Lint)]
+Running QC lint checks...
+  Checking: syntax, resources, code patterns
+     Code Contract Inspection Summary      
+┏━━━━━━━━━━━━━━━━━┳━━━━━━━━━━━━━━━━━━━━━━━┓
+┃ Metric          ┃ Value                 ┃
+┡━━━━━━━━━━━━━━━━━╇━━━━━━━━━━━━━━━━━━━━━━━┩
+│ Total artifacts │ 1                     │
+│ Total defects   │ 0                     │
+│ Severity        │ P0: 0   P1: 0   P2: 0 │
+│ QC Gate         │ PASS                  │
+│ Inspection time │ 0.00s                 │
+└─────────────────┴───────────────────────┘
+
+╭──────────────────────────────────────────────────────────────────────────────╮
+│ QC Gate: PASS                                                                │
+│                                                                              │
+│ No blocking defects found. Proceeding to LLM analysis.                       │
+╰──────────────────────────────────────────────────────────────────────────────╯
+
+[Artifact Analysis]
+  Provider:     anthropic
+  Model:        test-assistant
+  Timeout:      1800s
+  Max loops:    30
+  Token budget: 200000
+Analyzing configured artifacts...
+
+▶ Agent started
+  ⟳ LLM call (iteration 1)
+  ↓ received response (tokens: 0, 3.4s)
+
+✓ Artifact analysis completed in 3.4s
+  Loops:    1
+  Tokens:   0
+  Findings: 0 prompts, 1 tool, 0 skills
+Synchronizing artifacts...
+
+[Artifact Synchronization]
+API key not configured, skip auto upload.
+Running QDS/QDT/QDP inspections concurrently...
+
+[Defect Check]
+  SDK:         defect-check 1.2.8
+  Check level: L2
+  Concurrency: 2
+  Req timeout: 600s
+  Scheduled:
+    QDS:   0 skills
+    QDT:   1 tool
+    QDP:   0 prompts
+    CROSS: enabled
+    QD-PM: enabled (or_level=OR-L2)
+  [QD-T] Before inspection, input length: 2031 (firecrawl_agent)
+LLM response is not valid JSON (attempt 1/4), requesting a corrected response
+✓ Defect check completed in 226.6s
+
+Module results
+
+  ✗ QDT  firecrawl_agent
+    Status:      completed
+    Check level: L2
+    Defects:     3
+    Severity:    P0 3 / P1 0 / P2 0
+    Score:       78.26/100.0
+    Grade:       B
+    Gate:        FAIL
+
+  ⚠ QD-PM  unknown
+    Status:      skipped
+    Check level: L2
+    Defects:     0
+    Severity:    P0 0 / P1 0 / P2 0
+    Error code:  GATE0_BLOCKED
+    Message:     evaluation cannot be performed effectively: Gate-0 pre-check 
+failed: single-artifact check (QD-P / QD-S / QD-T) has an unfixed P0; 
+responsibility boundary statement missing; unable to locate a specific position
+
+  Status:   completed
+  Duration: 226.6s
+          Defect Check Summary           
+┏━━━━━━━━━━━━━━━┳━━━━━━━━━━━━━━━━━━━━━━━┓
+┃ Metric        ┃ Value                 ┃
+┡━━━━━━━━━━━━━━━╇━━━━━━━━━━━━━━━━━━━━━━━┩
+│ Total defects │ 3                     │
+│ Severity      │ P0: 3   P1: 0   P2: 0 │
+│ Gate          │ FAIL                  │
+└───────────────┴───────────────────────┘
+
+╭──────────────────────────── Tool firecrawl_agent ────────────────────────────╮
+│ ✗ [P0] QD-T-1.1 — Missing core fields                                        │
+│   Desc     : 'parameters.type' must be 'object'                              │
+│   Location : $.parameters.type                                               │
+│   Impact   : The Agent cannot invoke the Tool correctly                      │
+│   Fix      : Add the missing required fields and ensure that name,           │
+│ description, and inputSchema are complete                                    │
+│ ✗ [P0] QD-T-1.1 — Missing core fields                                        │
+│   Desc     : The tool schema declares 'parameters' as an empty object and    │
+│ does not define the required inputSchema/parameter properties. It omits all  │
+│ declared call parameters mentioned in the description, such as prompt,       │
+│ schema, urls, mode, exchange, effort, maxCredits, and strictConstrainToURLs. │
+│ A complete parameter schema or inputSchema is required.                      │
+│   Location : $.parameters                                                    │
+│   Impact   : The Agent cannot invoke the Tool correctly                      │
+│   Fix      : Add the missing required fields and ensure that name,           │
+│ description, and inputSchema are complete                                    │
+│ ... 1 more defects not shown                                                 │
+╰──────────────────────────────────────────────────────────────────────────────╯
+
+Saving Markdown report...
+
+[Report]
+╭──────────────────────────────────────────────────────────────────────────────╮
+│ Report saved to                                                              │
+│ /Users/a1234/Documents/project/tmp/artifacts-report/report-onlybyLLM/TC-111+ │
+│ 213+140/runs/TC-213/results/inspect-20261020-184056.md                       │
+│ For the full experience, visit                                               │
+│ http://112.94.11.111:16666/                                                  │
+╰──────────────────────────────────────────────────────────────────────────────╯

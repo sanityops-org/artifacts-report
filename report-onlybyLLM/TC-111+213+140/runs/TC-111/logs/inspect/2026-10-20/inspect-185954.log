@@ -1,0 +1,12 @@
+2026-10-20 18:59:54.012 [INFO] [session] Command started: inspect
+2026-10-20 18:59:54.016 [INFO] [config] Configuration loaded | project_id=not set
+2026-10-20 18:59:54.018 [INFO] [artifacts] Resolved artifacts | prompts=1 tools=0 skills=0
+2026-10-20 18:59:54.027 [INFO] [qc_lint] Code Contract inspection completed | duration=0.00s total_defects=2 p0=0 p1=2 p2=0 gate=PASS
+2026-10-20 18:59:54.036 [INFO] [agent] Agent started
+2026-10-20 19:00:07.869 [INFO] [agent] Sub-agent started | goal=Analyze the prompt file and extract its full conte sub_agent_id=1
+2026-10-20 19:00:28.682 [INFO] [agent] Sub-agent completed
+2026-10-20 19:00:42.600 [INFO] [agent] Artifact analysis completed | duration=48.6s prompts=1 tools=0 skills=0 loops=3 tokens=0
+2026-10-20 19:00:42.605 [INFO] [defect] Starting defect check | check_level=L1
+2026-10-20 19:07:04.239 [INFO] [defect] Defect check completed | duration=381.6s total_defects=3 p0=1 p1=2 p2=0 status=completed
+2026-10-20 19:07:04.248 [INFO] [report] Markdown report saved: /Users/a1234/Documents/project/tmp/artifacts-report/report-onlybyLLM/TC-111+213+140/runs/TC-111/results/inspect-20261020-190704.md
+2026-10-20 19:07:04.249 [INFO] [session] Command completed: inspect | status=success duration=430.2s tool_calls=0 errors=0 artifacts=1p,0t,0s defects=3
