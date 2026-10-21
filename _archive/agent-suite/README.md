@@ -1,5 +1,7 @@
 # agent-suite 测试用例「可直接运行逻辑工件」统计
 
+> **Location note (2026-10-21)**: case files have been moved to `test-cases/prompt-only/`, `test-cases/skill-only/` and `test-cases/none/` according to artifact combination. This report is retained as historical statistics; relative links below refer to the pre-restructure layout.
+
 > 统计范围：本目录下全部 51 个测试用例（TC-004 ~ TC-107），以及第七节联网补充的 10 个用例（TC-108 ~ TC-117）
 > 分析日期：2026-10-21
 > 统计对象：仅测试用例文件中**实际出现、且可直接加载运行**的文本，不追溯原始仓库、不检查后端程序
