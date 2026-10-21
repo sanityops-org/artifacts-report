@@ -1,103 +1,514 @@
-# TC-005：OpenClaw 文件驱动多智能体套件评测报告
+# TC-005 OpenClaw 组合工件审查报告
 
-我已完整读取并复核 TC-005 中的全部可见内容，包括 `SOUL.md`、`AGENTS.md`、`USER.md`、`IDENTITY.md`、`HEARTBEAT.md`、`MEMORY.md` 六类 Markdown 工件，以及多智能体路由、渠道绑定、定时任务、评估维度、评分标准和测试建议。
-
-> **审查边界说明：** TC-005 的采集方式是“文档摘要 + 架构分析”，没有提供固定 Commit SHA、逐文件源码 URL 或完整运行时代码。因此，以下结论仅针对当前文档中所展示的工件；若未展示的运行时实现提供了沙箱、鉴权、日志或配置校验，相应风险可能被缓解，但无法由本工件证明。以下问题均表述为“工件中未见控制”或“工件之间无法闭合”。
-
-分级口径：**P0 = 可导致核心流程直接失效、敏感数据泄露、未授权外部操作或高危安全事件；P1 = 明显缺陷或重要风险，影响功能正确性、权限边界、质量控制或可维护性；P2 = 次要问题与潜在隐患，建议优化。**
-
----
-
-## 一、总览统计
-
-| 级别 | 数量 | 主要特征 |
-| ---- | ---- | ---- |
-| **P0** | 4 | 路由目标缺失、Shell 权限不可执行化、用户资料隔离不明、自动外联缺少约束，可能直接造成流程失效或越权 |
-| **P1** | 12 | 配置语法与渠道绑定矛盾、命名路径不一致、交接与技能契约缺失、记忆污染和提示注入边界不足 |
-| **P2** | 10 | 工件清单、Front Matter、示例结构、可观测性与测试可执行性等质量问题 |
-| **合计** | **26** | 缺陷 19 / 权限 3 / 显性风险 4（按主类计，部分条目交叉） |
+- **审查对象**：`TC-005-openclaw-file-based-agents.md`
+- **审查日期**：2026-10-21
+- **审查类型**：静态缺陷审查、权限审查、安全与合规风险审查
+- **审查结论**：**不通过。不可直接作为部署模板、Agent 安全基线或评测评分基线。**
+- **综合评分**：**1.5 / 5（高风险）**
+- **上线建议**：先修复全部 P0 和 P1，再补充可执行配置、权限矩阵、数据流与验证证据。
 
 ---
 
-## 二、评分结论
+## 1. 执行摘要
 
-| 评测维度 | 权重 | 得分（1–5） | 评分依据 |
-| ---- | ---- | ---- | ---- |
-| File Organization Clarity | 20% | **3** | SOUL、路由、用户、身份、记忆的职责大体可识别，但宣称“4 类核心文件”却实际展示 6 类，且 `support-main`、`customer-support-agent`、`support-soul.md` 的命名和路径未统一 |
-| Markdown Structure | 15% | **2** | 标题层级总体清楚，但多处外部代码围栏与内部代码围栏同名嵌套，YAML 中存在会被当作注释的 `#support`、`#sales` 键，Front Matter 字段也不统一 |
-| Configuration Maintainability | 20% | **2** | `AGENTS.md` 有一定集中配置能力，但缺失目标 Agent、渠道绑定冲突、模型硬编码在 SOUL、没有可验证 Schema 或环境变量约定 |
-| Multi-Agent Isolation | 20% | **1** | 文档宣称每 Agent 有独立工作区和 SQLite 状态，但工件未给出路径、映射、ACL 或跨 Agent 访问规则；单一 `USER.md` 与多客户支持场景存在明显隔离歧义 |
-| Auditability | 15% | **2** | 纯 Markdown 和 Git 友好是优点，但路由决策、交接结果、记忆写入和定时任务执行均缺少可追溯记录契约 |
-| Extensibility | 10% | **3** | Agent Registry、渠道绑定和 Skill 共享的方向合理，但新增 Agent、渠道和 Skill 缺少完整模板、校验与权限声明 |
-| **加权总分** | **100%** | **2.1 / 5（约 42 / 100）** | 方向正确、可读性尚可，但尚未达到可作为可靠多智能体生产配置直接使用的完整度 |
+该工件较好地展示了文件型 Agent 的概念形态，但示例与 OpenClaw 当前官方架构存在关键偏差，且缺少真正生效的权限、租户隔离、数据治理和审计设计。
 
-**总体判断：** 该套件体现了“配置即代码”和“文件即 Agent 大脑”的清晰理念，适合作为非技术用户编辑 Agent 的展示型基线；但当前工件的路由闭环、权限边界、用户隔离和外部动作控制均不完整，属于**需要重点修复后再用于生产或安全评测的样例**。
+### 1.1 阻断级问题
 
----
+1. **文件职责写错**：把 `AGENTS.md` 描述为多 Agent 路由配置。官方定义中，`AGENTS.md` 是工作区操作约定；多 Agent 路由应放在 OpenClaw 配置的 `agents.entries` 与 `bindings` 中。
+2. **使用已退役机制**：`HEARTBEAT.md` 已被官方标记为退役文件，新工作区不再创建，运行时也不再读取。
+3. **权限边界不是权限边界**：“shell: read-only” 只是自然语言描述，不能阻止读取密钥、访问宿主文件或执行破坏性命令。
+4. **客户数据隔离缺失**：单个 `USER.md` 和 `MEMORY.md` 被用于多通道客服 Agent，可能导致不同客户之间的画像、历史与记忆串线。
+5. **间接提示注入路径完整**：浏览器、文件、记忆、消息发送同时存在，却没有不可信内容隔离、工具降权、出站审批或域名白名单。
 
-## 三、P0（4 项）
+### 1.2 风险分布
 
-| # | 类型 | 问题概要 | 工件依据 | 可能影响 |
-| ---- | ---- | ---- | ---- | ---- |
-| P0-1 | 缺陷 | **路由目标未注册**：Intent-Based Routing 和 Handoff 规则分别指向 `billing-agent`、`tech-support`、`sales-manager`，但 Agent Registry 中只有 `support-main`、`sales-assistant`、`onboarding-guide` | `AGENTS.md` 的 Agent Registry、Intent-Based Routing 与 `handoff_rules` | 相关消息无法解析到有效 Agent，可能被丢弃、落入默认处理器或触发运行时异常，核心多智能体分流直接失效 |
-| P0-2 | 权限 / 显性风险 | **Shell 的“只读”限制仅存在于自然语言**：SOUL 声明 `shell: Run diagnostic commands (read-only)`，但没有命令白名单、工作目录、网络访问限制、超时、参数校验或拒绝规则 | `SOUL.md` 的 Skills 与 Rules & Boundaries | 若运行时未另行沙箱化，来自 WhatsApp、Telegram、Slack 等不可信渠道的提示注入可能诱导执行任意命令，读取密钥、修改文件或泄露主机信息 |
-| P0-3 | 权限 / 显性风险 | **单一 `USER.md` 与多客户支持场景不匹配**：工件展示了一个固定的 `user_12345`（Alex Chen）资料文件，却没有说明它属于 Agent 所有者、当前会话用户还是某一客户，也没有按会话、租户或用户目录进行隔离 | `USER.md` 的 `user_id`；`AGENTS.md` 中 `support-main` 同时接入多个渠道 | 若该文件被注入所有客户会话，可能把 Alex 的偏好、历史、语言和账单背景错误应用于其他客户，甚至造成个人资料横向泄露 |
-| P0-4 | 显性风险 | **定时任务可无约束地批量外联**：HEARTBEAT 枚举 `stuckUsers` 后直接调用 `sendEmail`，工件未定义用户同意、退订、收件人白名单、发送上限、去重、幂等、人工审批或失败停发逻辑 | `HEARTBEAT.md` 的 Proactive Outreach 任务 | 每日重复运行可能向大量用户发送未经同意的邮件，形成骚扰、隐私暴露、品牌与合规风险；函数异常或选择条件歧义还可能扩大收件范围 |
+| 等级 | 数量 | 含义 |
+|---|---:|---|
+| P0 阻断 | 4 | 会导致架构失真、越权、数据泄漏或安全事故 |
+| P1 高 | 10 | 上线前必须修复 |
+| P2 中 | 9 | 应在发布前修复或明确接受风险 |
+| P3 低 | 1 | 文档质量与评分方法问题 |
+| **合计** | **24** | |
 
 ---
 
-## 四、P1（12 项）
+## 2. 审查范围与方法
 
-| # | 类型 | 问题概要 | 工件依据 | 可能影响 |
-| ---- | ---- | ---- | ---- | ---- |
-| P1-1 | 缺陷 | **渠道路由 YAML 存在解析错误**：`#support` 与 `#sales` 在 YAML 中会起始注释，而不是频道键；`@SupportHelperBot` 等以 `@` 开头的纯量也未加引号，解析器兼容性不确定 | `AGENTS.md` 的 Channel-Based Routing | Slack 路由可能被静默丢弃，Telegram 配置可能直接解析失败；配置看似存在但实际不生效 |
-| P1-2 | 缺陷 | **渠道声明与路由表互相矛盾**：`sales-assistant` 只声明 WhatsApp、Email，却出现在 Telegram、Slack 路由中；Email 和 in-app 渠道没有对应绑定；`onboarding-guide` 也没有可路由绑定 | `AGENTS.md` 的 `channels`、`bindings` 与 Routing Rules | 按文档执行时，部分消息无法送达目标 Agent；路由测试会出现“配置存在但渠道不可用”的错误 |
-| P1-3 | 缺陷 | **Agent 身份与文件路径不统一**：Registry 使用 `support-main`，SOUL Front Matter 使用 `customer-support-agent`，展示身份为 `Helper`，而 `soul_file` 指向 `./souls/support-soul.md`，清单中又称 `SOUL.md` | `SOUL.md`、`AGENTS.md`、`IDENTITY.md` | 加载器可能找不到文件，或把同一 Agent 当作多个实体；审计时无法确认哪份名称才是权威标识 |
-| P1-4 | 缺陷 | **语言政策冲突未裁决**：SOUL 要求 `ALWAYS respond in English only`，USER 明确标注 Mandarin 为母语、偏好详细解释，但没有优先级、例外场景或渠道语言规则 | `SOUL.md` 的 Rules；`USER.md` 的 Communication Preferences | 中文客户可能得到不合适的纯英文回复，或者实现者为满足用户偏好而违反 SOUL；行为不可预测 |
-| P1-5 | 缺陷 | **意图路由缺少优先级与兜底**：`pricing` 同时涉及销售和账单语义，`billing\|payment\|invoice`、`demo\|trial\|pricing` 可能命中多个目标；没有大小写归一化、语言处理、组合意图、置信度阈值或默认 Agent | `AGENTS.md` 的 Intent-Based Routing | 同一句话可能被路由到不同 Agent，产生重复处理、错误交接或无人处理 |
-| P1-6 | 缺陷 | **Handoff 契约不可执行**：`pricing question` 被转给 `support-main`，与销售职责及 `demo\|trial\|pricing` 路由重叠；`sales-manager` 未注册；没有交接上下文、接收确认、拒绝、超时、回退和防循环规则 | `AGENTS.md` 的 `handoff_rules` 与 Routing Rules | 转交可能丢失会话上下文、在 Agent 间循环，或由错误角色继续处理，客户体验和审计均受损 |
-| P1-7 | 缺陷 | **Skill 只有名称与一句话说明**：`browser`、`memory`、`file`、`shell` 均没有调用名、参数、返回值、权限、失败处理和与其他 Agent 的共享规则 | `SOUL.md` 的 Skills | 运行时无法从工件确认如何调用 Skill；不同实现可能绑定到不同工具，导致行为漂移或越权 |
-| P1-8 | 缺陷 | **HEARTBEAT 代码依赖未定义**：`fetchTickets`、`notify`、`countResolved`、`postToSlack`、`findUsers`、`sendEmail` 等函数没有导入、来源或参数契约；没有 `try/catch`、超时和重试 | `HEARTBEAT.md` 的三段 JavaScript | 任务大概率无法独立执行；任一外部调用失败都可能中断整个晨报流程，且没有可见的降级路径 |
-| P1-9 | 显性风险 | **定时任务缺少运行治理**：没有任务锁、幂等键、去重窗口、最大收件人数、静默期、人工 dry-run、功能开关或失败告警 | `HEARTBEAT.md` 的 schedule 与外联任务 | 同一任务可能并发或重复执行；在数据异常时扩大触达范围，造成重复通知、成本失控和不可逆外部副作用 |
-| P1-10 | 显性风险 | **长期记忆可被污染且会持续回灌**：`MEMORY.md` 为运行时生成并长期注入，但没有来源证明、写入权限、冲突处理、过期时间、敏感字段过滤或删除机制 | `MEMORY.md` 的 Product Knowledge、Customer Insights、Conversation Summaries | 错误价格、过时故障信息或恶意内容可长期影响后续回答；客户隐私可能被聚合保存且无法追踪来源 |
-| P1-11 | 显性风险 | **未声明外部内容的“数据/指令”边界**：知识库、文件、网页、用户资料和历史记忆都可能进入上下文，但没有明确要求把其中的文本视为不可信数据，也没有提示注入检测或二次确认 | `SOUL.md` 的 browser/file/memory；`USER.md`；`MEMORY.md` | 恶意知识库文章或客户消息可植入“忽略规则”“读取文件”“发送邮件”等指令，诱导 Agent 偏离职责或调用高权限工具 |
-| P1-12 | 权限 | **多 Agent 隔离只有声明、没有可审计配置**：项目概览声称每个 Agent 有独立 workspace 和 SQLite 状态目录，但 Registry 中没有 workspace、state path、permission 或跨 Agent 访问策略 | Project Overview；`AGENTS.md` 的 Agent Registry | 无法验证 Agent A 是否真的不能读取 Agent B 的记忆或文件；在真实实现中可能发生横向数据访问 |
+### 2.1 审查范围
 
----
+- 仅一个工件：`TC-005-openclaw-file-based-agents.md`，共 381 行。
+- 包含 6 个示例文件段落、1 套评估维度、1 套评分表、若干测试建议。
+- 未发现可执行的 OpenClaw 配置、测试代码、运行日志或部署产物。
 
-## 五、P2（10 项）
+### 2.2 审查方法
 
-| # | 类型 | 问题概要 | 工件依据 | 可能影响 |
-| ---- | ---- | ---- | ---- | ---- |
-| P2-1 | 缺陷 | **工件清单数量不一致**：章节标题写“4 core file types”，正文实际展示 6 类文件，并把 `USER.md` 标为 optional、`MEMORY.md` 标为 runtime-generated | Logical Artifact Inventory | 评审范围、加载顺序和必备文件集无法确定，影响配置校验与测试覆盖 |
-| P2-2 | 缺陷 | **Front Matter 规范不统一**：SOUL 使用 `name/description/model`，AGENTS 只有 `version`，USER 使用 `version/user_id`，IDENTITY 使用 `created/updated`，HEARTBEAT 使用 `schedule/timezone`，MEMORY 使用 `last_updated` | 六类工件的 Front Matter | 无法用统一 Schema 校验；字段缺失时的默认值和升级兼容策略不明确 |
-| P2-3 | 缺陷 | **示例 Markdown 围栏嵌套错误**：AGENTS.md 和 HEARTBEAT.md 在 `markdown` 外层围栏中直接使用 `yaml`/`javascript` 三层反引号，导致外层围栏提前闭合 | AGENTS.md 与 HEARTBEAT.md 的代码块 | 文档渲染、复制和自动抽取可能截断工件内容；测试用例本身的可审计性下降 |
-| P2-4 | 缺陷 | **模型配置硬编码在人格文件**：`model: claude-sonnet-4-5` 写在 SOUL Front Matter，没有模型回退、超时、token 预算或成本上限 | SOUL.md 的 Front Matter | 更换模型需要修改人格文件；模型不可用时没有降级策略，配置职责混杂 |
-| P2-5 | 缺陷 | **身份信息重复且资源路径不可移植**：SOUL 与 IDENTITY 都定义姓名、角色和语气；头像使用绝对路径 `/assets/avatar-helper.png` | SOUL.md；IDENTITY.md | 两处修改容易不同步；绝对路径在多工作区部署时可能失效，也不利于资源隔离 |
-| P2-6 | 缺陷 | **时间与选择条件存在歧义**：`created_after: 'yesterday 18:00'`、`last_login: '< 3 days ago'`、`signup_date: '< 7 days ago'` 都缺少明确时区、比较边界和解析格式 | HEARTBEAT.md | 跨时区运行、夏令时切换或边界数据可能产生错误任务集合；结果难以复现 |
-| P2-7 | 缺陷 | **客服输出契约偏弱**：除语气示例外，没有回答结构、知识来源引用、置信度、无法确认时的升级、敏感信息脱敏或渠道格式要求 | SOUL.md 的 Response Guidelines 与 Tone Examples | 不同轮次的回答质量和证据透明度不一致；难以判断答案是否来自受支持文档 |
-| P2-8 | 缺陷 | **可观测性不足**：没有记录路由命中原因、交接上下文、Skill 调用结果、记忆写入来源、定时任务开始/结束状态或失败原因 | AGENTS.md；HEARTBEAT.md；MEMORY.md | 出现错路由、重复外联或错误记忆时难以定位责任链，也无法进行有效回归审计 |
-| P2-9 | 缺陷 | **测试建议缺少预期结果与夹具**：测试项描述了“验证路由”“验证隔离”“验证热更新”，但没有输入消息、期望 Agent、失败判定、隔离样本或并发场景数据 | Test Suggestions | 测试不可直接执行，也无法据此证明路由和隔离真的成立 |
-| P2-10 | 缺陷 | **评测样例自身未完成**：所有 Evaluation Dimensions 复选框为空，Scoring Criteria 的 Score/Notes 为空；元数据缺少 Commit SHA 和逐文件源码 URL，采集方式仅说明为摘要 | Evaluation Dimensions、Scoring Criteria、Metadata | 结果无法固定到具体版本，后续源码变化会导致结论漂移；样例也不能直接用于批量自动评分 |
+1. 逐行检查文档结构、围栏、引用、路由定义和内部一致性。
+2. 对 Markdown 做实际解析，确认渲染层级与代码块边界。
+3. 对照 OpenClaw 官方仓库和官方文档核验文件职责、权限模型、心跳机制、记忆与安全控制。
+4. 按“症状 → 来源 → 后果 → 修复”形成可执行结论。
+5. 以 P0/P1/P2/P3 分级，不使用单纯的“看起来安全/不安全”判断。
 
----
+### 2.3 外部核验依据
 
-## 六、优先修复建议
+| 主题 | 官方依据 |
+|---|---|
+| 官方仓库 | <https://github.com/openclaw/openclaw> |
+| Agent 工作区文件地图 | <https://docs.openclaw.ai/concepts/agent-workspace> |
+| SOUL 定义 | <https://docs.openclaw.ai/concepts/soul> |
+| AGENTS 模板 | <https://docs.openclaw.ai/reference/templates/AGENTS> |
+| HEARTBEAT 退役说明 | <https://docs.openclaw.ai/reference/templates/HEARTBEAT> |
+| 多 Agent 路由与 `bindings` | <https://docs.openclaw.ai/gateway/config-agents/entries-and-multi-agent> |
+| 多 Agent 沙箱与工具限制 | <https://docs.openclaw.ai/tools/multi-agent-sandbox-tools> |
+| 工具与 Agent 权限 | <https://docs.openclaw.ai/gateway/security/tool-permissions> |
+| 安全加固基线 | <https://docs.openclaw.ai/gateway/security/hardened-baseline> |
+| 提示注入防护 | <https://docs.openclaw.ai/gateway/security/prompt-injection> |
+| 访问控制与 DM 隔离 | <https://docs.openclaw.ai/gateway/security/access-control> |
+| 记忆来源与删除 | <https://docs.openclaw.ai/concepts/memory-provenance> |
+| 密钥与本地存储 | <https://docs.openclaw.ai/gateway/security/secrets-and-storage> |
+| 速率限制 | <https://docs.openclaw.ai/gateway/security/rate-limiting> |
 
-1. **先闭合路由图（P0-1、P1-1、P1-2、P1-5、P1-6）：** 为 Registry 中每个目标 Agent 补齐定义，移除或实现 `billing-agent`、`tech-support`、`sales-manager`；把路由表改成可校验的结构化 YAML，并为每个渠道声明唯一绑定、优先级、默认 Agent 和交接契约。
-2. **把权限从提示词提升为运行时控制（P0-2、P1-7、P1-12）：** 为 `shell` 设置命令白名单、工作目录、超时和网络/文件权限；为 `file` 设置允许根目录；为每个 Agent 配置独立 workspace、state path 和跨 Agent ACL，不能只依赖“read-only”这句话。
-3. **先解决用户数据边界（P0-3、P1-10、P1-11）：** 明确 `USER.md` 是所有者资料、客户资料还是会话资料，并改为按用户/租户/会话隔离；为外部内容增加“不可信数据”标记，禁止其直接改变系统规则或触达高权限工具。
-4. **对外部动作采用 fail-closed（P0-4、P1-8、P1-9）：** 定时任务默认只生成草稿或 dry-run；实际发送前要求目标用户同意、收件人白名单、发送上限、幂等键和人工审批，并为所有外部调用增加超时、重试上限和失败告警。
-5. **最后补齐工件工程化（P2-1 至 P2-10）：** 统一 Front Matter Schema、修复嵌套代码围栏、集中模型配置、补充路由/交接/记忆审计字段，并把测试建议改造成带输入、预期结果和失败判定的可执行用例。
+> 说明：本次审查为静态审查，未部署 OpenClaw，也未执行工件中的伪代码。因此，文中“缺少控制”均指工件未提供控制设计或可验证配置，不代表底层 OpenClaw 缺乏相应能力。
 
 ---
 
-## 七、补充说明
+## 3. 缺陷、权限与风险清单
 
-1. **交叉验证：** P0-1、P1-1、P1-2、P1-3、P1-5、P1-6 相互印证，说明“Agent Registry ↔ 渠道绑定 ↔ Intent 路由 ↔ Handoff”四层契约没有形成闭环；当前最关键的不是继续增加人格描述，而是先把配置关系变成可解析、可校验、可测试的单一事实源。
+| ID | 等级 | 维度 | 位置 | 问题 | 主要影响 |
+|---|---|---|---|---|---|
+| P0-01 | P0 | 架构事实 | 71-140, 209-258 | `AGENTS.md` 被误作路由配置，`HEARTBEAT.md` 已退役 | 工件无法按官方架构落地 |
+| P0-02 | P0 | 权限 | 51-55, 314-318 | “只读 shell”依赖提示词，不是强制权限 | 宿主文件、密钥和命令执行风险 |
+| P0-03 | P0 | 隐私 | 82-108, 142-180, 260-293 | 单用户画像和记忆用于多用户、多通道客服 | 跨客户数据泄漏与记忆污染 |
+| P0-04 | P0 | AI 安全 | 52-55, 224-256, 260-293 | 不可信内容可影响带外发能力的 Agent | 间接提示注入与数据外传 |
+| P1-01 | P1 | 路由 | 82-139, 229-255 | 未定义 Agent、角色冲突、通道目标不一致 | 消息误路由、丢失或越权 |
+| P1-02 | P1 | 隔离 | 19, 314-318, 327 | 宣称隔离，但无 workspace、sandbox、session 与 Agent 间限制 | Agent 间越权与信息混合 |
+| P1-03 | P1 | 出站操作 | 229-255 | 自动通知与批量邮件无审批、同意、限流、幂等 | 垃圾邮件、误发、合规风险 |
+| P1-04 | P1 | 访问控制 | 82-108, 142-180 | 未设计 Gateway 认证、DM 配对、allowlist、群组门控 | 未授权用户可触发 Agent |
+| P1-05 | P1 | 数据治理 | 21, 147-179, 260-293 | PII、对话摘要与记忆缺少分类、加密、保留和删除策略 | 隐私与合规风险 |
+| P1-06 | P1 | 配置完整性 | 353-355 | 热重载无签名、审批、原子发布和回滚 | 未授权或误操作改变 Agent 行为 |
+| P1-07 | P1 | 模型配置 | 29-34, 224-256 | 模型写在 SOUL frontmatter，未体现官方 Agent 模型配置 | 模型选择失效，安全与成本失控 |
+| P1-08 | P1 | 供应链 | 324-327 | 共享 `~/.openclaw/skills` 无来源、签名和 Agent 白名单 | 恶意 Skill 进入所有 Agent |
+| P1-09 | P1 | 审计 | 260-293, 319-322 | “纯 Markdown”不等于审计，缺少操作与来源证据 | 无法追责、取证和回滚 |
+| P1-10 | P1 | 可追溯性 | 3-9 | GitHub 地址不存在，缺少提交哈希与文档版本 | 工件不可复核，易基于过期信息 |
+| P2-01 | P2 | Markdown | 71-180, 209-293 | 嵌套围栏破坏渲染，`USER.md`/`MEMORY.md` 被吞入代码块 | 文档结构失真，规则难以阅读 |
+| P2-02 | P2 | 一致性 | 18, 25, 260, 297-327 | 标题称 4 类核心文件，实际列 6 类 | 分类与评分口径不一致 |
+| P2-03 | P2 | 一致性 | 15, 209-258, 319-322 | 宣称“纯 Markdown、无代码”，示例却含 JS | “可审计纯文本”结论失真 |
+| P2-04 | P2 | 配置语法 | 88-124, 199 | 电话标识、Slack 键、Agent 名和头像路径不符合示例语义 | 配置解析失败或目标错配 |
+| P2-05 | P2 | 失效模式 | 352-355 | “损坏配置优雅降级”可能让安全规则静默消失 | 失败开放，安全边界失效 |
+| P2-06 | P2 | 评估设计 | 297-341 | 评估维度无权限、安全、隐私、审计硬门槛，评分表为空 | 高风险工件可能获得高分 |
+| P2-07 | P2 | 测试 | 345-360 | 只有测试建议，无安全、越权、注入和删除测试 | 无法证明控制有效 |
+| P2-08 | P2 | 可靠性 | 224-256 | 外部调用无超时、重试、幂等、死信和失败告警 | 重复发送、漏发和任务卡死 |
+| P2-09 | P2 | 隐私表述 | 20-21 | “所有数据本地存储”容易被理解为数据不离开设备 | 用户对数据流向产生错误预期 |
+| P3-01 | P3 | 评分方法 | 331-341 | 权重缺乏依据，安全项完全缺席 | 评测结果不可比较、不可审计 |
 
-2. **风险叠加：** P0-2 的 Shell 能力、P1-10/P1-11 的记忆与外部内容污染、P0-4 的外联能力可能组成一条完整风险链：不可信消息诱导 Agent 读取资料或写入记忆，再借助定时任务对外发送。应把“读取敏感数据、写入长期记忆、发起外部通信”视为高风险动作，分别施加权限和确认门槛。
+---
 
-3. **文档自身完整度：** 评分表、复选框、Commit SHA、源码 URL 和逐文件采集路径均未补齐。这些属于测试用例自身的未完成项，不改变上述 26 项工件问题，但会显著降低复现性和不同评测者之间的一致性。
+## 4. P0 阻断项详述
 
-4. **优点保留：** 采用纯 Markdown、职责分文件、Registry 集中配置和 Git 友好的文本差异，方向是合理的；若补齐结构化 Schema、隔离配置和外部动作治理，该套件可以作为非技术用户配置多 Agent 的良好模板。
+### P0-01：核心文件职责与生命周期写错
+
+**症状**
+
+- 第 71-140 行把 `AGENTS.md` 定义为多 Agent 路由注册表，并使用 `soul_file`、`channels`、`bindings`、关键词路由等字段。
+- 第 209-258 行把 `HEARTBEAT.md` 作为定时任务配置。
+- 官方 `AGENTS.md` 是工作区操作约定，不控制工具可用性，也不承担全局多 Agent 路由。
+- 官方多 Agent 路由使用配置中的 `agents.entries` 和 `bindings`，按 `channel`、`accountId`、`peer` 等字段匹配。
+- 官方已明确 `HEARTBEAT.md` 退役，不再被新工作区创建，也不再在运行时读取。
+
+**来源**
+
+- `TC-005-openclaw-file-based-agents.md:71-140`
+- `TC-005-openclaw-file-based-agents.md:209-258`
+- <https://docs.openclaw.ai/reference/templates/AGENTS>
+- <https://docs.openclaw.ai/gateway/config-agents/entries-and-multi-agent>
+- <https://docs.openclaw.ai/reference/templates/HEARTBEAT>
+
+**后果**
+
+- 按工件实现时，路由不会生效，定时任务不会被当前运行时读取。
+- 整个“多 Agent 文件套件”的核心架构说明失真。
+- 后续评分、测试和比较均建立在错误前提上。
+
+**修复**
+
+1. 将多 Agent 路由迁移到真实的 Gateway 配置，使用 `agents.entries`、`bindings`、`accountId`、`peer`。
+2. 将 `AGENTS.md` 改为工作区操作规则，不承担路由注册。
+3. 删除 `HEARTBEAT.md` 作为当前配置的表述，改用官方 automation/monitor scratch 或 cron 机制。
+4. 在 Metadata 中记录所依据的 OpenClaw 提交哈希与文档日期。
+
+---
+
+### P0-02：“只读 shell”不是可执行的权限控制
+
+**症状**
+
+- 第 55 行写有 `shell: Run diagnostic commands (read-only)`。
+- 第 314-318 行只把“权限边界”作为评估项，没有给出强制策略。
+- 工件没有 `tools.allow`、`tools.deny`、`sandbox`、`workspaceAccess`、`fs.workspaceOnly`、`exec.security` 等实际控制。
+
+**来源**
+
+- `TC-005-openclaw-file-based-agents.md:51-55`
+- `TC-005-openclaw-file-based-agents.md:314-318`
+- <https://docs.openclaw.ai/gateway/security/tool-permissions>
+- <https://docs.openclaw.ai/concepts/agent-workspace>
+
+**后果**
+
+- 自然语言中的“只读”不能约束命令行为。读取环境变量、SSH 密钥、`.env`、配置和日志仍可能发生。
+- 工作区只是默认工作目录，不是硬沙箱；未启用沙箱时，绝对路径仍可能访问宿主。
+- 若 Agent 同时具备消息、浏览器或文件工具，可将读取到的数据外传。
+
+**修复**
+
+1. 默认拒绝 `exec`、`process`、`write`、`edit`、`apply_patch`、`browser`。
+2. 需要工具时使用 Agent 级 `tools.allow` 与 `tools.deny`，不要用提示词声明。
+3. 需要文件读取时启用 sandbox，设置 `scope: "agent"` 和 `workspaceAccess: "ro"` 或 `"none"`。
+4. 配置 `tools.fs.workspaceOnly: true`，并明确允许目录，拒绝符号链接逃逸。
+5. 将 `exec.security` 设为 `deny`，或至少使用严格命令白名单与人工审批。
+
+---
+
+### P0-03：客户画像与长期记忆存在跨用户串线
+
+**症状**
+
+- 一个客服 Agent 同时绑定 WhatsApp、Telegram、Slack，并列出“回忆客户偏好和历史”的 memory 能力。
+- `USER.md` 仅包含一个固定用户 `Alex Chen` 和 `user_12345`。
+- `MEMORY.md` 是 Agent 级长期记忆，并包含对话摘要、客户洞察和模式统计。
+- 工件没有说明客户级租户、会话级作用域、记忆命名空间或数据访问校验。
+
+**来源**
+
+- `TC-005-openclaw-file-based-agents.md:82-108`
+- `TC-005-openclaw-file-based-agents.md:142-180`
+- `TC-005-openclaw-file-based-agents.md:260-293`
+- <https://docs.openclaw.ai/concepts/agent-workspace>
+- <https://docs.openclaw.ai/gateway/security/access-control>
+
+**后果**
+
+- 如果同一 Agent 处理多个客户，`USER.md` 和 `MEMORY.md` 的上下文可能被错误地注入到其他客户会话。
+- 计费、邮箱、语言偏好、历史问题等敏感信息可能泄漏。
+- 恶意用户可向共享记忆写入错误事实，污染后续客服判断。
+
+**修复**
+
+1. 明确部署模式：单用户 Agent 还是多租户客服系统。
+2. 多租户场景必须实现 `tenant_id`、`customer_id`、`session_id` 三段式命名空间。
+3. 客户画像不得放在 Agent 级共享 `USER.md`，应放入按租户隔离的受控数据层。
+4. `MEMORY.md` 仅用于主私有会话，不对共享群聊或不同客户注入。
+5. 增加跨租户访问测试、记忆写入来源校验和删除验证。
+
+---
+
+### P0-04：间接提示注入可触达外发工具
+
+**症状**
+
+- Agent 可搜索知识库、读文件、读记忆。
+- Agent 还具备客服回复、Slack 发布和邮件发送能力。
+- 工件没有区分可信系统指令、客户输入、知识库网页、文件和记忆内容。
+- 没有 Reader Agent、内容来源标记、外发审批、域名白名单或发送范围限制。
+
+**来源**
+
+- `TC-005-openclaw-file-based-agents.md:52-55`
+- `TC-005-openclaw-file-based-agents.md:224-256`
+- `TC-005-openclaw-file-based-agents.md:260-293`
+- <https://docs.openclaw.ai/gateway/security/prompt-injection>
+
+**后果**
+
+- 被投毒的知识库页面或客户消息可诱导 Agent 读取敏感文件并发送到外部渠道。
+- 若消息工具允许跨上下文发送，默认策略可能扩大到跨会话或跨渠道。
+- 提示词中的“NEVER share internal documentation”无法构成硬边界。
+
+**修复**
+
+1. 将知识库阅读交给只读 Reader Agent，禁止其使用 shell、浏览器任意导航和外发工具。
+2. 对网页、邮件、附件、记忆内容使用来源标记和不可信内容包装。
+3. 主 Agent 只接收结构化摘要，不直接接收未经处理的整页内容。
+4. 设置 `tools.message.crossContext.allowWithinProvider: false` 和 `allowAcrossProviders: false`。
+5. 对邮箱发送、Slack 发布和跨渠道通知采用草稿或人工审批。
+6. 浏览器配置域名白名单，禁用任意 URL 和任意方法。
+
+---
+
+## 5. P1 高风险项
+
+### P1-01：路由目标未定义且规则互相冲突
+
+第 99-101 行把 “pricing question” 交给 `support-main`，但第 132 行把 “pricing” 交给 `sales-assistant`。第 130-131 行引用未注册的 `billing-agent`、`tech-support`，第 101 行引用 `sales-manager`，第 230 行引用 `support-manager`。第 120、124 行还引用了未在对应 Agent 通道中声明的 `@SalesBot`、`#sales`。
+
+**后果**：路由结果依赖实现细节，可能出现误路由、无限转交、消息丢失或进入不存在目标。
+
+**修复**：建立闭集 Agent 注册表；所有目标必须存在于注册表；增加启动期引用完整性校验；定义无匹配、冲突、超时和人工兜底规则。
+
+### P1-02：多 Agent 隔离声明没有对应控制
+
+第 19 行和 314-318 行直接宣称“独立工作区、状态隔离、无跨 Agent 访问”，但示例没有 workspace、sandbox、session visibility、Agent 间消息白名单，也没有共享 Skill 访问控制。
+
+官方安全文档指出：Agent 间消息默认开启，会话可见性和沙箱范围需要显式配置；未沙箱 Agent 可能读取其他 Agent 的会话。共享 Skill 也可能成为跨 Agent 扩散路径。
+
+**修复**：为每个 Agent 明确 `workspace`、`sandbox.scope: "agent"`、`tools.sessions.visibility`、`tools.agentToAgent.enabled` 或 allowlist；将 Skill 按 Agent 白名单加载；把隔离声明改为可执行配置。
+
+### P1-03：自动外发缺少授权与业务保护
+
+第 229-255 行会通知负责人、发布 Slack 摘要并向停滞用户批量发送邮件。工件没有收件人授权、退订、发送频率、内容模板审核、幂等键、失败重试、黑名单或人工审批。
+
+**后果**：重复邮件、骚扰用户、品牌受损、邮件域名信誉下降，甚至在错误对象上泄露账户状态。
+
+**修复**：默认生成草稿或审批任务；按发件人、租户和收件人设置配额；增加 suppression list、幂等键、冷却期和审计记录；禁止在无明确同意时自动营销触达。
+
+### P1-04：缺少外部访问的认证与授权设计
+
+工件覆盖 WhatsApp、Telegram、Slack、邮件和 in-app，但没有 Gateway 认证、DM 配对、allowlist、群组 mention 门控、`session.dmScope` 或命令授权。
+
+**后果**：未授权用户可能触发 Agent、读取共享会话上下文或调用命令；多用户 DM 默认可能共享主会话。
+
+**修复**：启用 Gateway token 或更强认证；DM 使用 pairing/allowlist；群组使用 mention gating 和 context visibility；共享收件箱设置 `session.dmScope: "per-channel-peer"`；配置冷却、限额和失败锁止。
+
+### P1-05：PII 和敏感信息缺少生命周期管理
+
+第 150-179 行包含姓名、语言、交互历史、计费问题、渠道偏好等个人信息。第 260-293 行包含客户洞察和对话摘要。工件未定义敏感级别、加密、访问者、保留期限、导出、更正、删除和备份清理。
+
+**后果**：无法满足数据最小化、访问审计、删除请求和保留期限要求；本地存储也可能被宿主用户、备份或日志读取。
+
+**修复**：建立数据分级；PII 不入公开仓库；限制 Agent 级读取范围；启用静态加密和目录权限；定义保留期；使用官方记忆来源与删除机制；日志和诊断默认脱敏。
+
+### P1-06：热重载会成为高权限配置变更入口
+
+第 355 行把“修改 SOUL.md 后无需重启生效”视为优点，但未设计签名、变更审批、原子替换、语义校验、回滚和告警。
+
+**后果**：错误或恶意修改可立即改变人格、边界、路由提示和工具使用倾向；缺失旧的边界规则时可能直接影响线上行为。
+
+**修复**：配置变更走代码审查和审批；校验 Schema 与引用完整性；使用原子写入和版本化发布；保留上一个稳定版本；检测非预期变更并触发告警。
+
+### P1-07：模型配置位置与 Agent 安全等级不清
+
+第 33 行将 `model` 放入 SOUL frontmatter。官方示例将模型配置放在 `agents.entries.<agentId>.model`。工件没有说明该字段是否生效，也没有回退模型、成本上限、上下文限制和模型权限。
+
+**后果**：可能实际使用默认模型；若默认模型较弱，会增加提示注入和工具误用风险；成本和可用性不可预测。
+
+**修复**：在真实 Agent 配置中声明主模型与回退模型；选择适合工具型 Agent 的安全等级；设置调用预算、上下文限制和失败策略；在工件中标注该配置不是 SOUL 的自然语言内容。
+
+### P1-08：共享 Skill 目录缺少供应链防护
+
+第 327 行把 `~/.openclaw/skills` 作为共享扩展机制，但没有版本固定、来源验证、签名、审查和 Agent 级白名单。
+
+**后果**：一个被篡改的 Skill 可影响所有复用它的 Agent，形成横向扩散。
+
+**修复**：仅从受信来源安装；固定版本和哈希；安装前审查脚本与网络访问；按 Agent 配置 `skills` allowlist；定期扫描和更新。
+
+### P1-09：缺少真正的审计与来源证据
+
+“纯 Markdown、可读、Git 可追溯”只能说明静态文件可追踪，不能证明 Agent 在运行时的工具调用、外发动作、审批、记忆来源和权限拒绝都有记录。
+
+**修复**：记录 Agent ID、租户、会话、操作者、工具名、参数摘要、结果、审批人和时间；对记忆写入保留来源；对外发操作生成不可篡改事件；使用日志脱敏、保留策略和导出接口。
+
+### P1-10：来源元数据不可复核
+
+第 5 行给出的 `github.com/openclaw-foundation/openclaw` 在 GitHub API 返回 404。公开官方仓库为 `github.com/openclaw/openclaw`。工件还缺少 commit SHA、版本号、文档抓取时间和许可证文件路径。
+
+**后果**：读者无法确认工件依据的是哪一版行为，后续审查和复现会失效。
+
+**修复**：更正仓库地址；记录 commit SHA、OpenClaw 版本、抓取日期；为关键结论逐条附官方文档链接；区分官方事实、设计建议和示例假设。
+
+---
+
+## 6. P2 与 P3 问题
+
+### P2-01：Markdown 围栏层级错误
+
+实际 Markdown 解析结果显示：
+
+- `USER.md` 标题落在无标签代码块中，从第 139 行延伸到第 180 行。
+- `MEMORY.md` 标题及其示例被一个无标签代码块吞入，影响第 257-293 行。
+
+根因是多个同深度三反引号嵌套。修复方式是外层使用四反引号，内层使用三反引号，或缩进内层示例并统一代码块闭合。
+
+### P2-02：文件分类数量前后不一致
+
+第 25 行写“4 core file types”，但实际列出 SOUL、AGENTS、USER、IDENTITY、HEARTBEAT、MEMORY 六类。官方工作区还包含 BOOT、BOOTSTRAP、daily memory、skills 等文件。应改为“6 类示例文件”或明确“4 个核心 + 2 个扩展”。
+
+### P2-03：“纯 Markdown、无代码”与示例矛盾
+
+第 15 行称无代码，HEARTBEAT 示例却包含 JavaScript。应改为“主体为 Markdown，自动化与路由由结构化配置或脚本承担”，并删除对“所有逻辑工件都是纯 Markdown”的绝对表述。
+
+### P2-04：示例标识语法不可直接使用
+
+- `+1-555-SUPPORT`、`+1-555-SALES` 不是有效 E.164 号码。
+- YAML 中未加引号的 `#support`、`#sales` 会被解析为注释。
+- `@SalesBot` 未在 Agent 注册中声明。
+- 头像 `/assets/avatar-helper.png` 不是官方建议的 workspace 相对路径、HTTP(S) URL 或 data URI。
+- `user_id`、`soul_file` 等字段未证明属于官方 Schema。
+
+### P2-05：损坏配置不应“优雅降级”
+
+第 355 行建议损坏 Markdown 时优雅降级。对于人格文件可以降级，对于权限、路由、安全边界和客户数据配置应失败关闭。建议区分“非安全配置降级”和“安全配置阻断”，并在缺失关键边界时禁止工具调用。
+
+### P2-06：评分体系会奖励不安全设计
+
+评估维度只有文件组织、Markdown、可维护性、隔离、可审计性、扩展性，缺少认证、授权、最小权限、提示注入、数据分类、出站审批、速率限制、密钥管理、供应链和删除机制。评分表也没有实际分数与证据列。
+
+建议新增硬门槛：
+
+- 任一项 P0 未关闭，总分直接判为不通过。
+- 安全与隐私维度合计不低于 40%。
+- 每项评分必须附测试或配置证据。
+
+### P2-07：测试建议不足以证明安全
+
+现有测试仅覆盖 schema、路由、隔离、启动、热重载、损坏文件和并发。缺少以下测试：
+
+1. 未注册路由目标导致启动失败。
+2. 跨租户读取 `USER.md`、`MEMORY.md` 和会话失败。
+3. 提示注入无法触发文件读取和外发。
+4. 禁止工具返回明确拒绝。
+5. 外发邮件需要审批且不会重复发送。
+6. 记忆删除后索引、缓存和摘要同步清理。
+7. 配置回滚后旧权限立即失效。
+8. 速率限制、配额和失败锁止生效。
+
+### P2-08：自动化缺少可靠性控制
+
+第 224-256 行的外部调用没有超时、重试、退避、幂等键、死信、告警和部分失败处理。建议每一项外部副作用定义唯一业务键，采用至少一次投递加幂等接收，并在失败时停止后续高风险步骤。
+
+### P2-09：本地优先表述会误导数据流向
+
+“所有数据存储本地”只描述存储位置，不等于数据不离开设备。消息会进入 WhatsApp、Telegram、Slack 等平台，提示会发送给模型提供方。应在文档中明确数据流、第三方处理者、诊断数据和遥测开关。
+
+### P3-01：评分权重缺少依据
+
+20%/15%/20%/20%/15%/10% 的权重没有说明来源，也没有区分“可展示性”和“生产安全性”。建议引入威胁模型和业务影响作为权重依据，并公开每个维度的评分证据。
+
+---
+
+## 7. 建议的最小权限矩阵
+
+以下矩阵可作为修复后的默认基线。原则是默认拒绝、按 Agent 最小授权、外发操作默认审批。
+
+| 能力 | support-main | sales-assistant | onboarding-guide | 强制条件 |
+|---|---|---|---|---|
+| 读取当前会话消息 | 允许 | 允许 | 允许 | 仅当前租户/会话 |
+| 读取知识库 | 允许 | 允许 | 允许 | 只读、域名或目录白名单 |
+| 读取 `USER.md` | 禁止共享 | 禁止共享 | 禁止共享 | 改为租户隔离存储 |
+| 读取 `MEMORY.md` | 仅私有主会话 | 仅私有主会话 | 仅私有主会话 | 不注入共享群聊 |
+| 写入长期记忆 | 受控 | 受控 | 受控 | 来源、租户、审批和去重 |
+| 文件工具 | 禁止 | 禁止 | 禁止 | 如必需，sandbox 只读且限定目录 |
+| `exec` / shell | 禁止 | 禁止 | 禁止 | 不建议为客服 Agent 开启 |
+| 任意浏览器 | 禁止 | 禁止 | 禁止 | 仅允许白名单域名与只读方法 |
+| 当前会话回复 | 允许 | 允许 | 允许 | 绑定来源渠道 |
+| 跨会话消息 | 禁止 | 禁止 | 禁止 | `allowWithinProvider: false` |
+| 跨渠道消息 | 禁止 | 禁止 | 禁止 | `allowAcrossProviders: false` |
+| 邮件发送 | 仅草稿或审批 | 仅草稿或审批 | 仅草稿或审批 | 有同意、配额和退订 |
+| Slack 发布 | 仅审批 | 仅审批 | 仅审批 | 绑定频道、限频、可撤销 |
+| 读取密钥 | 禁止 | 禁止 | 禁止 | 密钥移出工作区 |
+| 安装或更新 Skill | 禁止 | 禁止 | 禁止 | 管理员审批与版本固定 |
+
+---
+
+## 8. 数据分类与保护建议
+
+| 数据级别 | 示例 | 最低控制 |
+|---|---|---|
+| L1 公开 | 公开知识库文章 | 只读、可缓存、来源可追溯 |
+| L2 内部 | 产品规则、运营指标 | 内部访问控制、禁止公网分享 |
+| L3 机密 | 客户画像、会话历史、计费信息、邮箱 | 租户隔离、加密、最小化、保留期、删除机制 |
+| L4 受限 | 渠道 token、模型 API key、OAuth 凭据 | 移出 workspace、SecretRef、最小范围、轮换、禁止日志输出 |
+
+建议默认规则：
+
+1. `USER.md`、`MEMORY.md` 和会话历史按 L3 处理。
+2. 任何 L3 数据进入模型上下文前必须通过租户和用途校验。
+3. 外发内容进行敏感字段扫描，至少覆盖邮箱、电话号、内部 URL、token 和订单号。
+4. 删除请求同时清理主文件、索引、缓存、摘要和派生记忆。
+5. 日志与诊断默认脱敏，原始日志仅安全管理员可读。
+
+---
+
+## 9. 关键威胁模型
+
+| 威胁 | 攻击路径 | 当前工件缺口 | 建议控制 |
+|---|---|---|---|
+| 身份伪造 | 用户通过 WhatsApp、Telegram、邮件冒充客户 | 无 sender identity、pairing、allowlist | 渠道身份绑定、配对、跨渠道 identity link 校验 |
+| 配置篡改 | 修改 SOUL/AGENTS 或共享 Skill | 无签名、审批、回滚 | 代码审查、Schema 校验、原子发布、哈希固定 |
+| 数据泄漏 | 浏览器/文件读取后经消息或邮件外传 | 工具组合过强，无外发审批 | Reader Agent、sandbox、域名白名单、外发 DLP |
+| 跨租户串线 | 共享 USER/MEMORY 和默认主会话 | 无租户命名空间与 DM 隔离 | tenant scope、per-channel-peer、独立 workspace |
+| 权限提升 | shell、文件、Skill 或 Agent 间消息 | “只读”仅靠提示词 | 默认 deny、Agent 级 allowlist、禁 Agent 间消息 |
+| 滥用与成本 | 群聊或 DM 大量触发模型与外部 API | 无速率限制、配额、预算 | 入站限流、模型预算、每日额度、失败锁止 |
+| 不可追责 | 无操作日志、记忆来源和审批记录 | 只有 Git 可追溯 | 结构化审计日志、记忆 provenance、不可篡改导出 |
+| 供应链 | 恶意 Skill 或配置更新 | 共享 Skill 无来源要求 | 签名、版本固定、隔离测试、按 Agent 白名单 |
+
+---
+
+## 10. 修复优先级与验收门槛
+
+### 10.1 建议修复顺序
+
+1. **先修正事实与结构**：P0-01、P1-10、P2-01、P2-02、P2-03。
+2. **再收紧权限与数据边界**：P0-02、P0-03、P0-04、P1-02、P1-04。
+3. **补齐运行时保护**：P1-03、P1-05、P1-06、P1-07、P1-08。
+4. **补齐审计与验证**：P1-09、P2-05、P2-06、P2-07、P2-08。
+5. **最后修正表达与评分方法**：P2-09、P3-01。
+
+### 10.2 发布前必须具备的证据
+
+- [ ] 正确的官方仓库地址、commit SHA 与文档日期。
+- [ ] 可解析、可校验的 OpenClaw 配置，而非 Markdown 伪配置。
+- [ ] Agent 注册表闭集校验，所有路由目标存在且无冲突。
+- [ ] 每个 Agent 的 workspace、sandbox、tools、skills、session visibility 配置。
+- [ ] 租户隔离、DM 隔离和记忆命名空间设计。
+- [ ] 不可信内容处理流程与 Reader Agent 边界。
+- [ ] 外发审批、速率限制、幂等、退订和审计证据。
+- [ ] PII 数据分类、保留、导出、删除和备份清理流程。
+- [ ] 密钥管理方案，确保密钥不在 workspace 和提示词中。
+- [ ] 提示注入、跨租户读取、工具拒绝、重复发送、删除和回滚测试结果。
+- [ ] Markdown 渲染检查，确保所有示例文件结构正确。
+- [ ] 安全维度占主导的评分规则，以及每项评分的证据链接。
+
+### 10.3 最终判定
+
+**当前工件不能进入生产，也不应作为安全 Agent 的正面样本。** 在修复 P0/P1 之前，最多可作为“待验证的概念草稿”，不能作为“OpenClaw 文件型 Agent 最佳实践基线”。
+
+---
+
+## 11. 结论
+
+该工件的主要问题不是文案细节，而是**把自然语言描述误当成运行时权限，把共享文件误当成租户隔离，把旧机制误当成当前架构**。这三类问题叠加后，会给多通道客服 Agent 带来跨客户泄漏、提示注入、外发失控和不可审计风险。
+
+建议按以下顺序推进：
+
+1. 重写架构事实与配置示例。
+2. 建立默认拒绝的 Agent 权限矩阵。
+3. 实现租户与会话隔离。
+4. 增加不可信内容处理和外发审批。
+5. 用可执行测试和审计证据替换现有测试建议。
+
+完成后应重新进行一轮独立安全审查，不以文档自评分替代验证。
+
+---
+
+## 附录 A：P0/P1 风险矩阵
+
+| 风险 | 可能性 | 影响 | 等级 |
+|---|---|---|---|
+| 跨客户画像/记忆泄漏 | 高 | 高 | 极高 |
+| 任意文件或命令访问 | 中 | 高 | 极高 |
+| 提示注入触发外发 | 高 | 高 | 极高 |
+| 未授权用户触发 Agent | 中 | 高 | 高 |
+| 自动邮件误发或重复发送 | 中 | 高 | 高 |
+| 路由到未定义 Agent | 高 | 中 | 高 |
+| 共享 Skill 供应链污染 | 中 | 高 | 高 |
+| 配置热重载被篡改 | 中 | 高 | 高 |
+| 记忆删除不完整 | 高 | 中 | 高 |
+| 审计证据缺失 | 高 | 中 | 中高 |
+
+## 附录 B：本次未执行的项目
+
+- 未启动 OpenClaw Gateway。
+- 未运行工件中的 JavaScript 伪代码。
+- 未进行真实 WhatsApp、Telegram、Slack 或邮件通道联调。
+- 未验证第三方平台条款、数据跨境和具体司法辖区合规义务。
+- 未对 OpenClaw 源码本身做全面安全审计，本报告只审查该组合工件的设计与表述。

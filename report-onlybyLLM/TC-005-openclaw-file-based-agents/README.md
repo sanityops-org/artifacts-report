@@ -91,15 +91,16 @@ test-cases/agent-suite/TC-005-openclaw-file-based-agents.md
 | 指标 | DeepSeek-FLASH | deeplogic-cli | sanityops-inspect-lite |
 |---|---:|---:|---|
 | P0 | 4 | 10 | 10 |
-| P1 | 12 | 7 | 12 |
-| P2 | 10 | 1 | 2 |
-| 主检查缺陷合计 | **26** | **18** | **24** |
+| P1 | 10 | 7 | 12 |
+| P2 | 9 | 1 | 2 |
+| P3 | 1 | — | — |
+| 主检查缺陷合计 | **24** | **18** | **24** |
 | 独立 QC 缺陷 | 无 | **2 项 P1** | **1 项 P1** |
 | EX 风险项 | 无 | 无 | **9 项** |
-| 分数 | 2.1/5，约 42/100 | 52.63/100 | 未计算（Gate-0 未通过） |
-| 门禁 | 定性结论 | FAIL | Gate-0 Not passed |
-| 权限检查 | 有风险结论 | GATE0_BLOCKED | Gate-0 未通过，未执行 |
-| 风险审计 | 无 | 无 | **有（EX 分类）** |
+| 分数 | **1.5/5（高风险）** | 52.63/100 | 未计算（Gate-0 未通过） |
+| 门禁 | 定性不通过 | FAIL | Gate-0 Not passed |
+| 权限检查 | 有静态安全与权限分析 | GATE0_BLOCKED | Gate-0 未通过，未执行 |
+| 风险审计 | 有模型驱动静态审查 | 无 | **有（EX 分类）** |
 
 三种方式均认为：
 
@@ -111,13 +112,13 @@ test-cases/agent-suite/TC-005-openclaw-file-based-agents.md
 
 ### 1. 三个分数不能直接比较
 
-- `2.1/5` 是 DeepSeek-FLASH 按套件六维评分表给出的综合成熟度评分
+- `1.5/5` 是 DeepSeek-FLASH 对完整套件给出的总体风险评分，由模型结合官方架构核验和安全审查判断
 - `52.63/100` 是 deeplogic-cli 按 QDP 规则计算出的 Prompt 检查得分
 - sanityops-inspect-lite 在 Gate-0 未通过时不输出分数
 
 ### 2. 缺陷总数不能直接相加
 
-三份报告存在大量重叠主题。把 `26 + 18 + 24` 直接相加会重复计算，不能作为唯一缺陷总数。
+三份报告存在大量重叠主题。把 `24 + 18 + 24` 直接相加会重复计算，不能作为唯一缺陷总数。
 
 ### 3. deeplogic-cli 只检查了一个 Prompt
 
@@ -148,11 +149,11 @@ sanityops-inspect-lite 的 EX 分类是**静态文本风险**，不等同于已�
 | 快速了解总体风险 | 三方法对比报告第 1、3、4、11 节 |
 | 制定修复清单 | 三个报告的 P0/P1/P2 表 + EX 风险项 |
 | 做 CI 门禁 | deeplogic-cli 或 sanityops-inspect-lite |
-| 审查完整多 Agent 套件 | DeepSeek-FLASH，再人工复核严重级别 |
+| 审查完整多 Agent 套件 | DeepSeek-FLASH，重点核对官方架构与安全边界，再人工复核严重级别 |
 | 了解静态风险 | sanityops-inspect-lite 的 Stage E 报告 |
 | 核对机器输出 | 原始报告文件与控制台记录 |
 
-**综合建议：** 先用 sanityops-inspect-lite 或 deeplogic-cli 建立可重复的基线门禁，再由模型进行完整套件语义复核，最后人工合并去重并统一严重级别。
+**综合建议：** 先用 DeepSeek-FLASH 或同类模型核对完整套件语义与官方架构，再用 sanityops-inspect-lite 或 deeplogic-cli 建立可重复的基线门禁，最后人工合并去重并统一严重级别。
 
 ---
 
@@ -160,9 +161,9 @@ sanityops-inspect-lite 的 EX 分类是**静态文本风险**，不等同于已�
 
 | 特性 | DeepSeek-FLASH | deeplogic-cli | sanityops-inspect-lite |
 |---|---|---|---|
-| 评测方法 | 自由评审 | 固定规则集 | 固定规则集 |
+| 评测方法 | 静态审查 + 官方架构核验 | 固定规则集 | 固定规则集 |
 | 跨工件检查 | 有（人工式） | 有限 | **完整（29 项）** |
-| 风险审计 | 无 | 无 | **有（EX 分类）** |
+| 风险审计 | 有模型驱动静态审查 | 无 | **有（EX 分类）** |
 | Gate-0 门禁 | 无 | 有 | **有（G0-3/G0-4）** |
 | 保真度分类 | 无 | 无 | **有** |
 | 零安装执行 | 是 | 否（需 CLI） | **是** |
