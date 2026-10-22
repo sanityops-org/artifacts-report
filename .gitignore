@@ -1,5 +1,6 @@
 # Local clones used only for verbatim extraction (565 MB). Never commit.
 _archive/_clones/
+_sources/
 
 # Local benchmark dataset kept out of the case corpus.
 _archive/power-agent-sanityops-cases/
