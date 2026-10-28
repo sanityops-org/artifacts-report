@@ -141,7 +141,7 @@ def main():
 
     print()
     print("[3] Creating the LLM provider...")
-    config = ProviderConfig()
+    config = ProviderConfig(_env_file=(PROJECT_ROOT / ".env", PROJECT_ROOT.parent / ".env"))
     if not config.API_KEY:
         print()
         print("Error: No API key configured.")

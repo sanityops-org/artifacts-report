@@ -113,8 +113,8 @@ def print_report(result) -> None:
 
 
 def create_provider_config() -> ProviderConfig:
-    """Load provider configuration from the agent-local .env file."""
-    return ProviderConfig(_env_file=AGENT_DIR / ".env")
+    """Load provider configuration from shared and agent-local .env files."""
+    return ProviderConfig(_env_file=(AGENT_DIR / ".env", AGENT_DIR.parent / ".env"))
 
 
 async def run_agent(

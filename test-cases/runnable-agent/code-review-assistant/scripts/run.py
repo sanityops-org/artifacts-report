@@ -55,7 +55,7 @@ def create_provider():
     - LLM_BASE_URL: Optional, custom endpoint
     - LLM_MODEL_ID: Optional, model ID
     """
-    config = ProviderConfig()
+    config = ProviderConfig(_env_file=(project_root / ".env", project_root.parent / ".env"))
 
     if not config.API_KEY:
         print("Warning: Not configured API Key")

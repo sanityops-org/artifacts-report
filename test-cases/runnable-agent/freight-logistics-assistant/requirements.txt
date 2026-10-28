@@ -3,7 +3,7 @@
 # sanityops_agent is a PRIVATE package: it is not on PyPI, so it must come from
 # the internal index below. PyPI alone cannot satisfy this file.
 #
-# --extra-index-url (not --index-url) keeps PyPI usable, so pydantic and pytest
+# --extra-index-url (not ) keeps PyPI usable, so pydantic and pytest
 # still install while the internal index is unreachable.
 # --trusted-host is REQUIRED: without it pip rejects the plain-HTTP index as an
 # untrusted host and silently ignores it, which looks exactly like a missing
@@ -11,8 +11,7 @@
 #
 # NOTE: keep this file ASCII-only. pip <= 24 decodes requirement files with the
 # system locale encoding, so non-ASCII comments may cause UnicodeDecodeError.
---extra-index-url http://192.168.1.15:8080/simple/
---trusted-host 192.168.1.15
+
 
 sanityops_agent
 pydantic>=2.0.0

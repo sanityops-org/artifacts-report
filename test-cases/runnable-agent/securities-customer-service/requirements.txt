@@ -1,5 +1,5 @@
 # sanityops_agent Frame
-sanityops_agent>=1.0.0 --index-url http://192.168.1.15:8080/simple/
+sanityops_agent>=0.1.1
 
 # Commonly used dependencies
 pydantic>=2.0.0

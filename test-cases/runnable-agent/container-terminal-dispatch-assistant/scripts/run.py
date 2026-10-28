@@ -174,7 +174,7 @@ def select_role() -> dict:
 
 def create_provider():
     """Set up LLM Provider"""
-    config = ProviderConfig()
+    config = ProviderConfig(_env_file=(project_root / ".env", project_root.parent / ".env"))
 
     if not config.API_KEY:
         print("Warning: Not configured API Key")
@@ -205,7 +205,7 @@ async def main():
     # 2. Load system prompts
     print("\n[2] Load system prompts...")
     system_prompt = load_system_prompt()
-    print(f"  {Len(system_prompt)} characters have been loaded")
+    print(f"  {len(system_prompt)} characters have been loaded")
 
     # 3. Create ToolContext and tool registry
     print("\n[3] Create a tool registration form...")

@@ -54,7 +54,7 @@ def check_sanityops_agent():
         return True
     except ImportError:
         print(f"✗ sanityops_agent Not installed")
-        print(f"  Please run: pip install sanityops_agent --index-url http://192.168.1.15:8080/simple/")
+        print(f"  Please run: pip install sanityops_agent ")
         return False
 
 

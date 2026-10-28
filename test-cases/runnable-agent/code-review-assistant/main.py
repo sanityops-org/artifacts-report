@@ -295,7 +295,7 @@ async def run_agent(folder_path: str):
     review_request = format_code_for_review(code_files)
 
     # Load configuration (automatically read from .env)
-    provider_config = ProviderConfig()
+    provider_config = ProviderConfig(_env_file=(AGENT_DIR / ".env", AGENT_DIR.parent / ".env"))
 
     if not provider_config.API_KEY:
         print()

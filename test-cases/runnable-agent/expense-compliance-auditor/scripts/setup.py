@@ -118,7 +118,7 @@ def check_framework() -> bool:
         import sanityops_agent  # noqa: F401
     except ImportError:
         print("WARN: sanityops_agent not installed; scripts/run.py will not start")
-        print("      pip install sanityops_agent --index-url <your index url>")
+        print("      pip install sanityops_agent  <your index url>")
         return True
     print("OK: sanityops_agent")
     return True

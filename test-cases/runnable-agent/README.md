@@ -1,6 +1,6 @@
 # Runnable Agent Collection
 
-This folder contains 19 runnable agent packages copied from the internal `agent_artifacts` collection. Each package retains its prompts, skills, tools, data, tests, and original entry point.
+This folder contains 18 runnable agent packages copied from the internal `agent_artifacts` collection. Each package retains its prompts, skills, tools, data, tests, and original entry point.
 
 
 
@@ -21,7 +21,6 @@ This folder contains 19 runnable agent packages copied from the internal `agent_
 | [government-hotline-customer-service](government-hotline-customer-service/) | 2026-09-04 | `python scripts/run.py` | Included in the agent README |
 | [meal-planner](meal-planner/) | 2026-10-09 | `python scripts/run.py` | Included in the agent README |
 | [medical-triage-assistant](medical-triage-assistant/) | 2026-09-26 | `python scripts/run.py` | Included in the agent README |
-| [medication-information-assistant](medication-information-assistant/) | 2026-09-30 | `python scripts/run.py` | Included in the agent README |
 | [pet-care-advisor](pet-care-advisor/) | 2026-10-09 | `python scripts/run.py` | Included in the agent README |
 | [securities-customer-service](securities-customer-service/) | 2026-09-03 | `python scripts/run.py` | Included in the agent README |
 | [taxi-travel-assistant](taxi-travel-assistant/) | 2026-09-04 | `python scripts/run.py` | Included in the agent README |
@@ -44,7 +43,7 @@ Some packages use a setup step, a custom dependency installation command, or a d
 
 ## Runtime Configuration
 
-Agents that call an LLM use environment variables or `.env` files. Copy `.env.example` to `.env` where present, then provide the required endpoint, model, and credentials. Do not commit local `.env` files or API keys.
+Agents that call an LLM use environment variables or `.env` files. A shared configuration can be placed at `test-cases/runnable-agent/.env`; all runners load it automatically and give it precedence over an agent-local `.env`. Agent-local files remain supported as a fallback. Do not commit local `.env` files or API keys.
 
 ## Tests
 

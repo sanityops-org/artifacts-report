@@ -67,6 +67,8 @@ From the repository root:
 cd test-cases/runnable-agent/data-quality-validator
 python3 -m venv .venv
 source .venv/bin/activate
-python -m pip install pandas openpyxl pyarrow chardet
+python -m pip install pandas openpyxl pyarrow chardet sanityops_agent
 python scripts/run.py
 ```
+
+The runner automatically loads the shared `test-cases/runnable-agent/.env` configuration. If no shared configuration exists, it falls back to an agent-local `.env` file.

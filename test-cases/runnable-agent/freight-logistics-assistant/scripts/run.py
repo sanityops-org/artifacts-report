@@ -179,7 +179,7 @@ def register_skill_tool(registry: ToolRegistry) -> bool:
 
 def create_provider():
     """Create LLM Provider"""
-    config = ProviderConfig()
+    config = ProviderConfig(_env_file=(project_root / ".env", project_root.parent / ".env"))
 
     if not config.API_KEY:
         print("Warning: API Key not configured")

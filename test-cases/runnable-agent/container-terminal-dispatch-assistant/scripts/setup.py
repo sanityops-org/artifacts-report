@@ -92,7 +92,7 @@ def main():
     existing_dirs, missing_dirs = check_directories()
 
     if existing_dirs:
-        print(f"    {Len(existing_dirs)} directories found:")
+        print(f"    {len(existing_dirs)} directories found:")
         for d in existing_dirs:
             print(f"      ✓ {d}")
 
@@ -108,7 +108,7 @@ def main():
     existing_files, missing_files = check_data_files()
 
     if existing_files:
-        print(f"    {Len(existing_files)} data files have been found:")
+        print(f"    {len(existing_files)} data files have been found:")
         for f in existing_files:
             print(f"      ✓ {f}")
 
