@@ -36,9 +36,9 @@ A case is placed in exactly one folder, named by the set of artifact types that 
 
 ## 3. What the matrix says
 
-**Single-artifact cases cover all three types evenly** (50 / 50 / 49). This is the usable statistical base: 149 independent artifacts, each one directly loadable and independently gradeable.
+**Among the 205 TC-numbered cases, single-artifact cases cover all three types evenly** (50 / 50 / 49). This is the usable statistical base: 149 independent artifacts, each one directly loadable and independently gradeable.
 
-**Multi-type combinations are empty across the entire corpus.** No case ships two or more loadable artifact types together. Two independent sampling frames produced the same result:
+**Among the 205 TC-numbered cases, multi-type combinations are empty.** No numbered case ships two or more loadable artifact types together. Two independent sampling frames produced the same result:
 
 | Frame | Sample | Result |
 |---|---|---|
@@ -67,6 +67,8 @@ This is not a collection failure. It reflects how production agents are actually
 ### Empty combinations
 
 Each empty folder carries a short `README.md` recording why it is empty, so the absence is documented rather than looking like an oversight.
+
+The [prompt-skill-tool](prompt-skill-tool/) folder also contains **17 unnumbered agent artifact bundles** copied from the internal `prompt-tool-skill` batch. Each bundle contains a System Prompt, one or more Skill definitions, and one or more Tool Schemas. These are complete three-layer artifacts, but they are not TC-numbered corpus cases and are not included in the matrix counts above.
 
 ---
 
