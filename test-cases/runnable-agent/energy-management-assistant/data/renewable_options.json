@@ -1,0 +1,103 @@
+[
+  {
+    "option_id": "RE001",
+    "type": "solar",
+    "name": "Rooftop Solar PV",
+    "description": "Grid-connected rooftop solar photovoltaic system",
+    "typical_capacity_range_kw": {
+      "min": 50,
+      "max": 1000
+    },
+    "cost_per_watt": {
+      "min": 1.2,
+      "max": 2.0
+    },
+    "typical_capacity_factor": {
+      "min": 0.15,
+      "max": 0.25
+    },
+    "lifespan_years": 25,
+    "maintenance_percent_per_year": 0.5,
+    "incentives": [
+      "Federal Investment Tax Credit (30%)",
+      "State rebates vary",
+      "Accelerated depreciation (MACRS)"
+    ]
+  },
+  {
+    "option_id": "RE002",
+    "type": "wind",
+    "name": "Small Wind Turbine",
+    "description": "On-site small-scale wind energy system",
+    "typical_capacity_range_kw": {
+      "min": 5,
+      "max": 100
+    },
+    "cost_per_watt": {
+      "min": 2.5,
+      "max": 4.0
+    },
+    "typical_capacity_factor": {
+      "min": 0.15,
+      "max": 0.35
+    },
+    "lifespan_years": 20,
+    "maintenance_percent_per_year": 1.5,
+    "incentives": [
+      "Federal Investment Tax Credit (30%)",
+      "Some state incentives available"
+    ],
+    "constraints": [
+      "Minimum wind speed requirement",
+      "Zoning restrictions",
+      "Setback requirements"
+    ]
+  },
+  {
+    "option_id": "RE003",
+    "type": "storage",
+    "name": "Battery Energy Storage",
+    "description": "Lithium-ion battery system for peak shaving and backup",
+    "typical_capacity_range_kwh": {
+      "min": 50,
+      "max": 1000
+    },
+    "cost_per_kwh": {
+      "min": 300,
+      "max": 500
+    },
+    "typical_round_trip_efficiency": 0.9,
+    "lifespan_years": 10,
+    "warranty_cycles": 5000,
+    "applications": [
+      "Peak demand reduction",
+      "Time-of-use arbitrage",
+      "Backup power",
+      "Renewable integration"
+    ]
+  },
+  {
+    "option_id": "RE004",
+    "type": "ppa",
+    "name": "Off-site Power Purchase Agreement",
+    "description": "Long-term contract for off-site renewable energy",
+    "typical_term_years": {
+      "min": 10,
+      "max": 25
+    },
+    "typical_savings_percent": {
+      "min": 5,
+      "max": 20
+    },
+    "benefits": [
+      "No upfront capital required",
+      "Fixed or predictable energy costs",
+      "Meets sustainability goals",
+      "No on-site installation"
+    ],
+    "considerations": [
+      "Long-term commitment",
+      "May require REC retirement for Scope 2 reporting"
+    ]
+  }
+]

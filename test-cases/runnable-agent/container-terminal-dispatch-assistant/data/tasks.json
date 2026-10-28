@@ -1,0 +1,28 @@
+{
+  "tasks": [
+    {
+      "task_id": "T0001",
+      "task_type": "discharge",
+      "status": "in_progress",
+      "equip_id": "QC02",
+      "container_id": "ABCD1234567",
+      "vessel_id": "V002",
+      "source_location": "vessel_V002",
+      "target_location": "yard_A01",
+      "created_at": "2026-09-14T06:30:00",
+      "estimated_duration": 45
+    },
+    {
+      "task_id": "T0002",
+      "task_type": "load",
+      "status": "pending",
+      "equip_id": null,
+      "container_id": "EFGH7654321",
+      "vessel_id": "V001",
+      "source_location": "yard_B01",
+      "target_location": "vessel_V001",
+      "created_at": "2026-09-14T08:00:00",
+      "estimated_duration": 30
+    }
+  ]
+}

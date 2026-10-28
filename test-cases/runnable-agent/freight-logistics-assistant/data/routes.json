@@ -1,0 +1,304 @@
+[
+  {
+    "route_id": "R001",
+    "name": "Shanghai-Beijing Express",
+    "origin": "Shanghai",
+    "destination": "Beijing",
+    "distance_km": 1213,
+    "estimated_hours": 14,
+    "waypoints": [
+      {
+        "sequence": 1,
+        "location": "Shanghai",
+        "estimated_departure": "08:00"
+      },
+      {
+        "sequence": 2,
+        "location": "Nanjing",
+        "estimated_arrival": "11:00",
+        "estimated_departure": "12:00"
+      },
+      {
+        "sequence": 3,
+        "location": "Jinan",
+        "estimated_arrival": "17:00",
+        "estimated_departure": "18:00"
+      },
+      {
+        "sequence": 4,
+        "location": "Beijing",
+        "estimated_arrival": "22:00"
+      }
+    ],
+    "road_types": [
+      "highway",
+      "expressway"
+    ],
+    "service_stations": [
+      "Nanjing Service Area",
+      "Jinan Service Area"
+    ],
+    "restrictions": [
+      {
+        "cargo_category": "hazardous",
+        "allowed": true,
+        "requirements": [
+          "UN certification",
+          " escort vehicle"
+        ]
+      },
+      {
+        "cargo_category": "oversized",
+        "allowed": false,
+        "requirements": [],
+        "notes": "Height limit 4.5m on Jinan section"
+      }
+    ],
+    "toll_cost": 480,
+    "average_speed_kmh": 85
+  },
+  {
+    "route_id": "R002",
+    "name": "Guangzhou-Shenzhen Corridor",
+    "origin": "Guangzhou",
+    "destination": "Shenzhen",
+    "distance_km": 140,
+    "estimated_hours": 2,
+    "waypoints": [
+      {
+        "sequence": 1,
+        "location": "Guangzhou",
+        "estimated_departure": "08:00"
+      },
+      {
+        "sequence": 2,
+        "location": "Dongguan",
+        "estimated_arrival": "09:00",
+        "estimated_departure": "09:30"
+      },
+      {
+        "sequence": 3,
+        "location": "Shenzhen",
+        "estimated_arrival": "10:00"
+      }
+    ],
+    "road_types": [
+      "highway"
+    ],
+    "service_stations": [
+      "Dongguan Rest Stop"
+    ],
+    "restrictions": [],
+    "toll_cost": 65,
+    "average_speed_kmh": 90
+  },
+  {
+    "route_id": "R003",
+    "name": "Chengdu-Chongqing Route",
+    "origin": "Chengdu",
+    "destination": "Chongqing",
+    "distance_km": 304,
+    "estimated_hours": 4,
+    "waypoints": [
+      {
+        "sequence": 1,
+        "location": "Chengdu",
+        "estimated_departure": "08:00"
+      },
+      {
+        "sequence": 2,
+        "location": "Neijiang",
+        "estimated_arrival": "10:00",
+        "estimated_departure": "10:30"
+      },
+      {
+        "sequence": 3,
+        "location": "Chongqing",
+        "estimated_arrival": "12:00"
+      }
+    ],
+    "road_types": [
+      "highway",
+      "mountain road"
+    ],
+    "service_stations": [
+      "Neijiang Service Area"
+    ],
+    "restrictions": [
+      {
+        "cargo_category": "hazardous",
+        "allowed": true,
+        "requirements": [
+          "Special permit for mountain sections"
+        ]
+      },
+      {
+        "cargo_category": "oversized",
+        "allowed": true,
+        "requirements": [
+          "Escort required on mountain sections"
+        ]
+      }
+    ],
+    "toll_cost": 180,
+    "average_speed_kmh": 75
+  },
+  {
+    "route_id": "R004",
+    "name": "Tianjin-Qingdao Coastal",
+    "origin": "Tianjin",
+    "destination": "Qingdao",
+    "distance_km": 540,
+    "estimated_hours": 6,
+    "waypoints": [
+      {
+        "sequence": 1,
+        "location": "Tianjin",
+        "estimated_departure": "06:00"
+      },
+      {
+        "sequence": 2,
+        "location": "Cangzhou",
+        "estimated_arrival": "07:30",
+        "estimated_departure": "08:00"
+      },
+      {
+        "sequence": 3,
+        "location": "Weifang",
+        "estimated_arrival": "10:00",
+        "estimated_departure": "10:30"
+      },
+      {
+        "sequence": 4,
+        "location": "Qingdao",
+        "estimated_arrival": "12:00"
+      }
+    ],
+    "road_types": [
+      "highway",
+      "coastal road"
+    ],
+    "service_stations": [
+      "Cangzhou Station",
+      "Weifang Station"
+    ],
+    "restrictions": [
+      {
+        "cargo_category": "hazardous",
+        "allowed": true,
+        "requirements": [
+          "Coastal route certification"
+        ]
+      }
+    ],
+    "toll_cost": 290,
+    "average_speed_kmh": 80
+  },
+  {
+    "route_id": "R005",
+    "name": "Shanghai-Hangzhou Short Route",
+    "origin": "Shanghai",
+    "destination": "Hangzhou",
+    "distance_km": 180,
+    "estimated_hours": 2.5,
+    "waypoints": [
+      {
+        "sequence": 1,
+        "location": "Shanghai",
+        "estimated_departure": "08:00"
+      },
+      {
+        "sequence": 2,
+        "location": "Jiaxing",
+        "estimated_arrival": "08:45",
+        "estimated_departure": "09:00"
+      },
+      {
+        "sequence": 3,
+        "location": "Hangzhou",
+        "estimated_arrival": "10:30"
+      }
+    ],
+    "road_types": [
+      "highway"
+    ],
+    "service_stations": [
+      "Jiaxing Service Area"
+    ],
+    "restrictions": [],
+    "toll_cost": 85,
+    "average_speed_kmh": 90
+  },
+  {
+    "route_id": "R006",
+    "name": "Beijing-Guangzhou Long Haul",
+    "origin": "Beijing",
+    "destination": "Guangzhou",
+    "distance_km": 2128,
+    "estimated_hours": 26,
+    "waypoints": [
+      {
+        "sequence": 1,
+        "location": "Beijing",
+        "estimated_departure": "06:00"
+      },
+      {
+        "sequence": 2,
+        "location": "Shijiazhuang",
+        "estimated_arrival": "09:00",
+        "estimated_departure": "10:00"
+      },
+      {
+        "sequence": 3,
+        "location": "Zhengzhou",
+        "estimated_arrival": "14:00",
+        "estimated_departure": "15:00"
+      },
+      {
+        "sequence": 4,
+        "location": "Wuhan",
+        "estimated_arrival": "20:00",
+        "estimated_departure": "21:00"
+      },
+      {
+        "sequence": 5,
+        "location": "Changsha",
+        "estimated_arrival": "01:00",
+        "estimated_departure": "02:00"
+      },
+      {
+        "sequence": 6,
+        "location": "Guangzhou",
+        "estimated_arrival": "08:00"
+      }
+    ],
+    "road_types": [
+      "highway",
+      "expressway"
+    ],
+    "service_stations": [
+      "Zhengzhou Hub",
+      "Wuhan Hub",
+      "Changsha Station"
+    ],
+    "restrictions": [
+      {
+        "cargo_category": "hazardous",
+        "allowed": true,
+        "requirements": [
+          "Multi-province permits",
+          "Rest stop mandatory every 4 hours"
+        ]
+      },
+      {
+        "cargo_category": "refrigerated",
+        "allowed": true,
+        "requirements": [
+          "Temperature monitoring throughout"
+        ]
+      }
+    ],
+    "toll_cost": 1100,
+    "average_speed_kmh": 82
+  }
+]

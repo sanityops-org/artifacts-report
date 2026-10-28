@@ -1,0 +1,25 @@
+{
+  "gate_channels": [
+    {
+      "channel_id": "G01",
+      "channel_name": "No. 1 entry channel",
+      "type": "inbound",
+      "status": "closed",
+      "queue_length": 5
+    },
+    {
+      "channel_id": "G02",
+      "channel_name": "No. 2 entry channel",
+      "type": "inbound",
+      "status": "open",
+      "queue_length": 3
+    },
+    {
+      "channel_id": "G03",
+      "channel_name": "Exit channel No. 1",
+      "type": "outbound",
+      "status": "open",
+      "queue_length": 2
+    }
+  ]
+}

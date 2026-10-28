@@ -1,0 +1,11 @@
+name: inquiry
+version: "1.0.0"
+description: "Consulting skills: market inquiry, business guidelines"
+
+handler:
+  script: handler.py
+  entry_point: main
+
+dependencies:
+  - pyyaml
+  - pydantic

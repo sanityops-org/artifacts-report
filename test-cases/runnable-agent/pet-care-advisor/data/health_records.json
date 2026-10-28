@@ -1,0 +1,68 @@
+{
+  "health_records": [
+    {
+      "record_id": "REC0001",
+      "pet_id": "PET001",
+      "type": "vaccination",
+      "date": "2025-10-14",
+      "description": "Annual booster, core vaccines",
+      "next_due": "2026-10-14"
+    },
+    {
+      "record_id": "REC0002",
+      "pet_id": "PET001",
+      "type": "weight",
+      "date": "2026-04-02",
+      "description": "Weighed at the clinic during a routine visit",
+      "next_due": null
+    },
+    {
+      "record_id": "REC0003",
+      "pet_id": "PET004",
+      "type": "vaccination",
+      "date": "2025-08-20",
+      "description": "Annual booster, core vaccines",
+      "next_due": "2026-08-20"
+    },
+    {
+      "record_id": "REC0004",
+      "pet_id": "PET004",
+      "type": "vet_visit",
+      "date": "2026-03-11",
+      "description": "Dental check, no treatment needed",
+      "next_due": "2027-03-11"
+    },
+    {
+      "record_id": "REC0005",
+      "pet_id": "PET006",
+      "type": "vaccination",
+      "date": "2026-01-30",
+      "description": "Annual booster, core vaccines",
+      "next_due": "2027-01-30"
+    },
+    {
+      "record_id": "REC0006",
+      "pet_id": "PET006",
+      "type": "allergy",
+      "date": "2026-05-19",
+      "description": "Sensitivity noted to a particular brand of dry food",
+      "next_due": null
+    },
+    {
+      "record_id": "REC0007",
+      "pet_id": "PET009",
+      "type": "vet_visit",
+      "date": "2026-02-08",
+      "description": "Weight management review",
+      "next_due": "2026-11-01"
+    },
+    {
+      "record_id": "REC0008",
+      "pet_id": "PET010",
+      "type": "medication",
+      "date": "2026-06-15",
+      "description": "Prescribed by the clinic for a resolved skin issue; course completed",
+      "next_due": null
+    }
+  ]
+}

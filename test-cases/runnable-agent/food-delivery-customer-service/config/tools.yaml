@@ -1,0 +1,38 @@
+# Tool configuration file
+# Define the list of tools that can be used by the intelligent body
+
+tools:
+  # Order interface tool
+  - name: order_api
+    description: Order system interface, supports creation/query/order reminder/modification/cancellation of orders
+    module: tools.order_api
+    class: OrderAPI
+    enabled: true
+
+  # Refund interface tool
+  - name: refund_api
+    description: Refund system interface, which supports applying for refunds and checking refund progress
+    module: tools.refund_api
+    class: RefundAPI
+    enabled: true
+
+  # Work order interface tool
+  - name: ticket_api
+    description: Work order system interface, support the creation and query of manual work orders
+    module: tools.ticket_api
+    class: TicketAPI
+    enabled: true
+
+  # Order status risk control
+  - name: order_state
+    description: Order status constant definition
+    module: risk.order_state
+    class: OrderStatus
+    enabled: true
+
+  # Refund strategy
+  - name: refund_policy
+    description: The refund strategy determines whether to automatically refund or transfer labor according to the order status.
+    module: risk.refund_policy
+    class: RefundPolicy
+    enabled: true

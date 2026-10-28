@@ -1,0 +1,124 @@
+{
+  "departments": [
+    {
+      "department_id": "dept_general_internal",
+      "name": "General medicine",
+      "category": "internal",
+      "description": "Diagnosis and treatment of fever, cough, abdominal pain, diarrhea, stomach pain and other common internal diseases.",
+      "location": "Area A, 3rd Floor, Outpatient Building",
+      "preparation": [
+        "If you need an empty stomach examination, please go to the doctor in the morning and do not eat on the day."
+      ]
+    },
+    {
+      "department_id": "dept_surgery",
+      "name": "Surgical department",
+      "category": "surgical",
+      "description": "Diagnosis and treatment of diseases that require surgical treatment, such as trauma, bleeding, and body surface lumps.",
+      "location": "Area B, 3rd Floor, Outpatient Building",
+      "preparation": [
+        "If there is traumatic bleeding, please use a clean dressing to stop the bleeding first."
+      ]
+    },
+    {
+      "department_id": "dept_orthopedics",
+      "name": "Department of orthopaedics",
+      "category": "surgical",
+      "description": "Diagnosis and treatment of joint pain, waist and leg pain, sprains, fractures and other bone and joint diseases.",
+      "location": "Area A, 4th Floor, Outpatient Building",
+      "preparation": [
+        "Carry past X-ray / CT image data"
+      ]
+    },
+    {
+      "department_id": "dept_obgyn",
+      "name": "Gynaecology and obstetrics department",
+      "category": "specialty",
+      "description": "Diagnosis and treatment of gynecological and obstetric problems such as menstrual irregularities, abnormal white belt, and pregnancy health care.",
+      "location": "Area A, 5th Floor, Outpatient Building",
+      "preparation": [
+        "Gynecological ultrasound needs to hold urine, please drink water in advance."
+      ]
+    },
+    {
+      "department_id": "dept_pediatrics",
+      "name": "Paediatrics",
+      "category": "specialty",
+      "description": "Diagnosis and treatment of fever, cough, diarrhea, rash and other diseases in children under the age of 14.",
+      "location": "Area C, 2nd Floor, Outpatient Building",
+      "preparation": [
+        "Carry past medical records and vaccination certificates"
+      ]
+    },
+    {
+      "department_id": "dept_ophthalmology",
+      "name": "Department of ophthalmology",
+      "category": "specialty",
+      "description": "Diagnosis and treatment of red eyes, eye pain, vision loss and other eye diseases.",
+      "location": "Area A, 6th Floor, Outpatient Building",
+      "preparation": [
+        "Please do not wear contact lenses before visiting the doctor."
+      ]
+    },
+    {
+      "department_id": "dept_ent",
+      "name": "Ear-nose-throat department",
+      "category": "specialty",
+      "description": "Diagnosis and treatment of ear pain, tinnitus, nasal congestion, sore throat and other ear, nose and throat diseases.",
+      "location": "Area B, 6th Floor, Outpatient Building",
+      "preparation": [
+        "Please don't pick your ears before seeing a doctor."
+      ]
+    },
+    {
+      "department_id": "dept_dentistry",
+      "name": "Department of Dentistry",
+      "category": "specialty",
+      "description": "Diagnosis and treatment of oral diseases such as toothache, bleeding gums and oral ulcers.",
+      "location": "Area A, 7th Floor, Outpatient Building",
+      "preparation": [
+        "Please brush your teeth to keep your mouth clean before visiting the doctor."
+      ]
+    },
+    {
+      "department_id": "dept_dermatology",
+      "name": "Dermatological department",
+      "category": "specialty",
+      "description": "Diagnosis and treatment of skin diseases such as rash, itching and eczema.",
+      "location": "Area C, 5th Floor, Outpatient Building",
+      "preparation": [
+        "Do not apply ointment 24 hours before the appointment."
+      ]
+    },
+    {
+      "department_id": "dept_neurology",
+      "name": "Neurology",
+      "category": "internal",
+      "description": "Diagnosis and treatment of headache, dizziness, dizziness, limb numbness and other neurological diseases.",
+      "location": "Area C, 4th Floor, Outpatient Building",
+      "preparation": [
+        "Carry past medical records and imaging materials"
+      ]
+    },
+    {
+      "department_id": "dept_cardiology",
+      "name": "Cardiovascular Medicine",
+      "category": "internal",
+      "description": "Diagnosis and treatment of cardiovascular diseases such as panic, palpitations and elevated blood pressure.",
+      "location": "Area B, 4th Floor, Outpatient Building",
+      "preparation": [
+        "If you need an empty stomach examination, please go to the doctor in the morning and do not eat on the day."
+      ]
+    },
+    {
+      "department_id": "dept_emergency",
+      "name": "Emergency Department",
+      "category": "emergency",
+      "description": "Treat critically ill patients 24 hours a day.",
+      "location": "The first floor of the emergency building",
+      "preparation": [
+        "If there is an emergency, you can go directly without an appointment."
+      ]
+    }
+  ]
+}

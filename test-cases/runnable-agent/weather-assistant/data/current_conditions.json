@@ -1,0 +1,124 @@
+{
+  "current_conditions": [
+    {
+      "location_id": "LOC001",
+      "timestamp": "2026-10-09T14:00:00",
+      "temperature_c": 18.5,
+      "feels_like_c": 17.2,
+      "humidity_percent": 65,
+      "wind_speed_kmh": 15.3,
+      "wind_direction": "NW",
+      "conditions": "partly_cloudy",
+      "pressure_hpa": 1013.2,
+      "visibility_km": 10.0
+    },
+    {
+      "location_id": "LOC002",
+      "timestamp": "2026-10-09T14:00:00",
+      "temperature_c": 28.0,
+      "feels_like_c": 29.5,
+      "humidity_percent": 45,
+      "wind_speed_kmh": 8.5,
+      "wind_direction": "W",
+      "conditions": "clear",
+      "pressure_hpa": 1015.0,
+      "visibility_km": 16.0
+    },
+    {
+      "location_id": "LOC003",
+      "timestamp": "2026-10-09T14:00:00",
+      "temperature_c": 12.0,
+      "feels_like_c": 10.5,
+      "humidity_percent": 70,
+      "wind_speed_kmh": 25.0,
+      "wind_direction": "N",
+      "conditions": "windy",
+      "pressure_hpa": 1010.5,
+      "visibility_km": 8.0
+    },
+    {
+      "location_id": "LOC004",
+      "timestamp": "2026-10-09T14:00:00",
+      "temperature_c": 24.0,
+      "feels_like_c": 25.0,
+      "humidity_percent": 75,
+      "wind_speed_kmh": 12.0,
+      "wind_direction": "SE",
+      "conditions": "cloudy",
+      "pressure_hpa": 1012.0,
+      "visibility_km": 12.0
+    },
+    {
+      "location_id": "LOC005",
+      "timestamp": "2026-10-09T14:00:00",
+      "temperature_c": 20.0,
+      "feels_like_c": 19.0,
+      "humidity_percent": 60,
+      "wind_speed_kmh": 30.0,
+      "wind_direction": "S",
+      "conditions": "thunderstorm",
+      "pressure_hpa": 1008.0,
+      "visibility_km": 5.0
+    },
+    {
+      "location_id": "LOC006",
+      "timestamp": "2026-10-09T14:00:00",
+      "temperature_c": 30.0,
+      "feels_like_c": 33.0,
+      "humidity_percent": 80,
+      "wind_speed_kmh": 18.0,
+      "wind_direction": "E",
+      "conditions": "heavy_rain",
+      "pressure_hpa": 1009.0,
+      "visibility_km": 3.0
+    },
+    {
+      "location_id": "LOC007",
+      "timestamp": "2026-10-09T14:00:00",
+      "temperature_c": 10.0,
+      "feels_like_c": 8.5,
+      "humidity_percent": 85,
+      "wind_speed_kmh": 10.0,
+      "wind_direction": "SW",
+      "conditions": "fog",
+      "pressure_hpa": 1014.0,
+      "visibility_km": 1.0
+    },
+    {
+      "location_id": "LOC008",
+      "timestamp": "2026-10-09T14:00:00",
+      "temperature_c": 8.0,
+      "feels_like_c": 5.0,
+      "humidity_percent": 40,
+      "wind_speed_kmh": 20.0,
+      "wind_direction": "NW",
+      "conditions": "clear",
+      "pressure_hpa": 1018.0,
+      "visibility_km": 20.0
+    },
+    {
+      "location_id": "LOC009",
+      "timestamp": "2026-10-09T14:00:00",
+      "temperature_c": 15.0,
+      "feels_like_c": 13.5,
+      "humidity_percent": 72,
+      "wind_speed_kmh": 14.0,
+      "wind_direction": "NE",
+      "conditions": "rain",
+      "pressure_hpa": 1011.0,
+      "visibility_km": 6.0
+    },
+    {
+      "location_id": "LOC010",
+      "timestamp": "2026-10-09T14:00:00",
+      "temperature_c": 22.0,
+      "feels_like_c": 22.5,
+      "humidity_percent": 68,
+      "wind_speed_kmh": 11.0,
+      "wind_direction": "S",
+      "conditions": "partly_cloudy",
+      "pressure_hpa": 1013.5,
+      "visibility_km": 14.0
+    }
+  ]
+}

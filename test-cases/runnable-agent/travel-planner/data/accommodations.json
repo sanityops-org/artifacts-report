@@ -1,0 +1,332 @@
+{
+  "accommodations": [
+    {
+      "accommodation_id": "ACCOM0001",
+      "destination_id": "DEST001",
+      "name": "Hotel Le Marais",
+      "type": "hotel",
+      "price_per_night_usd": 180,
+      "rating": 4.3,
+      "amenities": [
+        "wifi",
+        "breakfast",
+        "air_conditioning",
+        "elevator"
+      ],
+      "location_description": "Central location in historic Le Marais district"
+    },
+    {
+      "accommodation_id": "ACCOM0002",
+      "destination_id": "DEST001",
+      "name": "Paris Backpackers Hostel",
+      "type": "hostel",
+      "price_per_night_usd": 45,
+      "rating": 4.0,
+      "amenities": [
+        "wifi",
+        "shared_kitchen",
+        "laundry",
+        "lockers"
+      ],
+      "location_description": "Near Gare du Nord station"
+    },
+    {
+      "accommodation_id": "ACCOM0003",
+      "destination_id": "DEST001",
+      "name": "Luxury Champs-Élysées Suite",
+      "type": "apartment",
+      "price_per_night_usd": 350,
+      "rating": 4.8,
+      "amenities": [
+        "wifi",
+        "kitchen",
+        "washer",
+        "balcony",
+        "concierge"
+      ],
+      "location_description": "Premium location on Champs-Élysées"
+    },
+    {
+      "accommodation_id": "ACCOM0004",
+      "destination_id": "DEST002",
+      "name": "Shinjuku Granbell Hotel",
+      "type": "hotel",
+      "price_per_night_usd": 150,
+      "rating": 4.4,
+      "amenities": [
+        "wifi",
+        "breakfast",
+        "air_conditioning",
+        "gym"
+      ],
+      "location_description": "Heart of Shinjuku entertainment district"
+    },
+    {
+      "accommodation_id": "ACCOM0005",
+      "destination_id": "DEST002",
+      "name": "Sakura Hostel Tokyo",
+      "type": "hostel",
+      "price_per_night_usd": 35,
+      "rating": 4.2,
+      "amenities": [
+        "wifi",
+        "shared_kitchen",
+        "laundry",
+        "lounge"
+      ],
+      "location_description": "Near Ueno Park and Senso-ji Temple"
+    },
+    {
+      "accommodation_id": "ACCOM0006",
+      "destination_id": "DEST003",
+      "name": "Bali Beach Resort",
+      "type": "resort",
+      "price_per_night_usd": 120,
+      "rating": 4.5,
+      "amenities": [
+        "wifi",
+        "pool",
+        "spa",
+        "beach_access",
+        "breakfast"
+      ],
+      "location_description": "Beachfront location in Kuta"
+    },
+    {
+      "accommodation_id": "ACCOM0007",
+      "destination_id": "DEST003",
+      "name": "Ubud Budget Inn",
+      "type": "hostel",
+      "price_per_night_usd": 25,
+      "rating": 4.1,
+      "amenities": [
+        "wifi",
+        "shared_kitchen",
+        "garden",
+        "bicycle_rental"
+      ],
+      "location_description": "Central Ubud near rice terraces"
+    },
+    {
+      "accommodation_id": "ACCOM0008",
+      "destination_id": "DEST004",
+      "name": "The Plaza Hotel",
+      "type": "hotel",
+      "price_per_night_usd": 450,
+      "rating": 4.7,
+      "amenities": [
+        "wifi",
+        "spa",
+        "gym",
+        "restaurant",
+        "concierge",
+        "parking"
+      ],
+      "location_description": "Iconic luxury hotel on Fifth Avenue"
+    },
+    {
+      "accommodation_id": "ACCOM0009",
+      "destination_id": "DEST004",
+      "name": "HI New York City Hostel",
+      "type": "hostel",
+      "price_per_night_usd": 50,
+      "rating": 4.0,
+      "amenities": [
+        "wifi",
+        "shared_kitchen",
+        "laundry",
+        "lounge"
+      ],
+      "location_description": "Upper West Side near Central Park"
+    },
+    {
+      "accommodation_id": "ACCOM0010",
+      "destination_id": "DEST005",
+      "name": "Hotel Arts Barcelona",
+      "type": "hotel",
+      "price_per_night_usd": 200,
+      "rating": 4.5,
+      "amenities": [
+        "wifi",
+        "pool",
+        "spa",
+        "beach_access",
+        "restaurant"
+      ],
+      "location_description": "Beachfront location near Olympic Village"
+    },
+    {
+      "accommodation_id": "ACCOM0011",
+      "destination_id": "DEST005",
+      "name": "Barcelona Gothic Quarter Apartment",
+      "type": "apartment",
+      "price_per_night_usd": 95,
+      "rating": 4.3,
+      "amenities": [
+        "wifi",
+        "kitchen",
+        "washer",
+        "air_conditioning"
+      ],
+      "location_description": "Historic Gothic Quarter center"
+    },
+    {
+      "accommodation_id": "ACCOM0012",
+      "destination_id": "DEST006",
+      "name": "Park Hyatt Sydney",
+      "type": "hotel",
+      "price_per_night_usd": 380,
+      "rating": 4.8,
+      "amenities": [
+        "wifi",
+        "pool",
+        "spa",
+        "gym",
+        "restaurant",
+        "harbor_view"
+      ],
+      "location_description": "Overlooking Sydney Opera House and Harbour Bridge"
+    },
+    {
+      "accommodation_id": "ACCOM0013",
+      "destination_id": "DEST006",
+      "name": "Sydney Harbour YHA",
+      "type": "hostel",
+      "price_per_night_usd": 40,
+      "rating": 4.2,
+      "amenities": [
+        "wifi",
+        "shared_kitchen",
+        "laundry",
+        "rooftop_terrace"
+      ],
+      "location_description": "Near The Rocks and Circular Quay"
+    },
+    {
+      "accommodation_id": "ACCOM0014",
+      "destination_id": "DEST007",
+      "name": "Hotel Raphael Rome",
+      "type": "hotel",
+      "price_per_night_usd": 220,
+      "rating": 4.6,
+      "amenities": [
+        "wifi",
+        "breakfast",
+        "air_conditioning",
+        "restaurant",
+        "terrace"
+      ],
+      "location_description": "Near Piazza Navona and Pantheon"
+    },
+    {
+      "accommodation_id": "ACCOM0015",
+      "destination_id": "DEST007",
+      "name": "The Yellow Hostel",
+      "type": "hostel",
+      "price_per_night_usd": 30,
+      "rating": 4.1,
+      "amenities": [
+        "wifi",
+        "shared_kitchen",
+        "bar",
+        "events"
+      ],
+      "location_description": "Near Termini Station"
+    },
+    {
+      "accommodation_id": "ACCOM0016",
+      "destination_id": "DEST008",
+      "name": "Riva Surya Bangkok",
+      "type": "hotel",
+      "price_per_night_usd": 90,
+      "rating": 4.4,
+      "amenities": [
+        "wifi",
+        "pool",
+        "spa",
+        "restaurant",
+        "river_view"
+      ],
+      "location_description": "Riverside location near Khao San Road"
+    },
+    {
+      "accommodation_id": "ACCOM0017",
+      "destination_id": "DEST008",
+      "name": "Lub d Bangkok Silom",
+      "type": "hostel",
+      "price_per_night_usd": 20,
+      "rating": 4.3,
+      "amenities": [
+        "wifi",
+        "shared_kitchen",
+        "laundry",
+        "cafe"
+      ],
+      "location_description": "Central Silom business district"
+    },
+    {
+      "accommodation_id": "ACCOM0018",
+      "destination_id": "DEST009",
+      "name": "Fairmont Pacific Rim",
+      "type": "hotel",
+      "price_per_night_usd": 280,
+      "rating": 4.7,
+      "amenities": [
+        "wifi",
+        "pool",
+        "spa",
+        "gym",
+        "restaurant",
+        "harbor_view"
+      ],
+      "location_description": "Coal Harbour with mountain views"
+    },
+    {
+      "accommodation_id": "ACCOM0019",
+      "destination_id": "DEST009",
+      "name": "Samesun Vancouver",
+      "type": "hostel",
+      "price_per_night_usd": 35,
+      "rating": 4.2,
+      "amenities": [
+        "wifi",
+        "shared_kitchen",
+        "laundry",
+        "lounge"
+      ],
+      "location_description": "Near Granville Island"
+    },
+    {
+      "accommodation_id": "ACCOM0020",
+      "destination_id": "DEST010",
+      "name": "Canaves Oia Suites",
+      "type": "resort",
+      "price_per_night_usd": 500,
+      "rating": 4.9,
+      "amenities": [
+        "wifi",
+        "pool",
+        "spa",
+        "restaurant",
+        "caldera_view",
+        "butler_service"
+      ],
+      "location_description": "Clifftop location in Oia with caldera views"
+    },
+    {
+      "accommodation_id": "ACCOM0021",
+      "destination_id": "DEST010",
+      "name": "Santorini Backpackers",
+      "type": "hostel",
+      "price_per_night_usd": 45,
+      "rating": 4.0,
+      "amenities": [
+        "wifi",
+        "shared_kitchen",
+        "terrace",
+        "sea_view"
+      ],
+      "location_description": "Fira town center"
+    }
+  ]
+}

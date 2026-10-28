@@ -1,0 +1,424 @@
+[
+  {
+    "name": "shipment_get_status",
+    "description": "Query current shipment status by tracking number. Returns current location, status, ETA, and carrier information.",
+    "parameters": {
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "tracking_number": {
+          "type": "string",
+          "minLength": 16,
+          "maxLength": 16,
+          "pattern": "^FR\\d{14}$",
+          "description": "The shipment tracking number. Format: FR followed by exactly 14 digits (e.g., FR20260930000123)."
+        }
+      },
+      "required": [
+        "tracking_number"
+      ]
+    }
+  },
+  {
+    "name": "shipment_get_history",
+    "description": "Get full tracking history for a shipment. Returns all events from pickup to delivery with timestamps and locations.",
+    "parameters": {
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "tracking_number": {
+          "type": "string",
+          "minLength": 16,
+          "maxLength": 16,
+          "pattern": "^FR\\d{14}$",
+          "description": "The shipment tracking number. Format: FR followed by exactly 14 digits."
+        }
+      },
+      "required": [
+        "tracking_number"
+      ]
+    }
+  },
+  {
+    "name": "shipment_list_by_route",
+    "description": "List shipments filtered by origin and/or destination city names (at least one of origin or destination is required). Status and date range are supplementary filters. Returns a summary list of matching shipments.",
+    "parameters": {
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "origin": {
+          "type": "string",
+          "maxLength": 100,
+          "description": "Filter by origin city name (partial match supported). Optional.",
+          "minLength": 2,
+          "pattern": "^[A-Za-z0-9][A-Za-z0-9 \\-,.'()]*$"
+        },
+        "destination": {
+          "type": "string",
+          "maxLength": 100,
+          "description": "Filter by destination city name (partial match supported). Optional.",
+          "minLength": 2,
+          "pattern": "^[A-Za-z0-9][A-Za-z0-9 \\-,.'()]*$"
+        },
+        "status": {
+          "type": "string",
+          "enum": [
+            "pending",
+            "picked_up",
+            "in_transit",
+            "out_for_delivery",
+            "delivered",
+            "exception"
+          ],
+          "description": "Filter by shipment status. Optional."
+        },
+        "date_from": {
+          "type": "string",
+          "minLength": 10,
+          "maxLength": 10,
+          "format": "date",
+          "description": "Filter shipments with pickup date on or after this date (YYYY-MM-DD). Optional."
+        },
+        "date_to": {
+          "type": "string",
+          "minLength": 10,
+          "maxLength": 10,
+          "format": "date",
+          "description": "Filter shipments with pickup date on or before this date (YYYY-MM-DD). Optional."
+        },
+        "limit": {
+          "type": "integer",
+          "minimum": 1,
+          "maximum": 50,
+          "default": 50,
+          "description": "Maximum number of shipments to return (1-50, default 50)."
+        }
+      },
+      "required": [],
+      "anyOf": [
+        {
+          "required": [
+            "origin"
+          ]
+        },
+        {
+          "required": [
+            "destination"
+          ]
+        }
+      ]
+    }
+  },
+  {
+    "name": "route_recommend_options",
+    "description": "Recommend optimal routes between origin and destination. Returns multiple route options with distance, time, and cost.",
+    "parameters": {
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "origin": {
+          "type": "string",
+          "maxLength": 100,
+          "description": "Origin city or facility name. Required.",
+          "minLength": 2,
+          "pattern": "^[A-Za-z0-9][A-Za-z0-9 \\-,.'()]*$"
+        },
+        "destination": {
+          "type": "string",
+          "maxLength": 100,
+          "description": "Destination city or facility name. Required.",
+          "minLength": 2,
+          "pattern": "^[A-Za-z0-9][A-Za-z0-9 \\-,.'()]*$"
+        },
+        "cargo_type": {
+          "type": "string",
+          "enum": [
+            "general",
+            "refrigerated",
+            "hazardous",
+            "oversized",
+            "fragile",
+            "high_value"
+          ],
+          "description": "Cargo category. Optional. Used to filter routes with restrictions."
+        },
+        "priority": {
+          "type": "string",
+          "enum": [
+            "cost",
+            "time",
+            "balanced"
+          ],
+          "default": "balanced",
+          "description": "Optimization priority: 'cost' for cheapest, 'time' for fastest, 'balanced' for trade-off."
+        }
+      },
+      "required": [
+        "origin",
+        "destination"
+      ]
+    }
+  },
+  {
+    "name": "route_get_details",
+    "description": "Get detailed route information by route ID. Returns waypoints, service stations, road types, and restrictions.",
+    "parameters": {
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "route_id": {
+          "type": "string",
+          "minLength": 4,
+          "maxLength": 4,
+          "pattern": "^R\\d{3}$",
+          "description": "Route identifier from route recommendation. Format: R followed by 3 digits (e.g., R001)."
+        }
+      },
+      "required": [
+        "route_id"
+      ]
+    }
+  },
+  {
+    "name": "route_check_restrictions",
+    "description": "Check if cargo type is allowed on a route. Returns whether cargo is allowed, requirements, and alternatives.",
+    "parameters": {
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "cargo_type": {
+          "type": "string",
+          "enum": [
+            "general",
+            "refrigerated",
+            "hazardous",
+            "oversized",
+            "fragile",
+            "high_value"
+          ],
+          "description": "Cargo category to check. Required."
+        },
+        "route_id": {
+          "type": "string",
+          "minLength": 4,
+          "maxLength": 4,
+          "pattern": "^R\\d{3}$",
+          "description": "Route identifier to check. Optional if origin/destination provided."
+        },
+        "origin": {
+          "type": "string",
+          "maxLength": 100,
+          "description": "Origin city. Used with destination if route_id not provided.",
+          "minLength": 2,
+          "pattern": "^[A-Za-z0-9][A-Za-z0-9 \\-,.'()]*$"
+        },
+        "destination": {
+          "type": "string",
+          "maxLength": 100,
+          "description": "Destination city. Used with origin if route_id not provided.",
+          "minLength": 2,
+          "pattern": "^[A-Za-z0-9][A-Za-z0-9 \\-,.'()]*$"
+        }
+      },
+      "required": [
+        "cargo_type"
+      ]
+    }
+  },
+  {
+    "name": "freight_calculate_estimate",
+    "description": "Calculate freight cost estimate. Returns detailed cost breakdown including base rate, fuel surcharge, and accessorial charges. Requires origin, destination, and either weight_kg or volume_cbm.",
+    "parameters": {
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "origin": {
+          "type": "string",
+          "maxLength": 100,
+          "description": "Origin city or facility name. Required.",
+          "minLength": 2,
+          "pattern": "^[A-Za-z0-9][A-Za-z0-9 \\-,.'()]*$"
+        },
+        "destination": {
+          "type": "string",
+          "maxLength": 100,
+          "description": "Destination city or facility name. Required.",
+          "minLength": 2,
+          "pattern": "^[A-Za-z0-9][A-Za-z0-9 \\-,.'()]*$"
+        },
+        "weight_kg": {
+          "type": "number",
+          "minimum": 0.1,
+          "maximum": 50000,
+          "description": "Cargo weight in kilograms. Required if volume_cbm not provided."
+        },
+        "volume_cbm": {
+          "type": "number",
+          "minimum": 0.1,
+          "maximum": 150,
+          "description": "Cargo volume in cubic meters. Required if weight_kg not provided."
+        },
+        "cargo_type": {
+          "type": "string",
+          "enum": [
+            "general",
+            "refrigerated",
+            "hazardous",
+            "oversized",
+            "fragile",
+            "high_value"
+          ],
+          "description": "Cargo category. Affects pricing surcharges. Optional."
+        },
+        "service_level": {
+          "type": "string",
+          "enum": [
+            "economy",
+            "standard",
+            "express"
+          ],
+          "default": "standard",
+          "description": "Service level. Affects transit time and cost."
+        },
+        "carrier_id": {
+          "type": "string",
+          "maxLength": 4,
+          "description": "Specific carrier ID to use (format: C followed by 3 digits, e.g., C001). Optional. If omitted, the first available carrier in the database is used and the chosen carrier is echoed in the quote result.",
+          "minLength": 4
+        }
+      },
+      "required": [
+        "origin",
+        "destination"
+      ],
+      "anyOf": [
+        {
+          "required": [
+            "weight_kg"
+          ]
+        },
+        {
+          "required": [
+            "volume_cbm"
+          ]
+        }
+      ]
+    }
+  },
+  {
+    "name": "freight_compare_carriers",
+    "description": "Compare freight quotes from multiple carriers. Returns quotes with rates and transit times, highlighting best options.",
+    "parameters": {
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "origin": {
+          "type": "string",
+          "maxLength": 100,
+          "description": "Origin city or facility name. Required.",
+          "minLength": 2,
+          "pattern": "^[A-Za-z0-9][A-Za-z0-9 \\-,.'()]*$"
+        },
+        "destination": {
+          "type": "string",
+          "maxLength": 100,
+          "description": "Destination city or facility name. Required.",
+          "minLength": 2,
+          "pattern": "^[A-Za-z0-9][A-Za-z0-9 \\-,.'()]*$"
+        },
+        "weight_kg": {
+          "type": "number",
+          "minimum": 0.1,
+          "maximum": 50000,
+          "description": "Cargo weight in kilograms. Required."
+        },
+        "volume_cbm": {
+          "type": "number",
+          "minimum": 0.1,
+          "maximum": 150,
+          "description": "Cargo volume in cubic meters. Optional."
+        },
+        "cargo_type": {
+          "type": "string",
+          "enum": [
+            "general",
+            "refrigerated",
+            "hazardous",
+            "oversized",
+            "fragile",
+            "high_value"
+          ],
+          "description": "Cargo category. Optional."
+        },
+        "service_level": {
+          "type": "string",
+          "enum": [
+            "economy",
+            "standard",
+            "express"
+          ],
+          "default": "standard",
+          "description": "Service level. Optional."
+        },
+        "carriers": {
+          "type": "array",
+          "items": {
+            "type": "string",
+            "minLength": 4,
+            "maxLength": 4
+          },
+          "maxItems": 5,
+          "description": "List of 1-5 specific carrier IDs to compare. Optional. If omitted, compares up to 5 available carriers."
+        }
+      },
+      "required": [
+        "origin",
+        "destination",
+        "weight_kg"
+      ]
+    }
+  },
+  {
+    "name": "freight_get_transit_time",
+    "description": "Get estimated transit time between locations. Returns minimum, maximum, and average transit days.",
+    "parameters": {
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "origin": {
+          "type": "string",
+          "maxLength": 100,
+          "description": "Origin city or facility name. Required.",
+          "minLength": 2,
+          "pattern": "^[A-Za-z0-9][A-Za-z0-9 \\-,.'()]*$"
+        },
+        "destination": {
+          "type": "string",
+          "maxLength": 100,
+          "description": "Destination city or facility name. Required.",
+          "minLength": 2,
+          "pattern": "^[A-Za-z0-9][A-Za-z0-9 \\-,.'()]*$"
+        },
+        "carrier_id": {
+          "type": "string",
+          "maxLength": 4,
+          "description": "Specific carrier ID. Optional.",
+          "minLength": 4
+        },
+        "service_level": {
+          "type": "string",
+          "enum": [
+            "economy",
+            "standard",
+            "express"
+          ],
+          "description": "Service level. Affects transit time. Optional."
+        }
+      },
+      "required": [
+        "origin",
+        "destination"
+      ]
+    }
+  }
+]

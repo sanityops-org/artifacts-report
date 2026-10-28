@@ -1,0 +1,34 @@
+name: Securities investment customer service
+version: "1.0.0"
+description: "Securities investment customer service intelligent body, support fund transfer, stock trading, product subscription and other business processing"
+
+framework:
+  name: sanityops_agent
+  version: ">=0.1.1"
+
+system_prompt:
+  file: prompts/system.txt
+
+skills:
+  - name: fund_operation
+    path: skills/fund_operation/
+    enabled: true
+  - name: stock_trading
+    path: skills/stock_trading/
+    enabled: true
+  - name: product_purchase
+    path: skills/product_purchase/
+    enabled: true
+  - name: inquiry
+    path: skills/inquiry/
+    enabled: true
+
+models:
+  default: claude-sonnet-5
+  configs:
+    claude-sonnet-5:
+      temperature: 0.7
+      max_tokens: 4096
+
+tools:
+  config_file: config/tools.yaml

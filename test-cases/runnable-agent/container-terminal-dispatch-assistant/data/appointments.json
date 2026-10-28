@@ -1,0 +1,22 @@
+{
+  "appointments": [
+    {
+      "appointment_id": "AP001",
+      "truck_id": "TRK001",
+      "driver_name": "Master Zhang",
+      "appointment_time": "2026-09-14T09:00:00",
+      "type": "gate_out",
+      "container_id": "EFGH7654321",
+      "status": "pending"
+    },
+    {
+      "appointment_id": "AP002",
+      "truck_id": "TRK002",
+      "driver_name": "Master Li",
+      "appointment_time": "2026-09-14T10:00:00",
+      "type": "gate_in",
+      "container_id": "NEWT1234567",
+      "status": "pending"
+    }
+  ]
+}

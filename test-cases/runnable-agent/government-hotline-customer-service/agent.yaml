@@ -1,0 +1,25 @@
+name: government-hotline
+version: "1.0.0"
+description: "Government Hotline Intelligent Customer Service - Accept complaints/suggestions/consultation work orders, intelligently assign the undertaking department"
+
+framework:
+  name: sanityops_agent
+  version: ">=0.3.2"
+
+system_prompt:
+  file: prompts/system.txt
+
+skills:
+  - name: government_ticket
+    path: skills/government_ticket/
+    enabled: true
+
+models:
+  default: claude-sonnet-5
+  configs:
+    claude-sonnet-5:
+      temperature: 0.7
+      max_tokens: 4096
+
+tools:
+  config_file: config/tools.yaml

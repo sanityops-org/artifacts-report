@@ -1,0 +1,25 @@
+name: airworthiness-advisor
+version: "1.0.0"
+description: "Airworthiness decision-making assistant for aircraft maintenance - professional airworthiness and parts tracking intelligence"
+
+framework:
+  name: sanityops_agent
+  version: ">=0.1.1"
+
+system_prompt:
+  file: prompts/system.txt
+
+skills:
+  - name: airworthiness-advisor
+    path: skills/airworthiness_advisor/
+    enabled: true
+
+models:
+  default: gpt-4
+  configs:
+    gpt-4:
+      temperature: 0.3
+      max_tokens: 4096
+
+tools:
+  config_file: config/tools.yaml

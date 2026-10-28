@@ -1,0 +1,24 @@
+name: code_review
+version: "1.0.0"
+description: "Code Review Skills - Professional Code Quality Inspection"
+
+# Entrance processing script
+handler:
+  script: handler.py
+  entry_point: run
+
+# Tool registration
+tools:
+  - name: analyze_code
+    description: "Analyze the code and identify potential problems"
+    class: AnalyzeCodeTool
+    module: skills.code_review.tools.analyze_code
+
+  - name: generate_report
+    description: "Generate a structured review report"
+    class: GenerateReportTool
+    module: skills.code_review.tools.generate_report
+
+# Be dependent on
+dependencies:
+  - pydantic>=2.0.0

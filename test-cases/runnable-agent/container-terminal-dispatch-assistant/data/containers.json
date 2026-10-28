@@ -1,0 +1,36 @@
+{
+  "containers": [
+    {
+      "container_id": "ABCD1234567",
+      "size": "40GP",
+      "type": "import",
+      "weight": 25.5,
+      "vessel_id": "V001",
+      "block_id": "A01",
+      "bay": 12,
+      "row": 3,
+      "tier": 4
+    },
+    {
+      "container_id": "EFGH7654321",
+      "size": "40HQ",
+      "type": "export",
+      "weight": 28.0,
+      "block_id": "B01",
+      "bay": 8,
+      "row": 2,
+      "tier": 3
+    },
+    {
+      "container_id": "DANG1234567",
+      "size": "20GP",
+      "type": "dangerous",
+      "weight": 18.0,
+      "vessel_id": "V001",
+      "block_id": "C01",
+      "bay": 3,
+      "row": 1,
+      "tier": 2
+    }
+  ]
+}

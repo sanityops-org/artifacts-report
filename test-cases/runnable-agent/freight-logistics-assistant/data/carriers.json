@@ -1,0 +1,98 @@
+[
+  {
+    "carrier_id": "C001",
+    "name": "National Freight Co.",
+    "type": "ftl",
+    "coverage_regions": [
+      "East China",
+      "North China",
+      "Central China"
+    ],
+    "service_levels": [
+      "economy",
+      "standard",
+      "express"
+    ],
+    "rating": 4.5,
+    "contact": "400-123-4567",
+    "website": "www.nationalfreight.example.com",
+    "base_rate_per_km": 2.8,
+    "fuel_surcharge_pct": 0.18,
+    "min_charge": 150
+  },
+  {
+    "carrier_id": "C002",
+    "name": "Southern Logistics",
+    "type": "ltl",
+    "coverage_regions": [
+      "South China",
+      "East China"
+    ],
+    "service_levels": [
+      "standard",
+      "express"
+    ],
+    "rating": 4.2,
+    "contact": "400-234-5678",
+    "website": "www.southernlogistics.example.com",
+    "base_rate_per_km": 3.2,
+    "fuel_surcharge_pct": 0.15,
+    "min_charge": 100
+  },
+  {
+    "carrier_id": "C003",
+    "name": "Western Express",
+    "type": "ltl",
+    "coverage_regions": [
+      "West China",
+      "Southwest China"
+    ],
+    "service_levels": [
+      "economy",
+      "standard"
+    ],
+    "rating": 3.8,
+    "contact": "400-345-6789",
+    "website": "www.westernexpress.example.com",
+    "base_rate_per_km": 2.5,
+    "fuel_surcharge_pct": 0.12,
+    "min_charge": 120
+  },
+  {
+    "carrier_id": "C004",
+    "name": "Coastal Transport",
+    "type": "intermodal",
+    "coverage_regions": [
+      "Coastal China",
+      "Port Cities"
+    ],
+    "service_levels": [
+      "economy",
+      "standard"
+    ],
+    "rating": 4.0,
+    "contact": "400-456-7890",
+    "website": "www.coastaltransport.example.com",
+    "base_rate_per_km": 2.2,
+    "fuel_surcharge_pct": 0.2,
+    "min_charge": 200
+  },
+  {
+    "carrier_id": "C005",
+    "name": "Express Air Cargo",
+    "type": "air",
+    "coverage_regions": [
+      "Nationwide",
+      "International"
+    ],
+    "service_levels": [
+      "express"
+    ],
+    "rating": 4.7,
+    "contact": "400-567-8901",
+    "website": "www.expressair.example.com",
+    "base_rate_per_km": 8.5,
+    "fuel_surcharge_pct": 0.25,
+    "min_charge": 500
+  }
+]

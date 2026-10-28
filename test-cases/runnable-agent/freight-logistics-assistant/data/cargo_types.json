@@ -1,0 +1,56 @@
+[
+  {
+    "type_id": "GEN",
+    "name": "General Cargo",
+    "category": "general",
+    "max_weight_kg": 28000,
+    "max_volume_cbm": 80,
+    "requires_doc": false,
+    "hazmat_required": false
+  },
+  {
+    "type_id": "REF",
+    "name": "Refrigerated Goods",
+    "category": "refrigerated",
+    "max_weight_kg": 24000,
+    "max_volume_cbm": 60,
+    "requires_doc": true,
+    "hazmat_required": false
+  },
+  {
+    "type_id": "HAZ",
+    "name": "Hazardous Materials",
+    "category": "hazardous",
+    "max_weight_kg": 20000,
+    "max_volume_cbm": 50,
+    "requires_doc": true,
+    "hazmat_required": true
+  },
+  {
+    "type_id": "OVR",
+    "name": "Oversized Cargo",
+    "category": "oversized",
+    "max_weight_kg": 35000,
+    "max_volume_cbm": 100,
+    "requires_doc": true,
+    "hazmat_required": false
+  },
+  {
+    "type_id": "FRG",
+    "name": "Fragile Items",
+    "category": "fragile",
+    "max_weight_kg": 15000,
+    "max_volume_cbm": 45,
+    "requires_doc": false,
+    "hazmat_required": false
+  },
+  {
+    "type_id": "VAL",
+    "name": "High Value Goods",
+    "category": "high_value",
+    "max_weight_kg": 10000,
+    "max_volume_cbm": 30,
+    "requires_doc": true,
+    "hazmat_required": false
+  }
+]

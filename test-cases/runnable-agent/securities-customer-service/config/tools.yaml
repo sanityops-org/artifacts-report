@@ -1,0 +1,45 @@
+# Tool configuration file
+# Define the list of tools that can be used by the intelligent body
+
+tools:
+  # Trading interface tools
+  - name: trade_api
+    description: Trading system interface, supporting fund inquiry, stock trading, product subscription and other operations
+    module: tools.trade_api
+    class: TradeAPI
+    enabled: true
+
+  # Market data tool
+  - name: market_data
+    description: Market quotation data interface, supporting stock market inquiry, K-line data acquisition, etc.
+    module: tools.market_data
+    class: MarketData
+    enabled: true
+
+  # Risk control inspection tool
+  - name: amount_checker
+    description: The amount check tool is used to determine whether the transaction requires password verification.
+    module: risk.amount_checker
+    class: AmountChecker
+    enabled: true
+
+  # Password verification tool
+  - name: password_verifier
+    description: Transaction password verification tool, supporting password verification and retry limit
+    module: risk.password_verifier
+    class: PasswordVerifier
+    enabled: true
+
+# Configuration of tool usage permissions
+permissions:
+  # The amount threshold that requires password verification for sensitive operations
+  password_threshold: 50000
+
+  # The maximum number of retrials for password verification
+  max_password_retry: 3
+
+  # Maximum amount limit for a single transaction (unit: yuan)
+  max_single_trade: 1000000
+
+  # Daily cumulative transaction limit (unit: yuan)
+  daily_trade_limit: 5000000

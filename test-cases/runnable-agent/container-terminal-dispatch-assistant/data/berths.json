@@ -1,0 +1,27 @@
+{
+  "berths": [
+    {
+      "berth_id": "B01",
+      "berth_name": "No. 1 berth",
+      "length": 350,
+      "max_draft": 15.0,
+      "status": "occupied",
+      "current_vessel": "V002"
+    },
+    {
+      "berth_id": "B02",
+      "berth_name": "No. 2 berth",
+      "length": 380,
+      "max_draft": 16.0,
+      "status": "available"
+    },
+    {
+      "berth_id": "B03",
+      "berth_name": "Parking space No. 3",
+      "length": 300,
+      "max_draft": 12.0,
+      "status": "maintenance",
+      "available_from": "2026-09-16T00:00:00"
+    }
+  ]
+}

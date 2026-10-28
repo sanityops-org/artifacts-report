@@ -1,0 +1,89 @@
+{
+  "alerts": [
+    {
+      "alert_id": "ALT001",
+      "event": "Tornado Warning",
+      "severity": "warning",
+      "headline": "Tornado Warning for parts of Central Oklahoma",
+      "description": "The National Weather Service has issued a Tornado Warning for Central Oklahoma including Oklahoma City metro. A severe thunderstorm capable of producing a tornado has been detected. Take shelter immediately.",
+      "areas_affected": [
+        "Central Oklahoma",
+        "Oklahoma City metro"
+      ],
+      "effective_time": "2026-10-09T15:30:00",
+      "expires_time": "2026-10-09T16:30:00",
+      "location_ids": [
+        "LOC005"
+      ],
+      "status": "active"
+    },
+    {
+      "alert_id": "ALT002",
+      "event": "Severe Thunderstorm Watch",
+      "severity": "watch",
+      "headline": "Severe Thunderstorm Watch for Houston area",
+      "description": "The National Weather Service has issued a Severe Thunderstorm Watch for the Houston metropolitan area. Conditions are favorable for severe thunderstorms through this evening.",
+      "areas_affected": [
+        "Houston metro",
+        "Southeast Texas"
+      ],
+      "effective_time": "2026-10-09T14:00:00",
+      "expires_time": "2026-10-09T22:00:00",
+      "location_ids": [
+        "LOC004"
+      ],
+      "status": "active"
+    },
+    {
+      "alert_id": "ALT003",
+      "event": "Flash Flood Warning",
+      "severity": "warning",
+      "headline": "Flash Flood Warning for Miami-Dade County",
+      "description": "The National Weather Service has issued a Flash Flood Warning for Miami-Dade County. Heavy rainfall has caused flash flooding. Do not attempt to drive through flooded roadways.",
+      "areas_affected": [
+        "Miami-Dade County",
+        "Miami metro"
+      ],
+      "effective_time": "2026-10-09T13:00:00",
+      "expires_time": "2026-10-09T17:00:00",
+      "location_ids": [
+        "LOC006"
+      ],
+      "status": "active"
+    },
+    {
+      "alert_id": "ALT004",
+      "event": "Wind Advisory",
+      "severity": "advisory",
+      "headline": "Wind Advisory for Chicago area",
+      "description": "The National Weather Service has issued a Wind Advisory for the Chicago area. North winds 20-30 mph with gusts up to 45 mph expected. Secure loose outdoor objects.",
+      "areas_affected": [
+        "Chicago metro",
+        "Northeast Illinois"
+      ],
+      "effective_time": "2026-10-09T12:00:00",
+      "expires_time": "2026-10-10T06:00:00",
+      "location_ids": [
+        "LOC003"
+      ],
+      "status": "active"
+    },
+    {
+      "alert_id": "ALT005",
+      "event": "Frost Advisory",
+      "severity": "advisory",
+      "headline": "Frost Advisory for Denver metro",
+      "description": "The National Weather Service has issued a Frost Advisory for the Denver metro area. Temperatures expected to drop near freezing tonight. Protect sensitive vegetation.",
+      "areas_affected": [
+        "Denver metro",
+        "Front Range"
+      ],
+      "effective_time": "2026-10-09T20:00:00",
+      "expires_time": "2026-10-10T09:00:00",
+      "location_ids": [
+        "LOC008"
+      ],
+      "status": "active"
+    }
+  ]
+}

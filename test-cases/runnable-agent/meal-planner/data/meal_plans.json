@@ -1,0 +1,33 @@
+{
+  "meal_plans": [
+    {
+      "plan_id": "PLAN0001",
+      "name": "Weeknight Basics",
+      "start_date": "2026-10-09",
+      "days": 2,
+      "entries": [
+        {
+          "entry_id": "ENTRY0001",
+          "day_index": 1,
+          "meal_type": "dinner",
+          "recipe_id": "RECIPE001",
+          "servings": 4
+        },
+        {
+          "entry_id": "ENTRY0002",
+          "day_index": 2,
+          "meal_type": "breakfast",
+          "recipe_id": "RECIPE010",
+          "servings": 2
+        },
+        {
+          "entry_id": "ENTRY0003",
+          "day_index": 2,
+          "meal_type": "dinner",
+          "recipe_id": "RECIPE007",
+          "servings": 4
+        }
+      ]
+    }
+  ]
+}

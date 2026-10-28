@@ -1,0 +1,252 @@
+{
+  "skills": [
+    {
+      "type": "skill",
+      "relative": "/Users/a1234/Documents/project/agent_artifacts/2026-09-30/Energy Management Assistant/skills/energy_analysis/SKILL.md",
+      "content": {
+        "name": "energy_analysis",
+        "description": "Facility-level energy consumption analysis skill for understanding usage patterns, identifying anomalies, identifying diagnostic efficiency opportunities, and calculating carbon footprint for facilities in the built-in database.",
+        "frontmatter": {
+          "allowed_operations": [
+            "energy_analyze_consumption",
+            "energy_identify_efficiency_opportunities",
+            "energy_calculate_carbon_footprint"
+          ],
+          "allowed_resources": [
+            "data/consumption_patterns.json",
+            "data/facilities.json",
+            "data/equipment.json"
+          ],
+          "data_sensitivity": "non-sensitive (aggregated facility consumption statistics)",
+          "description": "Facility-level energy consumption analysis skill for understanding usage patterns, identifying anomalies, identifying diagnostic efficiency opportunities, and calculating carbon footprint for facilities in the built-in database.",
+          "invocation": [
+            "analyze facility energy consumption",
+            "facility consumption patterns",
+            "facility energy bill analysis",
+            "facility carbon footprint",
+            "facility emissions"
+          ],
+          "max_items": 10,
+          "max_retries": 3,
+          "max_tool_calls": 10,
+          "name": "energy_analysis",
+          "non_goals": [
+            "concrete implementation recommendations (savings-per-measure estimates belong to efficiency_optimization; the estimated_savings_potential percentage this skill reports is a diagnostic indicator only)",
+            "non-facility emissions (vehicles, products, supply chains)",
+            "energy markets or policy analysis",
+            "inferring from conversation history or adding facts that were not provided"
+          ],
+          "partial_result_allowed": true,
+          "side_effects": "none",
+          "timeout_seconds": 60,
+          "tools": [
+            "energy_analyze_consumption",
+            "energy_identify_efficiency_opportunities",
+            "energy_calculate_carbon_footprint"
+          ]
+        },
+        "sections": [
+          {
+            "title": "Overview",
+            "content": "The Energy Analysis Skill provides diagnostic analysis of facility energy consumption data: pattern identification, anomaly detection, opportunity identification, and carbon footprint calculation. It works only on facility-level data for facilities in the built-in database (facility_id format FAC + 3 digits); do not trigger it for vehicle emissions, product footprints, energy-market or policy questions, or anything without a facility context."
+          },
+          {
+            "title": "When to Use",
+            "content": "Use this skill when the user: Describes concerns about a specific facility's energy consumption or costs; Asks to analyze a facility's usage patterns or find anomalies; Wants to calculate a facility's carbon emissions; Mentions a specific facility's high bills, unusual consumption, or energy cost concerns AND the request is about analyzing usage (not implementing measures). Do NOT use this skill when: The request concerns non-facility emissions (vehicles, products, supply chains); The request is about energy markets, policy, or ESG reporting; No facility is identified and the user cannot provide a facility_id; The user asks for concrete implementation recommendations or per-measure savings estimates - use the efficiency_optimization skill instead (this skill reports only the diagnostic estimated_savings_potential percentage)."
+          },
+          {
+            "title": "Input Handling",
+            "content": "Required inputs: facility_id (format FAC + 3 digits, e.g., FAC001) always; plus analysis period (start_date, end_date, YYYY-MM-DD) only for energy_analyze_consumption and energy_calculate_carbon_footprint. facility_id comes from the user; never fabricate it. When input is incomplete or ambiguous, ask the user instead of guessing. max_items applies to user-submitted request items: process at most 10 per interaction. One facility per interaction; the tools accept a single facility_id per call. If the user submits multiple facilities, ask them to pick one first."
+          },
+          {
+            "title": "Available Operations",
+            "content": "1. energy_analyze_consumption - Analyze energy consumption data to identify patterns and anomalies. Parameters: facility_id (required, FAC + 3 digits), start_date (required, YYYY-MM-DD), end_date (required, YYYY-MM-DD), granularity (optional: hourly/daily/monthly, default daily). Returns closed enumeration: facility_id, facility_name, facility_type, analysis_period, total_consumption_kwh, peak_demand_kw, average_daily_kwh, patterns (peak_hours, weekday_weekend_ratio, load_factor), anomalies (date, consumption_kwh, expected_kwh, deviation_percent, severity), benchmark_comparison (facility_type_average, performance_percentile, assessment). Usage notes: requires at least 7 days of data for meaningful pattern analysis; anomaly detection uses statistical deviation from rolling averages; benchmarks based on facility type and region. 2. energy_identify_efficiency_opportunities - Identify energy efficiency improvement opportunities based on consumption analysis. Parameters: facility_id (required), analysis_results (optional - prior results object from energy_analyze_consumption). Returns closed enumeration: opportunities list (opportunity_type: equipment/operations/scheduling/maintenance, description, estimated_savings_potential percentage, confidence high/medium/low), priority_order. Usage notes: best used after energy_analyze_consumption; identifies/diagnoses opportunities but does not produce implementation recommendations (those come from efficiency_optimization skill). 3. energy_calculate_carbon_footprint - Calculate carbon footprint from energy consumption data. Parameters: facility_id (required), start_date (required), end_date (required), include_breakdown (optional, default true). Returns closed enumeration: total_emissions_kgco2, emission_intensity (per square meter and per kWh), breakdown (electricity, natural gas), comparison (to previous period if available). Usage notes: uses tool's built-in US-average emission factors (electricity 0.42 kg CO2/kWh, natural gas 2.0 kg CO2/m3); no region parameter; Scope 2 reporting method (market-based vs location-based) is not a tool parameter and the tool does not distinguish them; do not present dual interpretations."
+          },
+          {
+            "title": "Execution Limits",
+            "content": "Maximum retries per tool call: 3. Timeout: 60 seconds per call. Maximum tool calls per execution: 10. Limit each response to at most 1,000 English words. Partial results are acceptable. When information is insufficient for a section, skip it or mark it as 'information not available'."
+          },
+          {
+            "title": "Failure Handling Policy",
+            "content": "If a tool call fails, report the error to the user. May retry the identical call at most 3 times (per max_retries); if the retry also fails, stop immediately, report the error, and do not attempt alternative tools or workarounds. After a failure, do not expand the task scope, fabricate data to fill gaps (e.g., invented anomalies, benchmarks, or emission figures), or lower quality standards. The max_items: 10 declaration applies to user-submitted request items only. Tool RESULT payloads may contain up to 50 anomalies or 24 peak-hour entries per the tool schema; when validating findings, review the tool result's data object but limit the presented summary to at most 10 findings."
+          },
+          {
+            "title": "Permissions and Environment Boundaries",
+            "content": "Allowed operations: read, list, and query. Prohibited: write, update, delete, insert, and overwrite. Use only the declared local data files (data/consumption_patterns.json, data/facilities.json, data/equipment.json). Do not access conversation history, external systems, production databases, production APIs, live systems, or unauthorized external services. Chained invocation: this skill may invoke only the three tools under allowed_operations. Invoking other skills or tools is prohibited."
+          },
+          {
+            "title": "Data Sources",
+            "content": "Consumption data and facility information come from: data/consumption_patterns.json (sample consumption records), data/facilities.json (facility configurations), data/equipment.json (equipment inventories). Emission factors are built into the tool code itself (not read from these files)."
+          },
+          {
+            "title": "Important Constraints",
+            "content": "Carbon calculations use the tool's built-in US-average factors; production use should integrate verified regional data. All findings should be validated against actual operational data before making decisions (bounded by the 10-finding limit above)."
+          }
+        ]
+      }
+    },
+    {
+      "type": "skill",
+      "relative": "/Users/a1234/Documents/project/agent_artifacts/2026-09-30/Energy Management Assistant/skills/efficiency_optimization/SKILL.md",
+      "content": {
+        "name": "efficiency_optimization",
+        "description": "Facility-level energy efficiency skill for generating recommendations and estimating savings for facilities in the built-in database.",
+        "frontmatter": {
+          "allowed_operations": [
+            "energy_recommend_optimizations",
+            "energy_estimate_savings"
+          ],
+          "allowed_resources": [
+            "data/efficiency_measures.json",
+            "data/equipment.json",
+            "data/consumption_patterns.json"
+          ],
+          "data_sensitivity": "non-sensitive (aggregated facility consumption statistics)",
+          "description": "Facility-level energy efficiency skill for generating recommendations and estimating savings for facilities in the built-in database.",
+          "invocation": [
+            "facility energy-saving recommendations",
+            "facility electricity savings",
+            "facility energy efficiency improvements",
+            "facility energy cost reduction",
+            "facility consumption optimization"
+          ],
+          "max_retries": 3,
+          "max_tool_calls": 10,
+          "name": "efficiency_optimization",
+          "partial_result_allowed": true,
+          "side_effects": "none",
+          "timeout_seconds": 60,
+          "tools": [
+            "energy_recommend_optimizations",
+            "energy_estimate_savings"
+          ]
+        },
+        "sections": [
+          {
+            "title": "Overview",
+            "content": "The Efficiency Optimization Skill generates actionable recommendations for reducing facility energy consumption and costs, and estimates savings from specific efficiency measures. This skill focuses on the 'what to do' phase - transforming analysis insights into concrete action items with cost-benefit analysis."
+          },
+          {
+            "title": "When to Use",
+            "content": "Use this skill when the user: Asks for facility-specific energy-saving recommendations; Wants to estimate savings from proposed efficiency measures; Mentions facility energy efficiency goals or facility energy cost reduction targets. Do NOT use this skill when: The request concerns non-energy cost reduction (labor, materials, logistics); The request concerns general efficiency questions without a facility context; The user asks about equipment procurement, engineering design, or executing/implementing measures; The user asks for consumption analysis or carbon calculations - use the energy_analysis skill instead."
+          },
+          {
+            "title": "Trigger Precondition",
+            "content": "Fire this skill's operations when the system prompt's Conversation Flow reaches Step 4: facility_id confirmed by the user (Required Inputs gathered). Concretely: facility_id confirmed by the user, and the user has asked for recommendations or a savings estimate. This skill adds no extra condition beyond the system prompt's workflow."
+          },
+          {
+            "title": "Input Handling",
+            "content": "facility_id comes from the user (format FAC + 3 digits); never fabricate it. The measures list for energy_estimate_savings comes from measures the user requests. When input is incomplete or ambiguous, ask the user instead of guessing. Never invent measure types or efficiency values. The measures array is capped at 10 items per call by the tool. If the user requests more than 10 measures, ask which 10 are most important first."
+          },
+          {
+            "title": "Available Operations",
+            "content": "1. energy_recommend_optimizations - Generate specific efficiency recommendations for a facility. Parameters: facility_id (required, FAC + 3 digits), focus_areas (optional, array of 1-4 strings from 'hvac', 'lighting', 'equipment', 'operations'), budget_constraint (optional, max implementation budget in local currency 0-10,000,000), target_savings (optional, target savings percentage 0-100). Returns closed enumeration: recommendations list (recommendation_id, category Equipment/Operations/Scheduling/Maintenance, description, estimated_annual_savings_kwh, estimated_annual_cost_savings, implementation_cost range, payback_period_months, priority High/Medium/Low), total_potential_savings, implementation_sequence. Usage notes: recommendations based on facility type and consumption patterns; cost estimates are approximate; all recommendations require engineering validation before implementation. 2. energy_estimate_savings - Calculate projected savings from specific efficiency measures. Parameters: facility_id (required; baseline consumption is inferred from this facility's recorded data), measures (required, list of 1-10 measures each with only: measure_type - 'hvac', 'lighting', 'equipment', 'process', 'envelope'; scope - optional percentage string e.g. '50%', default '100%'; efficiency_improvement - expected efficiency gain percentage 0-100). Returns closed enumeration: measure_analyses (baseline_consumption, projected_consumption, annual_savings_kwh, annual_cost_savings, confidence_interval), total_savings, assumptions. Usage notes: requires baseline consumption data for the facility, otherwise the tool reports an error; confidence intervals reflect uncertainty in efficiency gains; actual savings may vary based on operational conditions."
+          },
+          {
+            "title": "Execution Limits",
+            "content": "Maximum retries per tool call: 3. Timeout: 60 seconds per call. Maximum tool calls per execution: 10. Limit each response to at most 1,000 English words. Partial results are acceptable. When information is insufficient for a section, skip it or mark it as 'information not available'."
+          },
+          {
+            "title": "Failure Handling Policy",
+            "content": "If a tool call fails (e.g., energy_estimate_savings reports missing baseline data), stop immediately, report the error, and tell the user what is missing. Do not attempt alternatives. After a failure, do not expand the task scope, fabricate data to fill gaps (e.g., invented baseline consumption or savings figures), or lower quality standards."
+          },
+          {
+            "title": "Does Not Do (non_goals)",
+            "content": "Does not perform consumption analysis or carbon calculations (use the energy_analysis skill); Does not implement or execute any measure; Does not provide engineering approval; Does not infer from conversation history or add facts that were not provided."
+          },
+          {
+            "title": "Permissions and Environment Boundaries",
+            "content": "Allowed operations: read, list, and query. Prohibited: write, update, delete, insert, and overwrite. Use only the declared local data files. Do not access conversation history, external systems, production databases, production APIs, live systems, or unauthorized external services. Chained invocation: this skill may invoke only the two tools under allowed_operations. Invoking other skills or tools is prohibited."
+          },
+          {
+            "title": "Data Sources",
+            "content": "Efficiency measures and their typical impacts come from: data/efficiency_measures.json (measure library with typical savings ranges), data/equipment.json (equipment efficiency benchmarks), data/consumption_patterns.json (baseline consumption data)."
+          },
+          {
+            "title": "Important Constraints",
+            "content": "All cost estimates are approximate and should be validated with actual contractor quotes; Recommendations do not constitute engineering approval; Savings projections are based on typical outcomes; actual results depend on implementation quality and operational conditions; Always include the safety disclaimer: '⚠️ This recommendation requires review and approval by qualified engineering staff before implementation.'"
+          }
+        ]
+      }
+    },
+    {
+      "type": "skill",
+      "relative": "/Users/a1234/Documents/project/agent_artifacts/2026-09-30/Energy Management Assistant/skills/renewable_integration/SKILL.md",
+      "content": {
+        "name": "renewable_integration",
+        "description": "Facility-level renewable energy planning skill for assessing solar, wind, and storage suitability with planning-level payback guidance.",
+        "frontmatter": {
+          "allowed_operations": [
+            "energy_suggest_renewables"
+          ],
+          "allowed_resources": [
+            "data/renewable_options.json",
+            "data/facilities.json"
+          ],
+          "data_sensitivity": "non-sensitive (facility characteristics and public equipment specifications)",
+          "description": "Facility-level renewable energy planning skill for assessing solar, wind, and storage suitability with planning-level payback guidance.",
+          "invocation": [
+            "facility solar feasibility",
+            "facility wind feasibility",
+            "facility renewable options",
+            "facility clean energy planning",
+            "facility storage assessment"
+          ],
+          "max_retries": 3,
+          "max_tool_calls": 10,
+          "name": "renewable_integration",
+          "partial_result_allowed": true,
+          "side_effects": "none",
+          "timeout_seconds": 60,
+          "tools": [
+            "energy_suggest_renewables"
+          ]
+        },
+        "sections": [
+          {
+            "title": "Overview",
+            "content": "The Renewable Integration Skill provides planning-level guidance on adopting renewable energy sources for facility operations. It covers solar PV, wind energy, and energy storage through the single authorized tool energy_suggest_renewables, helping users understand potential, indicative sizing, and simple payback. It works only for facilities in the built-in database; do not trigger it for ESG reporting, carbon accounting, residential solar, maintenance of existing installations, or grid interconnection applications."
+          },
+          {
+            "title": "When to Use",
+            "content": "Use this skill when the user: Asks about solar panel or wind turbine feasibility for a specific facility; Wants to assess renewable energy potential for a facility in the database; Explicitly mentions solar, wind, storage, or renewables for a facility, AND the request asks about adopting or assessing them (not merely a passing mention). Do NOT activate for bare ESG/sustainability/carbon-accounting mentions that name none of solar, wind, storage, or renewables, or for structural/maintenance questions about existing installations. Do NOT use this skill when: The request concerns ESG/sustainability reporting or carbon accounting; The request concerns residential solar or non-facility installations; The request concerns maintenance of existing installations or grid interconnection applications; No facility is identified and the user cannot provide a facility_id."
+          },
+          {
+            "title": "Input Handling",
+            "content": "facility_id comes from the user (format FAC + 3 digits, e.g., FAC001); never fabricate it. When input is incomplete or ambiguous, ask the user instead of guessing. renewable_types accepts at most 3 values from 'solar', 'wind', 'storage'; if the user requests more types or unspecified options, ask them to choose. One facility per interaction; the tool accepts a single facility_id per call. If the user submits multiple facilities, ask them to pick one first."
+          },
+          {
+            "title": "Available Operations",
+            "content": "1. energy_suggest_renewables - Provide renewable energy integration recommendations including suitability assessment, indicative sizing, and simple payback estimates. Parameters: facility_id (required, FAC + 3 digits), renewable_types (optional, 1-3 values from 'solar', 'wind', 'storage', default ['solar']), target_coverage (optional, 0-100, default 50). Returns closed enumeration: Renewable options with suitability assessment, indicative capacity, estimated annual generation, and simple payback estimates; Constraints and caveats for each option. Usage notes: all outputs are planning-level estimates, not engineering designs; sizing and payback outputs are indicative and do not constitute investment advice; actual installations require professional site assessment, utility approval, and permits; financial returns beyond simple payback (NPV, IRR, financing analysis) are out of scope."
+          },
+          {
+            "title": "Execution Limits",
+            "content": "Maximum retries per tool call: 3. Timeout: 60 seconds per call. Maximum tool calls per execution: 10. Limit each response to at most 1,000 English words. Partial results are acceptable: if only some requested renewable types can be assessed or site data is incomplete, present what was assessed and mark the rest as 'information not available'."
+          },
+          {
+            "title": "Failure Handling Policy",
+            "content": "If a tool call fails (invalid facility_id, missing site data), stop immediately and report the error. Do not attempt alternatives. After a failure, do not expand the task scope, fabricate data to fill gaps (e.g., invented irradiance, cost, or payback figures), or lower quality standards."
+          },
+          {
+            "title": "Does Not Do (non_goals)",
+            "content": "Does not provide engineering designs, NPV/IRR/financing analysis, or investment advice; Does not perform efficiency audits or consumption analysis (use the other skills); Does not infer from conversation history or add facts that were not provided."
+          },
+          {
+            "title": "Permissions and Environment Boundaries",
+            "content": "Allowed operations: read, list, and query. Prohibited: write, update, delete, insert, and overwrite. Use only the declared local data files (data/renewable_options.json, data/facilities.json). Do not access conversation history, external systems, production databases, production APIs, live systems, or unauthorized external services. Chained invocation: this skill may invoke only energy_suggest_renewables. Invoking other skills or tools is prohibited."
+          },
+          {
+            "title": "Data Sources",
+            "content": "Renewable energy data comes from: data/renewable_options.json (equipment specifications and costs), data/facilities.json (site characteristics)."
+          },
+          {
+            "title": "Important Constraints",
+            "content": "Renewable potential estimates are simplified; professional site assessments are required for actual installations; Grid connection requirements vary significantly by utility; All recommendations should be validated with licensed installers and local authorities; Include disclaimer: '⚠️ Renewable energy installations require professional engineering assessment, utility approval, and applicable permits. These estimates are for planning purposes only.'"
+          }
+        ]
+      }
+    }
+  ],
+  "tools": [],
+  "prompts": []
+}

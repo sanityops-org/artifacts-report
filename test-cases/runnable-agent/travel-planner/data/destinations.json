@@ -1,0 +1,206 @@
+{
+  "destinations": [
+    {
+      "destination_id": "DEST001",
+      "name": "Paris",
+      "country": "France",
+      "continent": "Europe",
+      "description": "The City of Light, famous for the Eiffel Tower, Louvre Museum, and romantic atmosphere",
+      "best_seasons": [
+        "spring",
+        "autumn"
+      ],
+      "budget_level": "moderate",
+      "themes": [
+        "culture",
+        "romantic",
+        "foodie"
+      ],
+      "currency": "EUR",
+      "language": "French",
+      "timezone": "CET"
+    },
+    {
+      "destination_id": "DEST002",
+      "name": "Tokyo",
+      "country": "Japan",
+      "continent": "Asia",
+      "description": "A vibrant metropolis blending traditional temples with cutting-edge technology",
+      "best_seasons": [
+        "spring",
+        "autumn"
+      ],
+      "budget_level": "moderate",
+      "themes": [
+        "culture",
+        "city",
+        "foodie"
+      ],
+      "currency": "JPY",
+      "language": "Japanese",
+      "timezone": "JST"
+    },
+    {
+      "destination_id": "DEST003",
+      "name": "Bali",
+      "country": "Indonesia",
+      "continent": "Asia",
+      "description": "Tropical paradise with beautiful beaches, rice terraces, and spiritual temples",
+      "best_seasons": [
+        "spring",
+        "summer",
+        "autumn"
+      ],
+      "budget_level": "budget",
+      "themes": [
+        "beach",
+        "relaxation",
+        "culture"
+      ],
+      "currency": "IDR",
+      "language": "Indonesian",
+      "timezone": "WITA"
+    },
+    {
+      "destination_id": "DEST004",
+      "name": "New York",
+      "country": "USA",
+      "continent": "North America",
+      "description": "The city that never sleeps, featuring iconic landmarks and world-class entertainment",
+      "best_seasons": [
+        "spring",
+        "autumn"
+      ],
+      "budget_level": "luxury",
+      "themes": [
+        "city",
+        "culture",
+        "shopping"
+      ],
+      "currency": "USD",
+      "language": "English",
+      "timezone": "EST"
+    },
+    {
+      "destination_id": "DEST005",
+      "name": "Barcelona",
+      "country": "Spain",
+      "continent": "Europe",
+      "description": "Mediterranean city known for Gaudi architecture, beaches, and vibrant nightlife",
+      "best_seasons": [
+        "spring",
+        "summer",
+        "autumn"
+      ],
+      "budget_level": "moderate",
+      "themes": [
+        "beach",
+        "culture",
+        "city"
+      ],
+      "currency": "EUR",
+      "language": "Spanish",
+      "timezone": "CET"
+    },
+    {
+      "destination_id": "DEST006",
+      "name": "Sydney",
+      "country": "Australia",
+      "continent": "Oceania",
+      "description": "Harbor city with iconic Opera House, beautiful beaches, and outdoor lifestyle",
+      "best_seasons": [
+        "spring",
+        "autumn"
+      ],
+      "budget_level": "moderate",
+      "themes": [
+        "beach",
+        "city",
+        "adventure"
+      ],
+      "currency": "AUD",
+      "language": "English",
+      "timezone": "AEST"
+    },
+    {
+      "destination_id": "DEST007",
+      "name": "Rome",
+      "country": "Italy",
+      "continent": "Europe",
+      "description": "Eternal City with ancient ruins, Renaissance art, and delicious Italian cuisine",
+      "best_seasons": [
+        "spring",
+        "autumn"
+      ],
+      "budget_level": "moderate",
+      "themes": [
+        "culture",
+        "foodie",
+        "romantic"
+      ],
+      "currency": "EUR",
+      "language": "Italian",
+      "timezone": "CET"
+    },
+    {
+      "destination_id": "DEST008",
+      "name": "Bangkok",
+      "country": "Thailand",
+      "continent": "Asia",
+      "description": "Vibrant capital with ornate temples, street food, and bustling markets",
+      "best_seasons": [
+        "winter",
+        "spring"
+      ],
+      "budget_level": "budget",
+      "themes": [
+        "culture",
+        "foodie",
+        "city"
+      ],
+      "currency": "THB",
+      "language": "Thai",
+      "timezone": "ICT"
+    },
+    {
+      "destination_id": "DEST009",
+      "name": "Vancouver",
+      "country": "Canada",
+      "continent": "North America",
+      "description": "Coastal seaport city with mountains, ocean, and multicultural diversity",
+      "best_seasons": [
+        "summer",
+        "autumn"
+      ],
+      "budget_level": "moderate",
+      "themes": [
+        "nature",
+        "city",
+        "adventure"
+      ],
+      "currency": "CAD",
+      "language": "English",
+      "timezone": "PST"
+    },
+    {
+      "destination_id": "DEST010",
+      "name": "Santorini",
+      "country": "Greece",
+      "continent": "Europe",
+      "description": "Stunning Greek island with white-washed buildings, blue domes, and breathtaking sunsets",
+      "best_seasons": [
+        "spring",
+        "summer"
+      ],
+      "budget_level": "luxury",
+      "themes": [
+        "beach",
+        "romantic",
+        "relaxation"
+      ],
+      "currency": "EUR",
+      "language": "Greek",
+      "timezone": "EET"
+    }
+  ]
+}

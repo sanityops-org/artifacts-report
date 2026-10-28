@@ -1,0 +1,416 @@
+{
+  "doctors": [
+    {
+      "doctor_id": "DR001",
+      "name": "Zhang Ming",
+      "title": "chief",
+      "department_id": "dept_general_internal",
+      "specialties": [
+        "Generate heat",
+        "Cough"
+      ],
+      "clinic_days": [
+        "Monday",
+        "Tuesday",
+        "Wednesday",
+        "Thursday",
+        "Friday"
+      ]
+    },
+    {
+      "doctor_id": "DR002",
+      "name": "Li Hui",
+      "title": "attending",
+      "department_id": "dept_general_internal",
+      "specialties": [
+        "Diarrhoea",
+        "Stomach ache"
+      ],
+      "clinic_days": [
+        "Monday",
+        "Tuesday",
+        "Wednesday",
+        "Thursday",
+        "Friday"
+      ]
+    },
+    {
+      "doctor_id": "DR003",
+      "name": "Wang Qiang",
+      "title": "chief",
+      "department_id": "dept_surgery",
+      "specialties": [
+        "Trauma bleeding",
+        "Body surface mass"
+      ],
+      "clinic_days": [
+        "Monday",
+        "Tuesday",
+        "Wednesday",
+        "Thursday",
+        "Friday"
+      ]
+    },
+    {
+      "doctor_id": "DR004",
+      "name": "Chen Lei",
+      "title": "attending",
+      "department_id": "dept_surgery",
+      "specialties": [
+        "Abdominal pain",
+        "Fracture"
+      ],
+      "clinic_days": [
+        "Monday",
+        "Tuesday",
+        "Wednesday",
+        "Thursday",
+        "Friday"
+      ]
+    },
+    {
+      "doctor_id": "DR005",
+      "name": "Liu Wei",
+      "title": "chief",
+      "department_id": "dept_orthopedics",
+      "specialties": [
+        "Joint pain",
+        "Low back pain"
+      ],
+      "clinic_days": [
+        "Monday",
+        "Tuesday",
+        "Wednesday",
+        "Thursday",
+        "Friday"
+      ]
+    },
+    {
+      "doctor_id": "DR006",
+      "name": "Zhao Min",
+      "title": "associate_chief",
+      "department_id": "dept_orthopedics",
+      "specialties": [
+        "Sprain",
+        "Fracture"
+      ],
+      "clinic_days": [
+        "Monday",
+        "Tuesday",
+        "Wednesday",
+        "Thursday",
+        "Friday"
+      ]
+    },
+    {
+      "doctor_id": "DR007",
+      "name": "Sun Li",
+      "title": "chief",
+      "department_id": "dept_obgyn",
+      "specialties": [
+        "Irregular menstruation",
+        "Health care during pregnancy"
+      ],
+      "clinic_days": [
+        "Monday",
+        "Tuesday",
+        "Wednesday",
+        "Thursday",
+        "Friday"
+      ]
+    },
+    {
+      "doctor_id": "DR008",
+      "name": "Zhou Ting",
+      "title": "attending",
+      "department_id": "dept_obgyn",
+      "specialties": [
+        "White belt abnormality",
+        "Gynecological inflammation"
+      ],
+      "clinic_days": [
+        "Monday",
+        "Tuesday",
+        "Wednesday",
+        "Thursday",
+        "Friday"
+      ]
+    },
+    {
+      "doctor_id": "DR009",
+      "name": "Wu Fang",
+      "title": "chief",
+      "department_id": "dept_pediatrics",
+      "specialties": [
+        "Children have fever",
+        "Diarrhea in children"
+      ],
+      "clinic_days": [
+        "Monday",
+        "Tuesday",
+        "Wednesday",
+        "Thursday",
+        "Friday"
+      ]
+    },
+    {
+      "doctor_id": "DR010",
+      "name": "Zheng Hao",
+      "title": "attending",
+      "department_id": "dept_pediatrics",
+      "specialties": [
+        "Children's rash",
+        "Children's cough"
+      ],
+      "clinic_days": [
+        "Monday",
+        "Tuesday",
+        "Wednesday",
+        "Thursday",
+        "Friday"
+      ]
+    },
+    {
+      "doctor_id": "DR011",
+      "name": "Feng Bo",
+      "title": "chief",
+      "department_id": "dept_ophthalmology",
+      "specialties": [
+        "Decreased eyesight",
+        "Envious"
+      ],
+      "clinic_days": [
+        "Monday",
+        "Tuesday",
+        "Wednesday",
+        "Thursday",
+        "Friday"
+      ]
+    },
+    {
+      "doctor_id": "DR012",
+      "name": "Xu Jing",
+      "title": "attending",
+      "department_id": "dept_ophthalmology",
+      "specialties": [
+        "Eye pain",
+        "Dry eyes"
+      ],
+      "clinic_days": [
+        "Monday",
+        "Tuesday",
+        "Wednesday",
+        "Thursday",
+        "Friday"
+      ]
+    },
+    {
+      "doctor_id": "DR013",
+      "name": "He Jun",
+      "title": "chief",
+      "department_id": "dept_ent",
+      "specialties": [
+        "Tinnitus",
+        "Nasal congestion"
+      ],
+      "clinic_days": [
+        "Monday",
+        "Tuesday",
+        "Wednesday",
+        "Thursday",
+        "Friday"
+      ]
+    },
+    {
+      "doctor_id": "DR014",
+      "name": "Cao Xue",
+      "title": "attending",
+      "department_id": "dept_ent",
+      "specialties": [
+        "Earache",
+        "Sore throat"
+      ],
+      "clinic_days": [
+        "Monday",
+        "Tuesday",
+        "Wednesday",
+        "Thursday",
+        "Friday"
+      ]
+    },
+    {
+      "doctor_id": "DR015",
+      "name": "Deng Chao",
+      "title": "chief",
+      "department_id": "dept_dentistry",
+      "specialties": [
+        "Toothache",
+        "Bleeding gums"
+      ],
+      "clinic_days": [
+        "Monday",
+        "Tuesday",
+        "Wednesday",
+        "Thursday",
+        "Friday"
+      ]
+    },
+    {
+      "doctor_id": "DR016",
+      "name": "Qin Yu",
+      "title": "attending",
+      "department_id": "dept_dentistry",
+      "specialties": [
+        "Mouth ulcers",
+        "Periodontitis"
+      ],
+      "clinic_days": [
+        "Monday",
+        "Tuesday",
+        "Wednesday",
+        "Thursday",
+        "Friday"
+      ]
+    },
+    {
+      "doctor_id": "DR017",
+      "name": "Xie Peng",
+      "title": "chief",
+      "department_id": "dept_dermatology",
+      "specialties": [
+        "Rash",
+        "Eczema"
+      ],
+      "clinic_days": [
+        "Monday",
+        "Tuesday",
+        "Wednesday",
+        "Thursday",
+        "Friday"
+      ]
+    },
+    {
+      "doctor_id": "DR018",
+      "name": "Han Xue",
+      "title": "attending",
+      "department_id": "dept_dermatology",
+      "specialties": [
+        "Itch",
+        "Acne"
+      ],
+      "clinic_days": [
+        "Monday",
+        "Tuesday",
+        "Wednesday",
+        "Thursday",
+        "Friday"
+      ]
+    },
+    {
+      "doctor_id": "DR019",
+      "name": "Tang Jianguo",
+      "title": "chief",
+      "department_id": "dept_neurology",
+      "specialties": [
+        "Have a headache",
+        "Dizzy"
+      ],
+      "clinic_days": [
+        "Monday",
+        "Tuesday",
+        "Wednesday",
+        "Thursday",
+        "Friday"
+      ]
+    },
+    {
+      "doctor_id": "DR020",
+      "name": "Fan Lin",
+      "title": "associate_chief",
+      "department_id": "dept_neurology",
+      "specialties": [
+        "Feel dizzy",
+        "Numbness of limbs"
+      ],
+      "clinic_days": [
+        "Monday",
+        "Tuesday",
+        "Wednesday",
+        "Thursday",
+        "Friday"
+      ]
+    },
+    {
+      "doctor_id": "DR021",
+      "name": "Peng Yong",
+      "title": "chief",
+      "department_id": "dept_cardiology",
+      "specialties": [
+        "Flustered",
+        "High blood pressure"
+      ],
+      "clinic_days": [
+        "Monday",
+        "Tuesday",
+        "Wednesday",
+        "Thursday",
+        "Friday"
+      ]
+    },
+    {
+      "doctor_id": "DR022",
+      "name": "Yin Na",
+      "title": "attending",
+      "department_id": "dept_cardiology",
+      "specialties": [
+        "Palpitate",
+        "Dyslipidemia"
+      ],
+      "clinic_days": [
+        "Monday",
+        "Tuesday",
+        "Wednesday",
+        "Thursday",
+        "Friday"
+      ]
+    },
+    {
+      "doctor_id": "DR023",
+      "name": "Shi Lei",
+      "title": "chief",
+      "department_id": "dept_emergency",
+      "specialties": [
+        "Critically ill",
+        "Acute chest pain"
+      ],
+      "clinic_days": [
+        "Monday",
+        "Tuesday",
+        "Wednesday",
+        "Thursday",
+        "Friday",
+        "Saturday",
+        "Sunday"
+      ]
+    },
+    {
+      "doctor_id": "DR024",
+      "name": "White Dew",
+      "title": "attending",
+      "department_id": "dept_emergency",
+      "specialties": [
+        "External injury",
+        "Acute abdominal pain"
+      ],
+      "clinic_days": [
+        "Monday",
+        "Tuesday",
+        "Wednesday",
+        "Thursday",
+        "Friday",
+        "Saturday",
+        "Sunday"
+      ]
+    }
+  ]
+}

@@ -1,0 +1,100 @@
+{
+  "reviews": [
+    {
+      "review_id": "REV0001",
+      "title_id": "TITLE0001",
+      "user_name": "Alex Rivera",
+      "rating": 10.0,
+      "comment": "A masterclass in storytelling. The friendship between Andy and Red carries the whole film.",
+      "date": "2026-03-12"
+    },
+    {
+      "review_id": "REV0002",
+      "title_id": "TITLE0001",
+      "user_name": "Priya Nair",
+      "rating": 9.0,
+      "comment": "Slow at first, but the payoff is enormous. Hope is the real subject here.",
+      "date": "2026-05-02"
+    },
+    {
+      "review_id": "REV0003",
+      "title_id": "TITLE0001",
+      "user_name": "Marcus Chen",
+      "rating": 8.5,
+      "comment": "Excellent performances throughout. Some pacing issues in the middle act.",
+      "date": "2026-06-18"
+    },
+    {
+      "review_id": "REV0004",
+      "title_id": "TITLE0002",
+      "user_name": "Sofia Almeida",
+      "rating": 10.0,
+      "comment": "Ledger's performance redefined what a villain could be. Tense from start to finish.",
+      "date": "2026-02-20"
+    },
+    {
+      "review_id": "REV0005",
+      "title_id": "TITLE0002",
+      "user_name": "Daniel Okafor",
+      "rating": 9.0,
+      "comment": "The ferry sequence alone is worth the runtime. Superb direction.",
+      "date": "2026-04-14"
+    },
+    {
+      "review_id": "REV0006",
+      "title_id": "TITLE0002",
+      "user_name": "Hannah Weiss",
+      "rating": 8.0,
+      "comment": "A bit long, but the moral tension keeps you engaged.",
+      "date": "2026-07-30"
+    },
+    {
+      "review_id": "REV0007",
+      "title_id": "TITLE0021",
+      "user_name": "Kenji Watanabe",
+      "rating": 10.0,
+      "comment": "Character transformation done better than any show I've seen. Every season earns its ending.",
+      "date": "2026-01-15"
+    },
+    {
+      "review_id": "REV0008",
+      "title_id": "TITLE0021",
+      "user_name": "Laura Bennett",
+      "rating": 9.5,
+      "comment": "Season 4's tension is almost unbearable in the best way. The writing never slips.",
+      "date": "2026-03-28"
+    },
+    {
+      "review_id": "REV0009",
+      "title_id": "TITLE0021",
+      "user_name": "Tomás Herrera",
+      "rating": 9.0,
+      "comment": "Starts slow, becomes unputdownable. The cinematography is gorgeous.",
+      "date": "2026-08-09"
+    },
+    {
+      "review_id": "REV0010",
+      "title_id": "TITLE0024",
+      "user_name": "Grace Lindqvist",
+      "rating": 10.0,
+      "comment": "Comfort television at its finest. The ensemble cast is unmatched.",
+      "date": "2026-02-04"
+    },
+    {
+      "review_id": "REV0011",
+      "title_id": "TITLE0024",
+      "user_name": "Omar Haddad",
+      "rating": 9.0,
+      "comment": "The later seasons lose a little steam after the cast shake-up, but still great.",
+      "date": "2026-04-26"
+    },
+    {
+      "review_id": "REV0012",
+      "title_id": "TITLE0024",
+      "user_name": "Rachel Kim",
+      "rating": 8.5,
+      "comment": "Rewatchable in a way few sitcoms are. The documentary format holds up.",
+      "date": "2026-09-11"
+    }
+  ]
+}

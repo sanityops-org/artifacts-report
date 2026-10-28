@@ -1,0 +1,40 @@
+{
+  "yard_blocks": [
+    {
+      "block_id": "A01",
+      "block_name": "Import box area of Area A",
+      "type": "import",
+      "capacity": 500,
+      "occupied": 320,
+      "tiers_max": 5,
+      "status": "operational"
+    },
+    {
+      "block_id": "B01",
+      "block_name": "Exit box area of Area B",
+      "type": "export",
+      "capacity": 600,
+      "occupied": 450,
+      "tiers_max": 5,
+      "status": "operational"
+    },
+    {
+      "block_id": "C01",
+      "block_name": "Hazardous goods box area in Area C",
+      "type": "dangerous",
+      "capacity": 100,
+      "occupied": 30,
+      "tiers_max": 3,
+      "status": "operational"
+    },
+    {
+      "block_id": "D01",
+      "block_name": "Refrigerator area in District D",
+      "type": "reefer",
+      "capacity": 150,
+      "occupied": 80,
+      "tiers_max": 4,
+      "status": "operational"
+    }
+  ]
+}

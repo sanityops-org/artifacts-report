@@ -1,0 +1,133 @@
+# Tool registration and configuration
+tools:
+  # Route planning
+  - name: plan_route
+    description: "Query the best travel route, return the distance, duration, tot fee"
+    script: skills/route_planning/tools/plan_route.py
+    entry_point: execute
+    inputSchema:
+      type: object
+      properties:
+        origin:
+          type: string
+          description: "Starting point location ID, such as L-001 (Beijing West Railway Station)"
+          minLength: 1
+          maxLength: 20
+        destination:
+          type: string
+          description: "End point ID, such as L-002 (Capital AirportT3）"
+          minLength: 1
+          maxLength: 20
+      required: [origin, destination]
+      additionalProperties: false
+
+  # Estimated cost
+  - name: estimate_fare
+    description: "Estimate the taxi cost and return the cost details of various models."
+    script: skills/fare_estimation/tools/estimate_fare.py
+    entry_point: execute
+    inputSchema:
+      type: object
+      properties:
+        origin:
+          type: string
+          description: "Starting point ID"
+          minLength: 1
+          maxLength: 20
+        destination:
+          type: string
+          description: "End point ID"
+          minLength: 1
+          maxLength: 20
+        category:
+          type: string
+          description: "Model category (economic | comfort | premium | suv), if not provided, all models will be returned"
+          enum: [economic, comfort, premium, suv]
+        time_of_day:
+          type: string
+          description: "Time period (day | night), default day"
+          enum: [day, night]
+          default: day
+      required: [origin, destination]
+      additionalProperties: false
+
+  # Vehicle inquiry
+  - name: query_vehicle
+    description: "Check the available taxis nearby, return to the vehicle list and estimated arrival time."
+    script: skills/vehicle_query/tools/query_vehicle.py
+    entry_point: execute
+    inputSchema:
+      type: object
+      properties:
+        location:
+          type: string
+          description: "Place ID"
+          minLength: 1
+          maxLength: 20
+        category:
+          type: string
+          description: "Model category filtering (economic | comfort | premium | suv)"
+          enum: [economic, comfort, premium, suv]
+        radius_km:
+          type: number
+          description: "Search radius (kilometers)"
+          minimum: 0.5
+          maximum: 50
+          default: 5.0
+      required: [location]
+      additionalProperties: false
+
+  # Place an order
+  - name: place_order
+    description: "Create taxi orders and automatically match nearby vehicles"
+    script: skills/order_booking/tools/place_order.py
+    entry_point: execute
+    inputSchema:
+      type: object
+      properties:
+        user_id:
+          type: string
+          description: "Consumer ID"
+          minLength: 1
+          maxLength: 50
+        origin:
+          type: string
+          description: "Starting point ID"
+          minLength: 1
+          maxLength: 20
+        destination:
+          type: string
+          description: "End point ID"
+          minLength: 1
+          maxLength: 20
+        phone:
+          type: string
+          description: "Contact number"
+          minLength: 1
+          maxLength: 20
+        category:
+          type: string
+          description: "Model preference (economic | comfort | premium | suv)"
+          enum: [economic, comfort, premium, suv]
+      required: [user_id, origin, destination, phone]
+      additionalProperties: false
+
+  # Cancel the order
+  - name: cancel_order
+    description: "Cancel the taxi order"
+    script: skills/order_booking/tools/cancel_order.py
+    entry_point: execute
+    inputSchema:
+      type: object
+      properties:
+        order_id:
+          type: string
+          description: "Order number"
+          minLength: 1
+          maxLength: 20
+        reason:
+          type: string
+          description: "Reason for cancellation (optional)"
+          maxLength: 200
+      required: [order_id]
+      additionalProperties: false

@@ -1,0 +1,199 @@
+{
+  "breeds": [
+    {
+      "breed_id": "BREED001",
+      "name": "Labrador Retriever",
+      "species": "dog",
+      "size": "large",
+      "temperaments": [
+        "friendly",
+        "energetic",
+        "affectionate"
+      ],
+      "exercise_minutes_per_day": 90,
+      "grooming_level": "moderate",
+      "apartment_friendly": false,
+      "good_with_kids": true,
+      "lifespan_years": "10-12",
+      "description": "Outgoing and eager to please, Labradors need real daily exercise and thrive in a family setting with a yard."
+    },
+    {
+      "breed_id": "BREED002",
+      "name": "French Bulldog",
+      "species": "dog",
+      "size": "small",
+      "temperaments": [
+        "calm",
+        "affectionate",
+        "playful"
+      ],
+      "exercise_minutes_per_day": 30,
+      "grooming_level": "low",
+      "apartment_friendly": true,
+      "good_with_kids": true,
+      "lifespan_years": "10-12",
+      "description": "A compact companion that does well in apartments. Short walks are enough, but the breed is sensitive to heat."
+    },
+    {
+      "breed_id": "BREED003",
+      "name": "Border Collie",
+      "species": "dog",
+      "size": "medium",
+      "temperaments": [
+        "energetic",
+        "protective"
+      ],
+      "exercise_minutes_per_day": 120,
+      "grooming_level": "moderate",
+      "apartment_friendly": false,
+      "good_with_kids": true,
+      "lifespan_years": "12-15",
+      "description": "Highly intelligent and driven. Without a job or serious daily activity this breed becomes restless."
+    },
+    {
+      "breed_id": "BREED004",
+      "name": "Shiba Inu",
+      "species": "dog",
+      "size": "medium",
+      "temperaments": [
+        "independent",
+        "calm"
+      ],
+      "exercise_minutes_per_day": 60,
+      "grooming_level": "high",
+      "apartment_friendly": true,
+      "good_with_kids": false,
+      "lifespan_years": "13-16",
+      "description": "Cat-like and self-possessed. Clean and quiet indoors, but strong-willed and best suited to an experienced owner."
+    },
+    {
+      "breed_id": "BREED005",
+      "name": "Cavalier King Charles Spaniel",
+      "species": "dog",
+      "size": "small",
+      "temperaments": [
+        "affectionate",
+        "friendly"
+      ],
+      "exercise_minutes_per_day": 45,
+      "grooming_level": "moderate",
+      "apartment_friendly": true,
+      "good_with_kids": true,
+      "lifespan_years": "9-14",
+      "description": "Gentle and people-focused, bred purely as a companion. Happiest when included in everything the household does."
+    },
+    {
+      "breed_id": "BREED006",
+      "name": "German Shepherd",
+      "species": "dog",
+      "size": "large",
+      "temperaments": [
+        "protective",
+        "energetic"
+      ],
+      "exercise_minutes_per_day": 120,
+      "grooming_level": "high",
+      "apartment_friendly": false,
+      "good_with_kids": true,
+      "lifespan_years": "9-13",
+      "description": "Confident and highly trainable, with strong guarding instincts. Needs space, structure, and consistent early socialisation."
+    },
+    {
+      "breed_id": "BREED007",
+      "name": "Domestic Shorthair",
+      "species": "cat",
+      "size": "small",
+      "temperaments": [
+        "independent",
+        "playful"
+      ],
+      "exercise_minutes_per_day": 30,
+      "grooming_level": "low",
+      "apartment_friendly": true,
+      "good_with_kids": true,
+      "lifespan_years": "12-15",
+      "description": "The mixed-ancestry house cat. Temperament varies widely by individual, but most adapt easily to indoor life."
+    },
+    {
+      "breed_id": "BREED008",
+      "name": "Maine Coon",
+      "species": "cat",
+      "size": "large",
+      "temperaments": [
+        "friendly",
+        "calm"
+      ],
+      "exercise_minutes_per_day": 40,
+      "grooming_level": "high",
+      "apartment_friendly": true,
+      "good_with_kids": true,
+      "lifespan_years": "10-14",
+      "description": "A large, sociable cat often described as dog-like. The long coat needs regular brushing to avoid matting."
+    },
+    {
+      "breed_id": "BREED009",
+      "name": "Siamese",
+      "species": "cat",
+      "size": "medium",
+      "temperaments": [
+        "affectionate",
+        "playful"
+      ],
+      "exercise_minutes_per_day": 45,
+      "grooming_level": "low",
+      "apartment_friendly": true,
+      "good_with_kids": true,
+      "lifespan_years": "12-20",
+      "description": "Vocal and intensely social. This breed does poorly when left alone for long stretches of the day."
+    },
+    {
+      "breed_id": "BREED010",
+      "name": "British Shorthair",
+      "species": "cat",
+      "size": "medium",
+      "temperaments": [
+        "calm",
+        "independent"
+      ],
+      "exercise_minutes_per_day": 25,
+      "grooming_level": "moderate",
+      "apartment_friendly": true,
+      "good_with_kids": true,
+      "lifespan_years": "12-16",
+      "description": "Easygoing and undemanding, content to keep you company without constant attention. Prone to weight gain."
+    },
+    {
+      "breed_id": "BREED011",
+      "name": "Bengal",
+      "species": "cat",
+      "size": "medium",
+      "temperaments": [
+        "energetic",
+        "playful"
+      ],
+      "exercise_minutes_per_day": 60,
+      "grooming_level": "low",
+      "apartment_friendly": false,
+      "good_with_kids": true,
+      "lifespan_years": "12-16",
+      "description": "Athletic and endlessly curious. Needs climbing space and interactive play or it will find its own entertainment."
+    },
+    {
+      "breed_id": "BREED012",
+      "name": "Ragdoll",
+      "species": "cat",
+      "size": "large",
+      "temperaments": [
+        "calm",
+        "affectionate",
+        "shy"
+      ],
+      "exercise_minutes_per_day": 30,
+      "grooming_level": "high",
+      "apartment_friendly": true,
+      "good_with_kids": true,
+      "lifespan_years": "12-17",
+      "description": "Unusually relaxed about being handled. Quiet and slow to warm up to new people, but very attached once settled."
+    }
+  ]
+}

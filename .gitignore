@@ -10,3 +10,8 @@ _archive/power-agent-sanityops-cases.zip
 __pycache__/
 *.pyc
 .trae-html-share-packages/
+.venv/
+.env
+.pytest_cache/
+.ruff_cache/
+.mypy_cache/

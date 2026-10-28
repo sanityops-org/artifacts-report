@@ -1,0 +1,166 @@
+[
+  {
+    "tracking_number": "FR202609300001234",
+    "origin": "Shanghai",
+    "destination": "Beijing",
+    "status": "in_transit",
+    "carrier_id": "C001",
+    "carrier_name": "National Freight Co.",
+    "cargo_type": "general",
+    "weight_kg": 15000,
+    "volume_cbm": 45.5,
+    "pickup_date": "2026-09-28T08:00:00",
+    "eta": "2026-10-01T18:00:00",
+    "current_location": "Jinan Hub",
+    "last_update": "2026-09-30T14:30:00",
+    "tracking_history": [
+      {
+        "timestamp": "2026-09-28T08:00:00",
+        "location": "Shanghai Warehouse",
+        "status": "picked_up",
+        "description": "Shipment picked up from origin"
+      },
+      {
+        "timestamp": "2026-09-28T20:00:00",
+        "location": "Shanghai Distribution Center",
+        "status": "in_transit",
+        "description": "Departed Shanghai facility"
+      },
+      {
+        "timestamp": "2026-09-29T12:00:00",
+        "location": "Nanjing Hub",
+        "status": "in_transit",
+        "description": "In transit via Nanjing"
+      },
+      {
+        "timestamp": "2026-09-30T14:30:00",
+        "location": "Jinan Hub",
+        "status": "in_transit",
+        "description": "Arrived at Jinan sorting hub"
+      }
+    ]
+  },
+  {
+    "tracking_number": "FR202609300002456",
+    "origin": "Guangzhou",
+    "destination": "Shenzhen",
+    "status": "delivered",
+    "carrier_id": "C002",
+    "carrier_name": "Southern Logistics",
+    "cargo_type": "general",
+    "weight_kg": 5000,
+    "volume_cbm": 12.0,
+    "pickup_date": "2026-09-29T10:00:00",
+    "eta": "2026-09-30T12:00:00",
+    "actual_delivery": "2026-09-30T11:45:00",
+    "current_location": "Shenzhen",
+    "last_update": "2026-09-30T11:45:00",
+    "tracking_history": [
+      {
+        "timestamp": "2026-09-29T10:00:00",
+        "location": "Guangzhou",
+        "status": "picked_up",
+        "description": "Shipment picked up"
+      },
+      {
+        "timestamp": "2026-09-29T18:00:00",
+        "location": "Dongguan Hub",
+        "status": "in_transit",
+        "description": "In transit"
+      },
+      {
+        "timestamp": "2026-09-30T08:00:00",
+        "location": "Shenzhen Depot",
+        "status": "out_for_delivery",
+        "description": "Out for delivery"
+      },
+      {
+        "timestamp": "2026-09-30T11:45:00",
+        "location": "Shenzhen",
+        "status": "delivered",
+        "description": "Delivered to recipient"
+      }
+    ]
+  },
+  {
+    "tracking_number": "FR202609300003789",
+    "origin": "Chengdu",
+    "destination": "Chongqing",
+    "status": "pending",
+    "carrier_id": "C003",
+    "carrier_name": "Western Express",
+    "cargo_type": "refrigerated",
+    "weight_kg": 8000,
+    "volume_cbm": 25.0,
+    "pickup_date": "2026-10-01T09:00:00",
+    "eta": "2026-10-02T17:00:00",
+    "current_location": "Chengdu",
+    "last_update": "2026-09-30T10:00:00",
+    "tracking_history": []
+  },
+  {
+    "tracking_number": "FR202609300004012",
+    "origin": "Tianjin",
+    "destination": "Qingdao",
+    "status": "exception",
+    "carrier_id": "C001",
+    "carrier_name": "National Freight Co.",
+    "cargo_type": "hazardous",
+    "weight_kg": 12000,
+    "volume_cbm": 35.0,
+    "pickup_date": "2026-09-27T14:00:00",
+    "eta": "2026-09-30T10:00:00",
+    "current_location": "Cangzhou",
+    "last_update": "2026-09-30T08:00:00",
+    "tracking_history": [
+      {
+        "timestamp": "2026-09-27T14:00:00",
+        "location": "Tianjin",
+        "status": "picked_up",
+        "description": "Hazardous cargo picked up"
+      },
+      {
+        "timestamp": "2026-09-28T06:00:00",
+        "location": "Cangzhou Checkpoint",
+        "status": "in_transit",
+        "description": "In transit"
+      },
+      {
+        "timestamp": "2026-09-30T08:00:00",
+        "location": "Cangzhou",
+        "status": "exception",
+        "description": "Delayed due to weather conditions"
+      }
+    ],
+    "notes": "Delivery delayed due to severe weather. ETA updated pending clearance."
+  },
+  {
+    "tracking_number": "FR202609300005678",
+    "origin": "Shanghai",
+    "destination": "Hangzhou",
+    "status": "in_transit",
+    "carrier_id": "C002",
+    "carrier_name": "Southern Logistics",
+    "cargo_type": "general",
+    "weight_kg": 3200,
+    "volume_cbm": 8.5,
+    "pickup_date": "2026-09-30T07:00:00",
+    "eta": "2026-09-30T16:00:00",
+    "current_location": "Jiaxing",
+    "last_update": "2026-09-30T13:00:00",
+    "tracking_history": [
+      {
+        "timestamp": "2026-09-30T07:00:00",
+        "location": "Shanghai",
+        "status": "picked_up",
+        "description": "Shipment collected"
+      },
+      {
+        "timestamp": "2026-09-30T13:00:00",
+        "location": "Jiaxing",
+        "status": "in_transit",
+        "description": "In transit"
+      }
+    ]
+  }
+]

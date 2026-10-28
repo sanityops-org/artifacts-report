@@ -1,0 +1,196 @@
+{
+  "mappings": [
+    {
+      "symptom": "Have a headache",
+      "aliases": [
+        "Headache",
+        "Migraine",
+        "I have a headache."
+      ],
+      "departments": [
+        "dept_neurology"
+      ],
+      "weight": 3
+    },
+    {
+      "symptom": "Dizzy",
+      "aliases": [
+        "Feel dizzy",
+        "Hair is dizzy.",
+        "Dizziness"
+      ],
+      "departments": [
+        "dept_neurology",
+        "dept_ent"
+      ],
+      "weight": 2
+    },
+    {
+      "symptom": "Generate heat",
+      "aliases": [
+        "Run a fever",
+        "High body temperature",
+        "Fever"
+      ],
+      "departments": [
+        "dept_general_internal"
+      ],
+      "weight": 3
+    },
+    {
+      "symptom": "Cough",
+      "aliases": [
+        "Cough up phlegm",
+        "Have a dry cough",
+        "Old cough"
+      ],
+      "departments": [
+        "dept_general_internal"
+      ],
+      "weight": 3
+    },
+    {
+      "symptom": "Abdominal pain",
+      "aliases": [
+        "Stomachache",
+        "Stomach pain"
+      ],
+      "departments": [
+        "dept_general_internal",
+        "dept_surgery"
+      ],
+      "weight": 2
+    },
+    {
+      "symptom": "Stomach ache",
+      "aliases": [
+        "Acid reverse",
+        "Cause a stomach upset",
+        "Stomach discomfort"
+      ],
+      "departments": [
+        "dept_general_internal"
+      ],
+      "weight": 3
+    },
+    {
+      "symptom": "Diarrhoea",
+      "aliases": [
+        "Have diarrhoea",
+        "Have diarrhoea"
+      ],
+      "departments": [
+        "dept_general_internal"
+      ],
+      "weight": 3
+    },
+    {
+      "symptom": "Joint pain",
+      "aliases": [
+        "Backache",
+        "Sprain",
+        "Low back pain",
+        "Joint pain"
+      ],
+      "departments": [
+        "dept_orthopedics"
+      ],
+      "weight": 3
+    },
+    {
+      "symptom": "Trauma bleeding",
+      "aliases": [
+        "Fracture",
+        "Fall and hurt",
+        "Knock and break"
+      ],
+      "departments": [
+        "dept_surgery"
+      ],
+      "weight": 3
+    },
+    {
+      "symptom": "Rash",
+      "aliases": [
+        "Itch",
+        "Eczema",
+        "Rash"
+      ],
+      "departments": [
+        "dept_dermatology"
+      ],
+      "weight": 3
+    },
+    {
+      "symptom": "Envious",
+      "aliases": [
+        "Decreased eyesight",
+        "Eye pain",
+        "Red eyes"
+      ],
+      "departments": [
+        "dept_ophthalmology"
+      ],
+      "weight": 3
+    },
+    {
+      "symptom": "Tinnitus",
+      "aliases": [
+        "Earache",
+        "Nasal congestion",
+        "Sore throat",
+        "The ears are ringing"
+      ],
+      "departments": [
+        "dept_ent"
+      ],
+      "weight": 3
+    },
+    {
+      "symptom": "Toothache",
+      "aliases": [
+        "Bleeding gums",
+        "Mouth ulcers",
+        "Toothache"
+      ],
+      "departments": [
+        "dept_dentistry"
+      ],
+      "weight": 3
+    },
+    {
+      "symptom": "Irregular menstruation",
+      "aliases": [
+        "Menstrual disorder",
+        "White belt abnormality"
+      ],
+      "departments": [
+        "dept_obgyn"
+      ],
+      "weight": 3
+    },
+    {
+      "symptom": "Flustered",
+      "aliases": [
+        "Palpitate",
+        "High blood pressure"
+      ],
+      "departments": [
+        "dept_cardiology"
+      ],
+      "weight": 3
+    },
+    {
+      "symptom": "Children vomit",
+      "aliases": [
+        "Children's rash",
+        "Diarrhea in children",
+        "The child has a fever."
+      ],
+      "departments": [
+        "dept_pediatrics"
+      ],
+      "weight": 3
+    }
+  ]
+}

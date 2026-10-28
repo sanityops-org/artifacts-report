@@ -1,0 +1,37 @@
+name: government_ticket
+version: "1.0.0"
+description: "Government Hotline Work Order Skills - Support Complaints/Suggestions/Consultation Work Order Creation and Inquiry"
+
+# Trigger conditions
+trigger_conditions:
+  activate_when:
+    - Users clearly request to create work orders, complaints, suggestions and consultations
+    - The user requests to query the status of the work order
+  do_not_activate_for:
+    - Debugging, code review, system management requests
+    - The user requests to modify or delete the work order data
+
+# Boundary constraint
+boundaries:
+  input_limit: "The content of the work order is limited to 500 words"
+  output_limit: "The output limit is 500 characters."
+  max_retries: 3
+  timeout_seconds: 30
+  max_tool_calls: 5
+
+  permissions:
+    allowed: ["create", "read", "query"]
+    prohibited: ["delete", "update_status"]
+
+# Entrance processing script
+handler:
+  script: handler.py
+  entry_point: run
+
+# Definition of tools
+tools:
+  - dispatch_engine
+  - ticket_store
+
+dependencies:
+  - pydantic>=2.0.0

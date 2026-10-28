@@ -1,0 +1,94 @@
+{
+  "locations": [
+    {
+      "location_id": "LOC001",
+      "name": "New York",
+      "region": "New York",
+      "country": "USA",
+      "latitude": 40.7128,
+      "longitude": -74.006,
+      "elevation_m": 10
+    },
+    {
+      "location_id": "LOC002",
+      "name": "Los Angeles",
+      "region": "California",
+      "country": "USA",
+      "latitude": 34.0522,
+      "longitude": -118.2437,
+      "elevation_m": 71
+    },
+    {
+      "location_id": "LOC003",
+      "name": "Chicago",
+      "region": "Illinois",
+      "country": "USA",
+      "latitude": 41.8781,
+      "longitude": -87.6298,
+      "elevation_m": 176
+    },
+    {
+      "location_id": "LOC004",
+      "name": "Houston",
+      "region": "Texas",
+      "country": "USA",
+      "latitude": 29.7604,
+      "longitude": -95.3698,
+      "elevation_m": 15
+    },
+    {
+      "location_id": "LOC005",
+      "name": "Oklahoma City",
+      "region": "Oklahoma",
+      "country": "USA",
+      "latitude": 35.4676,
+      "longitude": -97.5164,
+      "elevation_m": 395
+    },
+    {
+      "location_id": "LOC006",
+      "name": "Miami",
+      "region": "Florida",
+      "country": "USA",
+      "latitude": 25.7617,
+      "longitude": -80.1918,
+      "elevation_m": 2
+    },
+    {
+      "location_id": "LOC007",
+      "name": "Seattle",
+      "region": "Washington",
+      "country": "USA",
+      "latitude": 47.6062,
+      "longitude": -122.3321,
+      "elevation_m": 53
+    },
+    {
+      "location_id": "LOC008",
+      "name": "Denver",
+      "region": "Colorado",
+      "country": "USA",
+      "latitude": 39.7392,
+      "longitude": -104.9903,
+      "elevation_m": 1609
+    },
+    {
+      "location_id": "LOC009",
+      "name": "Boston",
+      "region": "Massachusetts",
+      "country": "USA",
+      "latitude": 42.3601,
+      "longitude": -71.0589,
+      "elevation_m": 6
+    },
+    {
+      "location_id": "LOC010",
+      "name": "Atlanta",
+      "region": "Georgia",
+      "country": "USA",
+      "latitude": 33.749,
+      "longitude": -84.388,
+      "elevation_m": 320
+    }
+  ]
+}

@@ -1,0 +1,704 @@
+{
+  "forecasts": [
+    {
+      "location_id": "LOC001",
+      "date": "2026-10-10",
+      "high_c": 20.0,
+      "low_c": 12.0,
+      "conditions": "clear",
+      "precipitation_probability": 10,
+      "wind_speed_kmh": 12.5,
+      "humidity_percent": 60
+    },
+    {
+      "location_id": "LOC001",
+      "date": "2026-10-11",
+      "high_c": 22.0,
+      "low_c": 14.0,
+      "conditions": "partly_cloudy",
+      "precipitation_probability": 20,
+      "wind_speed_kmh": 15.0,
+      "humidity_percent": 65
+    },
+    {
+      "location_id": "LOC001",
+      "date": "2026-10-12",
+      "high_c": 18.0,
+      "low_c": 10.0,
+      "conditions": "rain",
+      "precipitation_probability": 70,
+      "wind_speed_kmh": 20.0,
+      "humidity_percent": 80
+    },
+    {
+      "location_id": "LOC001",
+      "date": "2026-10-13",
+      "high_c": 16.0,
+      "low_c": 9.0,
+      "conditions": "rain",
+      "precipitation_probability": 80,
+      "wind_speed_kmh": 22.0,
+      "humidity_percent": 85
+    },
+    {
+      "location_id": "LOC001",
+      "date": "2026-10-14",
+      "high_c": 19.0,
+      "low_c": 11.0,
+      "conditions": "partly_cloudy",
+      "precipitation_probability": 30,
+      "wind_speed_kmh": 14.0,
+      "humidity_percent": 70
+    },
+    {
+      "location_id": "LOC001",
+      "date": "2026-10-15",
+      "high_c": 21.0,
+      "low_c": 13.0,
+      "conditions": "clear",
+      "precipitation_probability": 5,
+      "wind_speed_kmh": 10.0,
+      "humidity_percent": 55
+    },
+    {
+      "location_id": "LOC001",
+      "date": "2026-10-16",
+      "high_c": 23.0,
+      "low_c": 15.0,
+      "conditions": "clear",
+      "precipitation_probability": 0,
+      "wind_speed_kmh": 8.0,
+      "humidity_percent": 50
+    },
+    {
+      "location_id": "LOC002",
+      "date": "2026-10-10",
+      "high_c": 29.0,
+      "low_c": 18.0,
+      "conditions": "clear",
+      "precipitation_probability": 0,
+      "wind_speed_kmh": 10.0,
+      "humidity_percent": 40
+    },
+    {
+      "location_id": "LOC002",
+      "date": "2026-10-11",
+      "high_c": 30.0,
+      "low_c": 19.0,
+      "conditions": "clear",
+      "precipitation_probability": 0,
+      "wind_speed_kmh": 12.0,
+      "humidity_percent": 38
+    },
+    {
+      "location_id": "LOC002",
+      "date": "2026-10-12",
+      "high_c": 28.0,
+      "low_c": 17.0,
+      "conditions": "partly_cloudy",
+      "precipitation_probability": 10,
+      "wind_speed_kmh": 15.0,
+      "humidity_percent": 45
+    },
+    {
+      "location_id": "LOC002",
+      "date": "2026-10-13",
+      "high_c": 27.0,
+      "low_c": 16.0,
+      "conditions": "partly_cloudy",
+      "precipitation_probability": 15,
+      "wind_speed_kmh": 14.0,
+      "humidity_percent": 48
+    },
+    {
+      "location_id": "LOC002",
+      "date": "2026-10-14",
+      "high_c": 26.0,
+      "low_c": 15.0,
+      "conditions": "clear",
+      "precipitation_probability": 5,
+      "wind_speed_kmh": 11.0,
+      "humidity_percent": 42
+    },
+    {
+      "location_id": "LOC002",
+      "date": "2026-10-15",
+      "high_c": 28.0,
+      "low_c": 17.0,
+      "conditions": "clear",
+      "precipitation_probability": 0,
+      "wind_speed_kmh": 9.0,
+      "humidity_percent": 40
+    },
+    {
+      "location_id": "LOC002",
+      "date": "2026-10-16",
+      "high_c": 29.0,
+      "low_c": 18.0,
+      "conditions": "clear",
+      "precipitation_probability": 0,
+      "wind_speed_kmh": 10.0,
+      "humidity_percent": 38
+    },
+    {
+      "location_id": "LOC003",
+      "date": "2026-10-10",
+      "high_c": 14.0,
+      "low_c": 6.0,
+      "conditions": "windy",
+      "precipitation_probability": 20,
+      "wind_speed_kmh": 28.0,
+      "humidity_percent": 65
+    },
+    {
+      "location_id": "LOC003",
+      "date": "2026-10-11",
+      "high_c": 12.0,
+      "low_c": 5.0,
+      "conditions": "cloudy",
+      "precipitation_probability": 40,
+      "wind_speed_kmh": 22.0,
+      "humidity_percent": 70
+    },
+    {
+      "location_id": "LOC003",
+      "date": "2026-10-12",
+      "high_c": 10.0,
+      "low_c": 3.0,
+      "conditions": "rain",
+      "precipitation_probability": 75,
+      "wind_speed_kmh": 18.0,
+      "humidity_percent": 80
+    },
+    {
+      "location_id": "LOC003",
+      "date": "2026-10-13",
+      "high_c": 11.0,
+      "low_c": 4.0,
+      "conditions": "partly_cloudy",
+      "precipitation_probability": 30,
+      "wind_speed_kmh": 15.0,
+      "humidity_percent": 68
+    },
+    {
+      "location_id": "LOC003",
+      "date": "2026-10-14",
+      "high_c": 13.0,
+      "low_c": 5.0,
+      "conditions": "clear",
+      "precipitation_probability": 10,
+      "wind_speed_kmh": 12.0,
+      "humidity_percent": 60
+    },
+    {
+      "location_id": "LOC003",
+      "date": "2026-10-15",
+      "high_c": 15.0,
+      "low_c": 7.0,
+      "conditions": "clear",
+      "precipitation_probability": 5,
+      "wind_speed_kmh": 10.0,
+      "humidity_percent": 55
+    },
+    {
+      "location_id": "LOC003",
+      "date": "2026-10-16",
+      "high_c": 16.0,
+      "low_c": 8.0,
+      "conditions": "partly_cloudy",
+      "precipitation_probability": 15,
+      "wind_speed_kmh": 14.0,
+      "humidity_percent": 62
+    },
+    {
+      "location_id": "LOC004",
+      "date": "2026-10-10",
+      "high_c": 25.0,
+      "low_c": 17.0,
+      "conditions": "cloudy",
+      "precipitation_probability": 40,
+      "wind_speed_kmh": 15.0,
+      "humidity_percent": 72
+    },
+    {
+      "location_id": "LOC004",
+      "date": "2026-10-11",
+      "high_c": 23.0,
+      "low_c": 16.0,
+      "conditions": "rain",
+      "precipitation_probability": 65,
+      "wind_speed_kmh": 18.0,
+      "humidity_percent": 78
+    },
+    {
+      "location_id": "LOC004",
+      "date": "2026-10-12",
+      "high_c": 22.0,
+      "low_c": 15.0,
+      "conditions": "thunderstorm",
+      "precipitation_probability": 80,
+      "wind_speed_kmh": 25.0,
+      "humidity_percent": 85
+    },
+    {
+      "location_id": "LOC004",
+      "date": "2026-10-13",
+      "high_c": 24.0,
+      "low_c": 16.0,
+      "conditions": "partly_cloudy",
+      "precipitation_probability": 30,
+      "wind_speed_kmh": 12.0,
+      "humidity_percent": 68
+    },
+    {
+      "location_id": "LOC004",
+      "date": "2026-10-14",
+      "high_c": 26.0,
+      "low_c": 18.0,
+      "conditions": "clear",
+      "precipitation_probability": 10,
+      "wind_speed_kmh": 10.0,
+      "humidity_percent": 60
+    },
+    {
+      "location_id": "LOC004",
+      "date": "2026-10-15",
+      "high_c": 27.0,
+      "low_c": 19.0,
+      "conditions": "clear",
+      "precipitation_probability": 5,
+      "wind_speed_kmh": 8.0,
+      "humidity_percent": 55
+    },
+    {
+      "location_id": "LOC004",
+      "date": "2026-10-16",
+      "high_c": 28.0,
+      "low_c": 20.0,
+      "conditions": "partly_cloudy",
+      "precipitation_probability": 15,
+      "wind_speed_kmh": 11.0,
+      "humidity_percent": 58
+    },
+    {
+      "location_id": "LOC005",
+      "date": "2026-10-10",
+      "high_c": 21.0,
+      "low_c": 12.0,
+      "conditions": "thunderstorm",
+      "precipitation_probability": 75,
+      "wind_speed_kmh": 32.0,
+      "humidity_percent": 70
+    },
+    {
+      "location_id": "LOC005",
+      "date": "2026-10-11",
+      "high_c": 19.0,
+      "low_c": 10.0,
+      "conditions": "rain",
+      "precipitation_probability": 60,
+      "wind_speed_kmh": 20.0,
+      "humidity_percent": 75
+    },
+    {
+      "location_id": "LOC005",
+      "date": "2026-10-12",
+      "high_c": 18.0,
+      "low_c": 9.0,
+      "conditions": "partly_cloudy",
+      "precipitation_probability": 30,
+      "wind_speed_kmh": 15.0,
+      "humidity_percent": 65
+    },
+    {
+      "location_id": "LOC005",
+      "date": "2026-10-13",
+      "high_c": 20.0,
+      "low_c": 11.0,
+      "conditions": "clear",
+      "precipitation_probability": 10,
+      "wind_speed_kmh": 12.0,
+      "humidity_percent": 55
+    },
+    {
+      "location_id": "LOC005",
+      "date": "2026-10-14",
+      "high_c": 22.0,
+      "low_c": 13.0,
+      "conditions": "clear",
+      "precipitation_probability": 5,
+      "wind_speed_kmh": 10.0,
+      "humidity_percent": 50
+    },
+    {
+      "location_id": "LOC005",
+      "date": "2026-10-15",
+      "high_c": 23.0,
+      "low_c": 14.0,
+      "conditions": "partly_cloudy",
+      "precipitation_probability": 15,
+      "wind_speed_kmh": 14.0,
+      "humidity_percent": 58
+    },
+    {
+      "location_id": "LOC005",
+      "date": "2026-10-16",
+      "high_c": 24.0,
+      "low_c": 15.0,
+      "conditions": "clear",
+      "precipitation_probability": 10,
+      "wind_speed_kmh": 11.0,
+      "humidity_percent": 52
+    },
+    {
+      "location_id": "LOC006",
+      "date": "2026-10-10",
+      "high_c": 31.0,
+      "low_c": 24.0,
+      "conditions": "heavy_rain",
+      "precipitation_probability": 85,
+      "wind_speed_kmh": 22.0,
+      "humidity_percent": 88
+    },
+    {
+      "location_id": "LOC006",
+      "date": "2026-10-11",
+      "high_c": 29.0,
+      "low_c": 23.0,
+      "conditions": "rain",
+      "precipitation_probability": 70,
+      "wind_speed_kmh": 18.0,
+      "humidity_percent": 82
+    },
+    {
+      "location_id": "LOC006",
+      "date": "2026-10-12",
+      "high_c": 28.0,
+      "low_c": 22.0,
+      "conditions": "partly_cloudy",
+      "precipitation_probability": 40,
+      "wind_speed_kmh": 14.0,
+      "humidity_percent": 75
+    },
+    {
+      "location_id": "LOC006",
+      "date": "2026-10-13",
+      "high_c": 30.0,
+      "low_c": 23.0,
+      "conditions": "clear",
+      "precipitation_probability": 15,
+      "wind_speed_kmh": 12.0,
+      "humidity_percent": 70
+    },
+    {
+      "location_id": "LOC006",
+      "date": "2026-10-14",
+      "high_c": 31.0,
+      "low_c": 24.0,
+      "conditions": "clear",
+      "precipitation_probability": 10,
+      "wind_speed_kmh": 10.0,
+      "humidity_percent": 68
+    },
+    {
+      "location_id": "LOC006",
+      "date": "2026-10-15",
+      "high_c": 32.0,
+      "low_c": 25.0,
+      "conditions": "partly_cloudy",
+      "precipitation_probability": 20,
+      "wind_speed_kmh": 13.0,
+      "humidity_percent": 72
+    },
+    {
+      "location_id": "LOC006",
+      "date": "2026-10-16",
+      "high_c": 31.0,
+      "low_c": 24.0,
+      "conditions": "clear",
+      "precipitation_probability": 10,
+      "wind_speed_kmh": 11.0,
+      "humidity_percent": 65
+    },
+    {
+      "location_id": "LOC007",
+      "date": "2026-10-10",
+      "high_c": 12.0,
+      "low_c": 6.0,
+      "conditions": "fog",
+      "precipitation_probability": 30,
+      "wind_speed_kmh": 8.0,
+      "humidity_percent": 90
+    },
+    {
+      "location_id": "LOC007",
+      "date": "2026-10-11",
+      "high_c": 11.0,
+      "low_c": 5.0,
+      "conditions": "rain",
+      "precipitation_probability": 65,
+      "wind_speed_kmh": 12.0,
+      "humidity_percent": 85
+    },
+    {
+      "location_id": "LOC007",
+      "date": "2026-10-12",
+      "high_c": 10.0,
+      "low_c": 4.0,
+      "conditions": "rain",
+      "precipitation_probability": 70,
+      "wind_speed_kmh": 15.0,
+      "humidity_percent": 88
+    },
+    {
+      "location_id": "LOC007",
+      "date": "2026-10-13",
+      "high_c": 13.0,
+      "low_c": 7.0,
+      "conditions": "partly_cloudy",
+      "precipitation_probability": 35,
+      "wind_speed_kmh": 10.0,
+      "humidity_percent": 75
+    },
+    {
+      "location_id": "LOC007",
+      "date": "2026-10-14",
+      "high_c": 14.0,
+      "low_c": 8.0,
+      "conditions": "clear",
+      "precipitation_probability": 15,
+      "wind_speed_kmh": 9.0,
+      "humidity_percent": 68
+    },
+    {
+      "location_id": "LOC007",
+      "date": "2026-10-15",
+      "high_c": 15.0,
+      "low_c": 9.0,
+      "conditions": "partly_cloudy",
+      "precipitation_probability": 20,
+      "wind_speed_kmh": 11.0,
+      "humidity_percent": 70
+    },
+    {
+      "location_id": "LOC007",
+      "date": "2026-10-16",
+      "high_c": 13.0,
+      "low_c": 7.0,
+      "conditions": "cloudy",
+      "precipitation_probability": 40,
+      "wind_speed_kmh": 13.0,
+      "humidity_percent": 78
+    },
+    {
+      "location_id": "LOC008",
+      "date": "2026-10-10",
+      "high_c": 10.0,
+      "low_c": -2.0,
+      "conditions": "clear",
+      "precipitation_probability": 5,
+      "wind_speed_kmh": 18.0,
+      "humidity_percent": 35
+    },
+    {
+      "location_id": "LOC008",
+      "date": "2026-10-11",
+      "high_c": 12.0,
+      "low_c": 0.0,
+      "conditions": "partly_cloudy",
+      "precipitation_probability": 15,
+      "wind_speed_kmh": 15.0,
+      "humidity_percent": 40
+    },
+    {
+      "location_id": "LOC008",
+      "date": "2026-10-12",
+      "high_c": 14.0,
+      "low_c": 2.0,
+      "conditions": "clear",
+      "precipitation_probability": 10,
+      "wind_speed_kmh": 12.0,
+      "humidity_percent": 38
+    },
+    {
+      "location_id": "LOC008",
+      "date": "2026-10-13",
+      "high_c": 13.0,
+      "low_c": 1.0,
+      "conditions": "partly_cloudy",
+      "precipitation_probability": 20,
+      "wind_speed_kmh": 14.0,
+      "humidity_percent": 42
+    },
+    {
+      "location_id": "LOC008",
+      "date": "2026-10-14",
+      "high_c": 11.0,
+      "low_c": -1.0,
+      "conditions": "cloudy",
+      "precipitation_probability": 30,
+      "wind_speed_kmh": 16.0,
+      "humidity_percent": 48
+    },
+    {
+      "location_id": "LOC008",
+      "date": "2026-10-15",
+      "high_c": 9.0,
+      "low_c": -3.0,
+      "conditions": "clear",
+      "precipitation_probability": 10,
+      "wind_speed_kmh": 20.0,
+      "humidity_percent": 35
+    },
+    {
+      "location_id": "LOC008",
+      "date": "2026-10-16",
+      "high_c": 10.0,
+      "low_c": -2.0,
+      "conditions": "partly_cloudy",
+      "precipitation_probability": 15,
+      "wind_speed_kmh": 17.0,
+      "humidity_percent": 38
+    },
+    {
+      "location_id": "LOC009",
+      "date": "2026-10-10",
+      "high_c": 16.0,
+      "low_c": 8.0,
+      "conditions": "rain",
+      "precipitation_probability": 70,
+      "wind_speed_kmh": 16.0,
+      "humidity_percent": 78
+    },
+    {
+      "location_id": "LOC009",
+      "date": "2026-10-11",
+      "high_c": 14.0,
+      "low_c": 7.0,
+      "conditions": "rain",
+      "precipitation_probability": 65,
+      "wind_speed_kmh": 18.0,
+      "humidity_percent": 80
+    },
+    {
+      "location_id": "LOC009",
+      "date": "2026-10-12",
+      "high_c": 13.0,
+      "low_c": 6.0,
+      "conditions": "partly_cloudy",
+      "precipitation_probability": 35,
+      "wind_speed_kmh": 12.0,
+      "humidity_percent": 70
+    },
+    {
+      "location_id": "LOC009",
+      "date": "2026-10-13",
+      "high_c": 15.0,
+      "low_c": 8.0,
+      "conditions": "clear",
+      "precipitation_probability": 15,
+      "wind_speed_kmh": 10.0,
+      "humidity_percent": 62
+    },
+    {
+      "location_id": "LOC009",
+      "date": "2026-10-14",
+      "high_c": 17.0,
+      "low_c": 9.0,
+      "conditions": "partly_cloudy",
+      "precipitation_probability": 20,
+      "wind_speed_kmh": 13.0,
+      "humidity_percent": 65
+    },
+    {
+      "location_id": "LOC009",
+      "date": "2026-10-15",
+      "high_c": 18.0,
+      "low_c": 10.0,
+      "conditions": "clear",
+      "precipitation_probability": 10,
+      "wind_speed_kmh": 11.0,
+      "humidity_percent": 60
+    },
+    {
+      "location_id": "LOC009",
+      "date": "2026-10-16",
+      "high_c": 16.0,
+      "low_c": 8.0,
+      "conditions": "cloudy",
+      "precipitation_probability": 30,
+      "wind_speed_kmh": 14.0,
+      "humidity_percent": 68
+    },
+    {
+      "location_id": "LOC010",
+      "date": "2026-10-10",
+      "high_c": 23.0,
+      "low_c": 14.0,
+      "conditions": "partly_cloudy",
+      "precipitation_probability": 25,
+      "wind_speed_kmh": 13.0,
+      "humidity_percent": 65
+    },
+    {
+      "location_id": "LOC010",
+      "date": "2026-10-11",
+      "high_c": 24.0,
+      "low_c": 15.0,
+      "conditions": "clear",
+      "precipitation_probability": 10,
+      "wind_speed_kmh": 10.0,
+      "humidity_percent": 60
+    },
+    {
+      "location_id": "LOC010",
+      "date": "2026-10-12",
+      "high_c": 25.0,
+      "low_c": 16.0,
+      "conditions": "clear",
+      "precipitation_probability": 5,
+      "wind_speed_kmh": 9.0,
+      "humidity_percent": 55
+    },
+    {
+      "location_id": "LOC010",
+      "date": "2026-10-13",
+      "high_c": 26.0,
+      "low_c": 17.0,
+      "conditions": "partly_cloudy",
+      "precipitation_probability": 15,
+      "wind_speed_kmh": 12.0,
+      "humidity_percent": 58
+    },
+    {
+      "location_id": "LOC010",
+      "date": "2026-10-14",
+      "high_c": 24.0,
+      "low_c": 15.0,
+      "conditions": "cloudy",
+      "precipitation_probability": 35,
+      "wind_speed_kmh": 15.0,
+      "humidity_percent": 68
+    },
+    {
+      "location_id": "LOC010",
+      "date": "2026-10-15",
+      "high_c": 22.0,
+      "low_c": 13.0,
+      "conditions": "rain",
+      "precipitation_probability": 60,
+      "wind_speed_kmh": 18.0,
+      "humidity_percent": 75
+    },
+    {
+      "location_id": "LOC010",
+      "date": "2026-10-16",
+      "high_c": 21.0,
+      "low_c": 12.0,
+      "conditions": "partly_cloudy",
+      "precipitation_probability": 30,
+      "wind_speed_kmh": 14.0,
+      "humidity_percent": 65
+    }
+  ]
+}

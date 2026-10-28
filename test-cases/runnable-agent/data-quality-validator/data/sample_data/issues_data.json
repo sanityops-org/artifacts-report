@@ -1,0 +1,42 @@
+[
+  {
+    "id": 1,
+    "name": "Alice",
+    "email": "alice@example.com",
+    "age": 25,
+    "price": 10.5,
+    "category": "A"
+  },
+  {
+    "id": 2,
+    "name": "Bob",
+    "email": "invalid-email",
+    "age": 200,
+    "price": null,
+    "category": "B"
+  },
+  {
+    "id": 3,
+    "name": null,
+    "email": "carol@example.com",
+    "age": -5,
+    "price": 1000000.0,
+    "category": "A"
+  },
+  {
+    "id": 1,
+    "name": "Alice",
+    "email": "alice@example.com",
+    "age": 25,
+    "price": 10.5,
+    "category": "A"
+  },
+  {
+    "id": 4,
+    "name": "David",
+    "email": "",
+    "age": 30,
+    "price": 20.0,
+    "category": "X"
+  }
+]

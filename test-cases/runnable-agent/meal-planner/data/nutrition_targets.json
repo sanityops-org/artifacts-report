@@ -1,0 +1,10 @@
+{
+  "nutrition_targets": {
+    "calories": 2000.0,
+    "protein_g": 100.0,
+    "carbs_g": 250.0,
+    "fat_g": 70.0,
+    "fiber_g": 30.0,
+    "sodium_mg": 2300.0
+  }
+}

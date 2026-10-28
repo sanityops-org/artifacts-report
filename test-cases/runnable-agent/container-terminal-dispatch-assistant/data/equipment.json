@@ -1,0 +1,54 @@
+{
+  "equipment": [
+    {
+      "equip_id": "QC01",
+      "equip_type": "quay_crane",
+      "equip_name": "1No. Anqiao",
+      "status": "idle",
+      "current_task": null,
+      "berth_id": "B01",
+      "efficiency_rate": 30
+    },
+    {
+      "equip_id": "QC02",
+      "equip_type": "quay_crane",
+      "equip_name": "2No. Anqiao",
+      "status": "working",
+      "current_task": "T0001",
+      "berth_id": "B01",
+      "efficiency_rate": 28
+    },
+    {
+      "equip_id": "RTG01",
+      "equip_type": "rtg",
+      "equip_name": "1No. Field Bridge",
+      "status": "idle",
+      "block_id": "A01",
+      "efficiency_rate": 20
+    },
+    {
+      "equip_id": "RTG02",
+      "equip_type": "rtg",
+      "equip_name": "2No. Field Bridge",
+      "status": "idle",
+      "block_id": "B01",
+      "efficiency_rate": 20
+    },
+    {
+      "equip_id": "YT01",
+      "equip_type": "yard_truck",
+      "equip_name": "1Number set card",
+      "status": "idle",
+      "current_location": "berth_B01",
+      "efficiency_rate": 15
+    },
+    {
+      "equip_id": "YT02",
+      "equip_type": "yard_truck",
+      "equip_name": "2Number set card",
+      "status": "working",
+      "current_location": "yard_A01",
+      "efficiency_rate": 15
+    }
+  ]
+}

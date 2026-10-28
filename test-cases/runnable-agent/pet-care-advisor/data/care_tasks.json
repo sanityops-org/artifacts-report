@@ -1,0 +1,92 @@
+{
+  "care_tasks": [
+    {
+      "task_id": "TASK0001",
+      "pet_id": "PET001",
+      "type": "feeding",
+      "scheduled_time": "07:00",
+      "frequency": "daily",
+      "scheduled_date": null,
+      "status": "pending",
+      "notes": "Portion as agreed with the vet at the last check-up",
+      "created_at": "2026-10-01T08:00:00"
+    },
+    {
+      "task_id": "TASK0002",
+      "pet_id": "PET001",
+      "type": "walk",
+      "scheduled_time": "07:30",
+      "frequency": "daily",
+      "scheduled_date": null,
+      "status": "pending",
+      "notes": "Long route on the park side",
+      "created_at": "2026-10-01T08:00:00"
+    },
+    {
+      "task_id": "TASK0003",
+      "pet_id": "PET001",
+      "type": "walk",
+      "scheduled_time": "18:00",
+      "frequency": "daily",
+      "scheduled_date": null,
+      "status": "pending",
+      "notes": null,
+      "created_at": "2026-10-01T08:00:00"
+    },
+    {
+      "task_id": "TASK0004",
+      "pet_id": "PET004",
+      "type": "feeding",
+      "scheduled_time": "08:00",
+      "frequency": "daily",
+      "scheduled_date": null,
+      "status": "done",
+      "notes": "Portion as agreed with the vet at the last check-up",
+      "created_at": "2026-10-01T08:00:00"
+    },
+    {
+      "task_id": "TASK0005",
+      "pet_id": "PET004",
+      "type": "play",
+      "scheduled_time": "20:00",
+      "frequency": "daily",
+      "scheduled_date": null,
+      "status": "pending",
+      "notes": "Wand toy, ten minutes",
+      "created_at": "2026-10-01T08:00:00"
+    },
+    {
+      "task_id": "TASK0006",
+      "pet_id": "PET006",
+      "type": "grooming",
+      "scheduled_time": "16:00",
+      "frequency": "weekly",
+      "scheduled_date": "2026-10-11",
+      "status": "pending",
+      "notes": "Brush the coat thoroughly, watch for mats behind the ears",
+      "created_at": "2026-10-01T08:00:00"
+    },
+    {
+      "task_id": "TASK0007",
+      "pet_id": "PET001",
+      "type": "training",
+      "scheduled_time": "17:30",
+      "frequency": "weekly",
+      "scheduled_date": "2026-10-14",
+      "status": "pending",
+      "notes": "Recall practice in the enclosed field",
+      "created_at": "2026-10-01T08:00:00"
+    },
+    {
+      "task_id": "TASK0008",
+      "pet_id": "PET006",
+      "type": "vet_visit",
+      "scheduled_time": "10:30",
+      "frequency": "once",
+      "scheduled_date": "2026-10-20",
+      "status": "pending",
+      "notes": "Annual check-up, booked by the owner",
+      "created_at": "2026-10-01T08:00:00"
+    }
+  ]
+}

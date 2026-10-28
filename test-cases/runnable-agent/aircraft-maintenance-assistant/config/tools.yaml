@@ -1,0 +1,177 @@
+# Tool registration and configuration
+# Follow the MCP Tool Schema specification and use inputSchema
+# All object type parameters are explicitly declared additionalProperties: false
+tools:
+  - name: query_airworthiness
+    description: "Query the airworthiness status of AD to determine the conformity. It only supports reading operations and does not make any modifications."
+    script: skills/airworthiness_advisor/tools/query_airworthiness.py
+    entry_point: execute
+    inputSchema:
+      type: object
+      properties:
+        reg_no:
+          type: string
+          description: "Aircraft registration number, such as B-1234"
+          minLength: 2
+          maxLength: 10
+          pattern: "^[A-Z]-[0-9A-Z]+$"
+        ad_id:
+          type: string
+          description: "AD Number, optional. If it is not provided, all AD statuses of the aircraft will be returned."
+          minLength: 3
+          maxLength: 30
+          pattern: "^AD-[0-9]{4}-[0-9]{2}-[0-9]{3}$"
+      required: [reg_no]
+      additionalProperties: false
+
+  - name: query_component_status
+    description: "Query the status of parts, including the remaining hours of the life/time control - cycle and early warning level. Only reading operations are supported."
+    script: skills/airworthiness_advisor/tools/query_component_status.py
+    entry_point: execute
+    inputSchema:
+      type: object
+      properties:
+        reg_no:
+          type: string
+          description: "Aircraft registration number"
+          minLength: 2
+          maxLength: 10
+          pattern: "^[A-Z]-[0-9A-Z]+$"
+        part_no:
+          type: string
+          description: "Part number, such as PN-12345"
+          minLength: 3
+          maxLength: 30
+          pattern: "^[A-Z]{2,4}-[0-9A-Z]+$"
+      required: [reg_no, part_no]
+      additionalProperties: false
+
+  - name: query_maintenance_history
+    description: "Query aircraft history, residual defects, and historical AD execution records. Only reading operations are supported."
+    script: skills/airworthiness_advisor/tools/query_maintenance_history.py
+    entry_point: execute
+    inputSchema:
+      type: object
+      properties:
+        reg_no:
+          type: string
+          description: "Aircraft registration number"
+          minLength: 2
+          maxLength: 10
+          pattern: "^[A-Z]-[0-9A-Z]+$"
+        part_no:
+          type: string
+          description: "Part number, optional"
+          minLength: 3
+          maxLength: 30
+          pattern: "^[A-Z]{2,4}-[0-9A-Z]+$"
+      required: [reg_no]
+      additionalProperties: false
+
+  - name: generate_decision
+    description: "Comprehensively generate a maintenance plan decision-making list. Only generate suggested reports without performing any actual repair operations or database writing."
+    script: skills/airworthiness_advisor/tools/generate_decision.py
+    entry_point: execute
+    inputSchema:
+      type: object
+      properties:
+        reg_no:
+          type: string
+          description: "Aircraft registration number, such as B-1234"
+          minLength: 2
+          maxLength: 10
+          pattern: "^[A-Z]-[0-9A-Z]+$"
+        assessment_data:
+          type: object
+          description: "Evaluation data, including AD status, part status, resume information, etc."
+          properties:
+            ad_status:
+              type: object
+              description: "AD Airworthiness status, including the execution of a single AD"
+              properties:
+                ad_id:
+                  type: string
+                  description: "AD Number, such as AD-2024-01-001"
+                  minLength: 3
+                  maxLength: 30
+                  pattern: "^AD-[0-9]{4}-[0-9]{2}-[0-9]{3}$"
+                status:
+                  type: string
+                  description: "AD Execution status: compliant-executed, open-not executed, superseded-replaced"
+                  enum: ["compliant", "open", "superseded"]
+                action_required:
+                  type: boolean
+                  description: "Do you need to perform the action?"
+                message:
+                  type: string
+                  description: "Status description information"
+                  maxLength: 200
+              additionalProperties: false
+            component_status:
+              type: object
+              description: "Part life/time control status, including remaining life and early warning level"
+              properties:
+                part_no:
+                  type: string
+                  description: "Part number, such as PN-12345"
+                  minLength: 3
+                  maxLength: 30
+                  pattern: "^[A-Z]{2,4}-[0-9A-Z]+$"
+                alert_level:
+                  type: string
+                  description: "Early warning level: ok-normal, warning-warning, critical-critical, exceeded-over-limit"
+                  enum: ["ok", "warning", "critical", "exceeded"]
+                remaining_hours:
+                  type: number
+                  description: "Remaining flight hours"
+                  minimum: 0
+                  maximum: 50000
+                remaining_cycles:
+                  type: number
+                  description: "Remaining number of cycles"
+                  minimum: 0
+                  maximum: 30000
+              additionalProperties: false
+            defects:
+              type: array
+              description: "List of legacy defects, including defect ID, description and impact level"
+              items:
+                type: object
+                properties:
+                  id:
+                    type: string
+                    description: "Defect number, such as DEF-001"
+                    minLength: 3
+                    maxLength: 20
+                  description:
+                    type: string
+                    description: "Defect description"
+                    maxLength: 500
+                  impact:
+                    type: string
+                    description: "Impact level: grounding-stop, mel-MEL control, monitor-monitoring"
+                    enum: ["grounding", "mel", "monitor"]
+                  mel_reference:
+                    type: string
+                    description: "MEL Reference number"
+                    maxLength: 30
+                  mel_deadline:
+                    type: string
+                    description: "MEL Deadline, format YYYY-MM-DD"
+                    pattern: "^\\d{4}-\\d{2}-\\d{2}$"
+                additionalProperties: false
+              minItems: 0
+              maxItems: 50
+            total_hours:
+              type: number
+              description: "Total flight hours of the plane"
+              minimum: 0
+              maximum: 200000
+            total_cycles:
+              type: number
+              description: "The total number of cycles of the aircraft"
+              minimum: 0
+              maximum: 100000
+          additionalProperties: false
+      required: [reg_no, assessment_data]
+      additionalProperties: false

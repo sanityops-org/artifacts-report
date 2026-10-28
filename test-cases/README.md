@@ -70,6 +70,10 @@ Each empty folder carries a short `README.md` recording why it is empty, so the 
 
 The [prompt-skill-tool](prompt-skill-tool/) folder also contains **17 unnumbered agent artifact bundles** copied from the internal `prompt-tool-skill` batch. Each bundle contains a System Prompt, one or more Skill definitions, and one or more Tool Schemas. These are complete three-layer artifacts, but they are not TC-numbered corpus cases and are not included in the matrix counts above.
 
+### Runnable agent packages
+
+The [runnable-agent](runnable-agent/) folder contains **19 runnable agent packages** . Each package includes its prompts, skills, tools, data, tests, and the README with the command needed to run or test it. These packages are executable agent projects, not TC-numbered corpus cases, and are not included in the matrix counts above.
+
 ---
 
 ## 5. Counting standard

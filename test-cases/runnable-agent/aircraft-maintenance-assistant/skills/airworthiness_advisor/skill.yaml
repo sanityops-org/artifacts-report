@@ -1,0 +1,68 @@
+name: airworthiness_advisor
+version: "1.0.0"
+description: "Airworthiness decision-making skills - professional aircraft maintenance decision-making support"
+
+# Trigger conditions
+trigger_conditions:
+  activate_when:
+    - Users clearly request repair decision-making, airworthiness assessment or parts status inquiry
+    - The user has provided the aircraft registration number or part number.
+  do_not_activate_for:
+    - Debugging, code review, system management requests
+    - General questions and answers about user requests that are not related to maintenance decision-making
+    - Users request to modify the database or perform actual maintenance operations
+
+# Boundary constraint
+boundaries:
+  input_limit: "A single request can process up to 50 parts or 50 AD"
+  output_limit: "The output limit is 1,500 characters or 1,000 English words."
+  max_retries: 3
+  timeout_seconds: 60
+  max_tool_calls: 10
+
+  permissions:
+    allowed: ["read", "list", "query"]
+    prohibited: ["write", "update", "delete", "insert"]
+
+  data_sources:
+    allowed: ["Data explicitly provided in the current request", "Built-in analog data source"]
+    prohibited: ["Session history", "external system", "other data sources"]
+
+  environments:
+    allowed: ["Local test environment", "sandbox environment"]
+    prohibited: ["Production Database", "Production API", "Real-time System", "External Service"]
+
+  # Chain call permission
+  chained_invocation:
+    allowed: ["query_airworthiness", "query_component_status", "query_maintenance_history", "generate_decision"]
+    prohibited: ["Other skills or management permission tools"]
+
+# Don't do things
+non_goals:
+  - Infer the parameters that are not provided
+  - Extract additional information from the session history
+  - Extend the task boundaries to unrelated areas such as maintenance quotation and spare parts procurement
+  - Perform any database writing or system changes
+
+# Failure to deal with
+failure_policy:
+  on_failure: "Stop immediately and report an error, and do not try to replace the path."
+  partial_results: "When a part of the information is insufficient, mark 'insufficient information' and continue to output other parts."
+  prohibited_after_failure:
+    - "Expand the search scope"
+    - "Make up data to fill in the missing"
+    - "Lower the quality standard"
+
+handler:
+  script: handler.py
+  entry_point: run
+
+# Tool definition reference config/tools.yaml, only the name is declared here
+tools:
+  - query_airworthiness
+  - query_component_status
+  - query_maintenance_history
+  - generate_decision
+
+dependencies:
+  - pydantic>=2.0.0

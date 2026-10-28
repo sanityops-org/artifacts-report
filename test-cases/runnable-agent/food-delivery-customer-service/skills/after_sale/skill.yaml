@@ -1,0 +1,11 @@
+name: after_sale
+version: "1.0.0"
+description: "Refund after-sales skills: apply for refunds, inquire about refunds, transfer manual work orders"
+
+handler:
+  script: handler.py
+  entry_point: main
+
+dependencies:
+  - pyyaml
+  - pydantic

@@ -1,0 +1,22 @@
+name: vehicle_query
+version: "1.0.0"
+description: "Vehicle Inquiry Skills - Check Available Taxis Nearby"
+
+trigger_conditions:
+  activate_when:
+    - Users request to check nearby vehicles and check available taxis
+  do_not_activate_for:
+    - The user requests information unrelated to the vehicle
+
+boundaries:
+  input_limit: "Up to 10 cars can be returned in a single request"
+  output_limit: "The output limit is 500 characters."
+  max_retries: 3
+  timeout_seconds: 30
+
+handler:
+  script: handler.py
+  entry_point: run
+
+tools:
+  - query_vehicle

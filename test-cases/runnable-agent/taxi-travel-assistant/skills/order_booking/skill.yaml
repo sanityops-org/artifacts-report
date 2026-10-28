@@ -1,0 +1,23 @@
+name: order_booking
+version: "1.0.0"
+description: "Taxi Ordering Skills - Create Orders and Dispatch Cars"
+
+trigger_conditions:
+  activate_when:
+    - Users request to call a taxi, place an order, cancel the order
+  do_not_activate_for:
+    - User requests information unrelated to the order
+
+boundaries:
+  input_limit: "A single request to process an order operation"
+  output_limit: "The output limit is 500 characters."
+  max_retries: 3
+  timeout_seconds: 30
+
+handler:
+  script: handler.py
+  entry_point: run
+
+tools:
+  - place_order
+  - cancel_order

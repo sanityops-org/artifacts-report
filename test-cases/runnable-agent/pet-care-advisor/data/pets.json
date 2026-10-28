@@ -1,0 +1,104 @@
+{
+  "pets": [
+    {
+      "pet_id": "PET001",
+      "name": "Biscuit",
+      "breed_id": "BREED001",
+      "species": "dog",
+      "age_months": 18,
+      "sex": "male",
+      "adoption_status": "available",
+      "description": "Boisterous young Labrador who already knows sit and stay. Needs an active household with a garden."
+    },
+    {
+      "pet_id": "PET002",
+      "name": "Olive",
+      "breed_id": "BREED002",
+      "species": "dog",
+      "age_months": 36,
+      "sex": "female",
+      "adoption_status": "available",
+      "description": "Settled French Bulldog, fully house-trained and happy with two short walks a day."
+    },
+    {
+      "pet_id": "PET003",
+      "name": "Juno",
+      "breed_id": "BREED003",
+      "species": "dog",
+      "age_months": 10,
+      "sex": "female",
+      "adoption_status": "available",
+      "description": "Bright Border Collie puppy with energy to spare. Best suited to an owner who can commit to daily training."
+    },
+    {
+      "pet_id": "PET004",
+      "name": "Mochi",
+      "breed_id": "BREED007",
+      "species": "cat",
+      "age_months": 24,
+      "sex": "female",
+      "adoption_status": "available",
+      "description": "Quiet indoor cat who prefers a calm home. Loves a sunny windowsill and tolerates other cats."
+    },
+    {
+      "pet_id": "PET005",
+      "name": "Pepper",
+      "breed_id": "BREED011",
+      "species": "cat",
+      "age_months": 14,
+      "sex": "male",
+      "adoption_status": "available",
+      "description": "Athletic Bengal who climbs everything. Needs cat trees, puzzle feeders, and daily interactive play."
+    },
+    {
+      "pet_id": "PET006",
+      "name": "Nimbus",
+      "breed_id": "BREED008",
+      "species": "cat",
+      "age_months": 48,
+      "sex": "male",
+      "adoption_status": "available",
+      "description": "Large, placid Maine Coon. Used to children and dogs. Coat requires brushing several times a week."
+    },
+    {
+      "pet_id": "PET007",
+      "name": "Clover",
+      "breed_id": "BREED005",
+      "species": "dog",
+      "age_months": 60,
+      "sex": "female",
+      "adoption_status": "available",
+      "description": "Older Cavalier who wants nothing more than a lap. Low exercise needs and gentle with everyone."
+    },
+    {
+      "pet_id": "PET008",
+      "name": "Ash",
+      "breed_id": "BREED004",
+      "species": "dog",
+      "age_months": 30,
+      "sex": "male",
+      "adoption_status": "pending",
+      "description": "Reserved Shiba Inu, currently reserved pending a home visit."
+    },
+    {
+      "pet_id": "PET009",
+      "name": "Willow",
+      "breed_id": "BREED010",
+      "species": "cat",
+      "age_months": 72,
+      "sex": "female",
+      "adoption_status": "available",
+      "description": "Unfussy British Shorthair who would suit a quiet household. On a measured diet."
+    },
+    {
+      "pet_id": "PET010",
+      "name": "Rocket",
+      "breed_id": "BREED006",
+      "species": "dog",
+      "age_months": 22,
+      "sex": "male",
+      "adoption_status": "available",
+      "description": "Confident German Shepherd with basic obedience training. Needs an experienced owner and a secure garden."
+    }
+  ]
+}

@@ -1,0 +1,11 @@
+name: stock_trading
+version: "1.0.0"
+description: "Trading skills: stock trading, order withdrawal, position/transaction inquiry"
+
+handler:
+  script: handler.py
+  entry_point: main
+
+dependencies:
+  - pyyaml
+  - pydantic

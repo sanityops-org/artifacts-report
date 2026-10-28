@@ -1,0 +1,655 @@
+{
+  "skills": [
+    {
+      "type": "skill",
+      "relative": "/Users/a1234/Documents/project/agent_artifacts/2026-09-30/freight_logistics_assistant/skills/freight_quotation/SKILL.md",
+      "content": {
+        "name": "freight_quotation",
+        "description": "Freight quotation skill for calculating shipping costs, comparing carrier rates, and providing price estimates.",
+        "frontmatter": {
+          "allowed_operations": [
+            "freight_calculate_estimate",
+            "freight_compare_carriers",
+            "freight_get_transit_time"
+          ],
+          "allowed_resources": [
+            "data/carriers.json",
+            "data/pricing_rules.json"
+          ],
+          "data_sensitivity": "non-sensitive (rate tables and carrier public info)",
+          "description": "Freight quotation skill for calculating shipping costs, comparing carrier rates, and providing price estimates.",
+          "invocation": [
+            "how much will it cost to ship",
+            "freight rates",
+            "price estimates",
+            "compare carrier pricing"
+          ],
+          "name": "freight_quotation",
+          "side_effects": "none",
+          "tools": [
+            "freight_calculate_estimate",
+            "freight_compare_carriers",
+            "freight_get_transit_time"
+          ]
+        },
+        "sections": [
+          {
+            "title": "Overview",
+            "content": "The freight quotation skill provides cost estimates for freight shipments. It calculates rates based on route, cargo specifications, and service level, and can compare quotes from multiple carriers. All three operations are read-only calculations over built-in mock rate tables; none of them books, charges, or modifies anything."
+          },
+          {
+            "title": "When to Use",
+            "content": "Use this skill when:\n- User asks \"how much will it cost to ship...\"\n- User wants to compare carrier rates\n- User needs a freight estimate for budgeting\n- User wants to understand pricing breakdown"
+          },
+          {
+            "title": "Available Operations",
+            "content": "1. freight_calculate_estimate - Calculate freight cost estimate\n   - Parameter: origin (required) — Origin city or facility name (1-100 characters)\n   - Parameter: destination (required) — Destination city or facility name (1-100 characters)\n   - Parameter: weight_kg (required if volume_cbm not provided) — Cargo weight in kilograms (0.1-50,000)\n   - Parameter: volume_cbm (required if weight_kg not provided) — Cargo volume in cubic meters (0.1-150)\n   - Parameter: cargo_type (optional) — Cargo category: general, refrigerated, hazardous, oversized, fragile, high_value\n   - Parameter: service_level (optional) — standard, express, economy\n   - Parameter: carrier_id (optional) — Specific carrier ID (format: C + 3 digits, e.g., C001)\n   - Returns: quote_id, base_rate, fuel_surcharge, accessorial_charges, total_estimate, valid_until\n\n2. freight_compare_carriers - Compare quotes from multiple carriers\n   - Parameter: origin (required) — Origin city or facility name\n   - Parameter: destination (required) — Destination city or facility name\n   - Parameter: weight_kg (required) — Cargo weight in kilograms (0.1-50,000)\n   - Parameter: volume_cbm (optional) — Cargo volume in cubic meters\n   - Parameter: cargo_type (optional) — Cargo category\n   - Parameter: service_level (optional) — Service level\n   - Parameter: carriers (optional) — List of 1-5 specific carrier IDs (format: C + 3 digits); if omitted, compares all available\n   - Returns: List of quotes from different carriers with rates and transit times\n\n3. freight_get_transit_time - Get estimated transit time\n   - Parameter: origin (required) — Origin city or facility name\n   - Parameter: destination (required) — Destination city or facility name\n   - Parameter: carrier_id (optional) — Specific carrier ID (format: C + 3 digits)\n   - Parameter: service_level (optional) — Service level\n   - Returns: min_days, max_days, average_days, factors"
+          },
+          {
+            "title": "Quotation Structure",
+            "content": "Each quote includes:\n- Base freight rate\n- Fuel surcharge (percentage of base)\n- Accessorial charges (liftgate, inside delivery, etc.)\n- Total estimated cost\n- Quote validity period\n- Carrier information"
+          },
+          {
+            "title": "Pricing Factors",
+            "content": "Rates are calculated based on:\n- Distance between origin and destination\n- Weight or volume (whichever yields higher charge)\n- Cargo type (hazardous, refrigerated, oversized have surcharges)\n- Service level (express costs more than standard)\n- Carrier rate tables"
+          },
+          {
+            "title": "Data Source",
+            "content": "Pricing data comes from built-in mock data: data/carriers.json, data/pricing_rules.json. Rates are simplified estimates for demonstration. Actual carrier rates require API integration."
+          },
+          {
+            "title": "Important Notes",
+            "content": "- Quotations are ESTIMATES only, not binding rates\n- Actual charges depend on carrier confirmation and contract terms\n- Fuel surcharges fluctuate based on market rates\n- Accessorial charges may apply based on specific requirements\n- Quote validity is typically 7-30 days depending on carrier\n- Always confirm final rates with carrier before booking"
+          }
+        ]
+      }
+    },
+    {
+      "type": "skill",
+      "relative": "/Users/a1234/Documents/project/agent_artifacts/2026-09-30/freight_logistics_assistant/skills/route_planning/SKILL.md",
+      "content": {
+        "name": "route_planning",
+        "description": "Route planning skill for finding optimal freight routes between locations with distance, transit time, and restriction information.",
+        "frontmatter": {
+          "allowed_operations": [
+            "route_recommend_options",
+            "route_get_details",
+            "route_check_restrictions"
+          ],
+          "allowed_resources": [
+            "data/routes.json"
+          ],
+          "data_sensitivity": "operational (city names and cargo categories; no personal data)",
+          "description": "Route planning skill for finding optimal freight routes between locations with distance, transit time, and restriction information.",
+          "invocation": [
+            "optimal routes",
+            "best shipping routes",
+            "route recommendations",
+            "plan freight movement"
+          ],
+          "name": "route_planning",
+          "side_effects": "none",
+          "tools": [
+            "route_recommend_options",
+            "route_get_details",
+            "route_check_restrictions"
+          ]
+        },
+        "sections": [
+          {
+            "title": "Overview",
+            "content": "The route planning skill helps logistics coordinators find optimal freight routes between origin and destination. It considers distance, transit time, cargo type restrictions, and provides multiple route options with trade-off analysis. All three operations are read-only lookups over the built-in mock route data; none of them creates, updates, or deletes anything."
+          },
+          {
+            "title": "When to Use",
+            "content": "Use this skill when:\n- User asks for route recommendations between two locations\n- User wants to compare different route options\n- User needs to check if cargo type is allowed on a route\n- User wants detailed waypoint information for a route"
+          },
+          {
+            "title": "Available Operations",
+            "content": "1. route_recommend_options - Get recommended routes\n   - Parameter: origin (required) — Origin city or facility name (1-100 characters)\n   - Parameter: destination (required) — Destination city or facility name (1-100 characters)\n   - Parameter: cargo_type (optional) — Cargo category: general, refrigerated, hazardous, oversized, fragile, high_value\n   - Parameter: priority (optional) — Optimization priority: cost, time, or balanced\n   - Returns: List of route options with route_id, distance_km, estimated_hours, cost_estimate, waypoints\n\n2. route_get_details - Get detailed route information\n   - Parameter: route_id (required) — Route identifier from recommendation, format: R followed by 3 digits (e.g., R001)\n   - Returns: Full route details including waypoints, road types, restrictions, service stations\n\n3. route_check_restrictions - Check route restrictions\n   - Parameter: cargo_type (required) — Type of cargo: general, refrigerated, hazardous, oversized, fragile, high_value\n   - Parameter: route_id (optional) — Specific route to check (format: R + 3 digits); required if origin/destination not provided\n   - Parameter: origin + destination (optional) — If no route_id, check general restrictions\n   - Returns: allowed, restrictions, requirements, alternative_routes"
+          },
+          {
+            "title": "Route Options Structure",
+            "content": "Each route recommendation includes:\n- Route ID and name\n- Total distance (km) and estimated time (hours)\n- Number of waypoints and key transit points\n- Estimated cost (based on standard rates)\n- Restrictions and requirements\n- Service level availability"
+          },
+          {
+            "title": "Data Source",
+            "content": "Route data comes from built-in mock data: data/routes.json. Distance and time estimates are simplified calculations. Real-world routing would require map API integration."
+          },
+          {
+            "title": "Important Notes",
+            "content": "- This skill is read-only: it cannot create, modify, or delete routes\n- Route estimates do not account for real-time traffic or weather\n- Cargo restrictions are based on general categories, not detailed regulations\n- For hazardous materials, always verify with official regulatory sources\n- Actual transit times may vary significantly from estimates"
+          }
+        ]
+      }
+    },
+    {
+      "type": "skill",
+      "relative": "/Users/a1234/Documents/project/agent_artifacts/2026-09-30/freight_logistics_assistant/skills/shipment_tracking/SKILL.md",
+      "content": {
+        "name": "shipment_tracking",
+        "description": "Shipment tracking skill for querying shipment status, tracking numbers, delivery status, and shipment history.",
+        "frontmatter": {
+          "allowed_operations": [
+            "shipment_get_status",
+            "shipment_get_history",
+            "shipment_list_by_route"
+          ],
+          "allowed_resources": [
+            "data/shipments.json"
+          ],
+          "data_sensitivity": "contains personal data (consignee names, addresses) - must be redacted in output",
+          "description": "Shipment tracking skill for querying shipment status, tracking numbers, delivery status, and shipment history.",
+          "invocation": [
+            "shipment status",
+            "tracking numbers",
+            "delivery status",
+            "shipment location",
+            "shipment history"
+          ],
+          "name": "shipment_tracking",
+          "side_effects": "none",
+          "tools": [
+            "shipment_get_status",
+            "shipment_get_history",
+            "shipment_list_by_route"
+          ]
+        },
+        "sections": [
+          {
+            "title": "Overview",
+            "content": "The shipment tracking skill provides comprehensive shipment visibility: query current status by tracking number, retrieve full tracking history, and list shipments by route or region. This skill is read-only and does not support booking or modifying shipments. Shipment records may contain consignee names, addresses, and phone numbers; presenting results must redact personal data per the system prompt's privacy filtering rules."
+          },
+          {
+            "title": "When to Use",
+            "content": "Use this skill when:\n- User provides a tracking number and asks for status\n- User asks \"where is my shipment\" or \"when will it arrive\"\n- User wants to see tracking history or delivery timeline\n- User wants to list shipments on a specific route"
+          },
+          {
+            "title": "Available Operations",
+            "content": "1. shipment_get_status - Query current shipment status\n   - Parameter: tracking_number (required) — Format: FR followed by exactly 14 digits, 16 characters total (e.g., FR20260930000123)\n   - Returns: status, current_location, eta, carrier, origin, destination, last_update\n   - Status values: pending, picked_up, in_transit, out_for_delivery, delivered, exception\n\n2. shipment_get_history - Get full tracking history\n   - Parameter: tracking_number (required) — Format: FR followed by exactly 14 digits\n   - Returns: List of tracking events with timestamp, location, status, description\n\n3. shipment_list_by_route - List shipments by route\n   - Parameter: origin (optional) — Filter by origin city (partial match supported)\n   - Parameter: destination (optional) — Filter by destination city (partial match supported)\n   - Parameter: status (optional) — Filter by status (see status values above)\n   - Parameter: date_from / date_to (optional) — Date range filter (YYYY-MM-DD format)\n   - Returns: List of shipments with tracking numbers, status, and routes\n   - Note: This operation does not accept a route_id; route-based lookup means filtering by origin and/or destination city names"
+          },
+          {
+            "title": "Data Source",
+            "content": "Shipment data comes from built-in mock data: data/shipments.json. No real carrier APIs are called. Tracking numbers follow format FR followed by exactly 14 digits (e.g., FR20260930000123)."
+          },
+          {
+            "title": "Important Notes",
+            "content": "- This skill cannot create, modify, or cancel shipments\n- ETA is estimated and may differ from actual delivery\n- For exceptions (delayed, damaged, lost), advise user to contact carrier directly\n- Redact consignee names, addresses, and phone numbers when presenting results"
+          }
+        ]
+      }
+    }
+  ],
+  "tools": [
+    {
+      "type": "tool",
+      "relative": "/Users/a1234/Documents/project/agent_artifacts/2026-09-30/freight_logistics_assistant/tools/freight_calculate_estimate.py",
+      "content": {
+        "name": "freight_calculate_estimate",
+        "description": "freight_calculate_estimate: Calculate freight cost estimate. Use this tool when the user wants to know the estimated shipping cost for freight. Requires origin, destination, and either weight or volume. Returns detailed cost breakdown including base rate, fuel surcharge, and any applicable accessorial charges.",
+        "parameters": {
+          "additionalProperties": false,
+          "anyOf": [
+            {
+              "required": [
+                "weight_kg"
+              ]
+            },
+            {
+              "required": [
+                "volume_cbm"
+              ]
+            }
+          ],
+          "properties": {
+            "cargo_type": {
+              "description": "Cargo category. Affects pricing surcharges. Optional.",
+              "enum": [
+                "general",
+                "refrigerated",
+                "hazardous",
+                "oversized",
+                "fragile",
+                "high_value"
+              ],
+              "maxLength": 20,
+              "minLength": 1,
+              "type": "string"
+            },
+            "carrier_id": {
+              "description": "Specific carrier ID to use. Optional. If not provided, uses first available.",
+              "maxLength": 20,
+              "minLength": 1,
+              "type": "string"
+            },
+            "destination": {
+              "description": "Destination city or facility name. Required.",
+              "maxLength": 100,
+              "minLength": 1,
+              "type": "string"
+            },
+            "origin": {
+              "description": "Origin city or facility name. Required.",
+              "maxLength": 100,
+              "minLength": 1,
+              "type": "string"
+            },
+            "service_level": {
+              "default": "standard",
+              "description": "Service level. Affects transit time and cost.",
+              "enum": [
+                "economy",
+                "standard",
+                "express"
+              ],
+              "type": "string"
+            },
+            "volume_cbm": {
+              "description": "Cargo volume in cubic meters. Required if weight_kg is not provided.",
+              "maximum": 150,
+              "minimum": 0.1,
+              "type": "number"
+            },
+            "weight_kg": {
+              "description": "Cargo weight in kilograms. Required if volume_cbm is not provided.",
+              "maximum": 50000,
+              "minimum": 0.1,
+              "type": "number"
+            }
+          },
+          "required": [
+            "origin",
+            "destination"
+          ],
+          "type": "object"
+        }
+      }
+    },
+    {
+      "type": "tool",
+      "relative": "/Users/a1234/Documents/project/agent_artifacts/2026-09-30/freight_logistics_assistant/tools/freight_compare_carriers.py",
+      "content": {
+        "name": "freight_compare_carriers",
+        "description": "freight_compare_carriers: Compare freight quotes from multiple carriers. Use this tool when the user wants to compare pricing from different carriers for the same shipment. Returns quotes from multiple carriers with rates and transit times, highlighting the best price and fastest options.",
+        "parameters": {
+          "additionalProperties": false,
+          "properties": {
+            "cargo_type": {
+              "description": "Cargo category. Optional.",
+              "enum": [
+                "general",
+                "refrigerated",
+                "hazardous",
+                "oversized",
+                "fragile",
+                "high_value"
+              ],
+              "maxLength": 20,
+              "minLength": 1,
+              "type": "string"
+            },
+            "carriers": {
+              "description": "List of 1-5 specific carrier IDs to compare. Optional. If not provided, compares all available.",
+              "items": {
+                "description": "Carrier identifier from the carrier database (format: C followed by 3 digits, e.g., C001).",
+                "maxLength": 20,
+                "minLength": 1,
+                "pattern": "^C\\d{3}$",
+                "type": "string"
+              },
+              "maxItems": 5,
+              "minItems": 1,
+              "type": "array"
+            },
+            "destination": {
+              "description": "Destination city or facility name. Required.",
+              "maxLength": 100,
+              "minLength": 1,
+              "type": "string"
+            },
+            "origin": {
+              "description": "Origin city or facility name. Required.",
+              "maxLength": 100,
+              "minLength": 1,
+              "type": "string"
+            },
+            "service_level": {
+              "default": "standard",
+              "description": "Service level. Optional.",
+              "enum": [
+                "economy",
+                "standard",
+                "express"
+              ],
+              "type": "string"
+            },
+            "volume_cbm": {
+              "description": "Cargo volume in cubic meters. Optional.",
+              "maximum": 150,
+              "minimum": 0.1,
+              "type": "number"
+            },
+            "weight_kg": {
+              "description": "Cargo weight in kilograms. Required.",
+              "maximum": 50000,
+              "minimum": 0.1,
+              "type": "number"
+            }
+          },
+          "required": [
+            "origin",
+            "destination",
+            "weight_kg"
+          ],
+          "type": "object"
+        }
+      }
+    },
+    {
+      "type": "tool",
+      "relative": "/Users/a1234/Documents/project/agent_artifacts/2026-09-30/freight_logistics_assistant/tools/freight_get_transit_time.py",
+      "content": {
+        "name": "freight_get_transit_time",
+        "description": "freight_get_transit_time: Get estimated transit time between locations. Use this tool when the user wants to know how long a shipment will take to travel between origin and destination. Returns minimum, maximum, and average transit days based on distance and service level.",
+        "parameters": {
+          "additionalProperties": false,
+          "properties": {
+            "carrier_id": {
+              "description": "Specific carrier ID (format: C followed by 3 digits, e.g., C001). Optional.",
+              "maxLength": 20,
+              "minLength": 1,
+              "pattern": "^C\\d{3}$",
+              "type": "string"
+            },
+            "destination": {
+              "description": "Destination city or facility name. Required.",
+              "maxLength": 100,
+              "minLength": 1,
+              "type": "string"
+            },
+            "origin": {
+              "description": "Origin city or facility name. Required.",
+              "maxLength": 100,
+              "minLength": 1,
+              "type": "string"
+            },
+            "service_level": {
+              "description": "Service level. Affects transit time. Optional.",
+              "enum": [
+                "economy",
+                "standard",
+                "express"
+              ],
+              "type": "string"
+            }
+          },
+          "required": [
+            "origin",
+            "destination"
+          ],
+          "type": "object"
+        }
+      }
+    },
+    {
+      "type": "tool",
+      "relative": "/Users/a1234/Documents/project/agent_artifacts/2026-09-30/freight_logistics_assistant/tools/route_check_restrictions.py",
+      "content": {
+        "name": "route_check_restrictions",
+        "description": "route_check_restrictions: Check if cargo type is allowed on a route. Use this tool when the user needs to verify if a specific cargo type can be transported on a particular route. Returns whether the cargo is allowed, any requirements, and alternative routes if available.",
+        "parameters": {
+          "additionalProperties": false,
+          "anyOf": [
+            {
+              "required": [
+                "route_id"
+              ]
+            },
+            {
+              "required": [
+                "origin",
+                "destination"
+              ]
+            }
+          ],
+          "properties": {
+            "cargo_type": {
+              "description": "Cargo category to check. Required.",
+              "enum": [
+                "general",
+                "refrigerated",
+                "hazardous",
+                "oversized",
+                "fragile",
+                "high_value"
+              ],
+              "maxLength": 20,
+              "minLength": 1,
+              "type": "string"
+            },
+            "destination": {
+              "description": "Destination city. Used with origin if route_id not provided.",
+              "maxLength": 100,
+              "minLength": 1,
+              "type": "string"
+            },
+            "origin": {
+              "description": "Origin city. Used with destination if route_id not provided.",
+              "maxLength": 100,
+              "minLength": 1,
+              "type": "string"
+            },
+            "route_id": {
+              "description": "Route identifier to check (format: R followed by 3 digits, e.g., R001). Required if origin/destination not provided.",
+              "maxLength": 4,
+              "minLength": 4,
+              "pattern": "^R\\d{3}$",
+              "type": "string"
+            }
+          },
+          "required": [
+            "cargo_type"
+          ],
+          "type": "object"
+        }
+      }
+    },
+    {
+      "type": "tool",
+      "relative": "/Users/a1234/Documents/project/agent_artifacts/2026-09-30/freight_logistics_assistant/tools/route_get_details.py",
+      "content": {
+        "name": "route_get_details",
+        "description": "route_get_details: Get detailed route information by route ID. Use this tool when the user wants complete details about a specific route, including all waypoints, service stations, road types, and restrictions. Requires a route ID from a previous route recommendation.",
+        "parameters": {
+          "additionalProperties": false,
+          "properties": {
+            "route_id": {
+              "description": "Route identifier from route recommendation. Format: R followed by 3 digits (e.g., R001).",
+              "maxLength": 4,
+              "minLength": 4,
+              "pattern": "^R\\d{3}$",
+              "type": "string"
+            }
+          },
+          "required": [
+            "route_id"
+          ],
+          "type": "object"
+        }
+      }
+    },
+    {
+      "type": "tool",
+      "relative": "/Users/a1234/Documents/project/agent_artifacts/2026-09-30/freight_logistics_assistant/tools/route_recommend_options.py",
+      "content": {
+        "name": "route_recommend_options",
+        "description": "route_recommend_options: Recommend optimal routes between origin and destination. Use this tool when the user wants to find the best routes for shipping freight between two locations. Returns multiple route options with distance, estimated time, and cost. Can consider cargo type restrictions and optimize for cost, time, or balanced approach.",
+        "parameters": {
+          "additionalProperties": false,
+          "properties": {
+            "cargo_type": {
+              "description": "Cargo category. Optional. Used to filter routes with restrictions.",
+              "enum": [
+                "general",
+                "refrigerated",
+                "hazardous",
+                "oversized",
+                "fragile",
+                "high_value"
+              ],
+              "maxLength": 20,
+              "minLength": 1,
+              "type": "string"
+            },
+            "destination": {
+              "description": "Destination city or facility name. Required.",
+              "maxLength": 100,
+              "minLength": 1,
+              "type": "string"
+            },
+            "origin": {
+              "description": "Origin city or facility name. Required.",
+              "maxLength": 100,
+              "minLength": 1,
+              "type": "string"
+            },
+            "priority": {
+              "default": "balanced",
+              "description": "Optimization priority: 'cost' for cheapest, 'time' for fastest, 'balanced' for trade-off.",
+              "enum": [
+                "cost",
+                "time",
+                "balanced"
+              ],
+              "type": "string"
+            }
+          },
+          "required": [
+            "origin",
+            "destination"
+          ],
+          "type": "object"
+        }
+      }
+    },
+    {
+      "type": "tool",
+      "relative": "/Users/a1234/Documents/project/agent_artifacts/2026-09-30/freight_logistics_assistant/tools/shipment_get_history.py",
+      "content": {
+        "name": "shipment_get_history",
+        "description": "shipment_get_history: Get full tracking history for a shipment. Use this tool when the user wants to see the complete tracking history for a shipment, including all events from pickup to delivery. Requires a valid tracking number. This tool is read-only and returns historical tracking events.",
+        "parameters": {
+          "additionalProperties": false,
+          "properties": {
+            "tracking_number": {
+              "description": "The shipment tracking number. Format: FR followed by exactly 14 digits (e.g., FR20260930000123).",
+              "maxLength": 16,
+              "minLength": 16,
+              "pattern": "^FR\\d{14}$",
+              "type": "string"
+            }
+          },
+          "required": [
+            "tracking_number"
+          ],
+          "type": "object"
+        }
+      }
+    },
+    {
+      "type": "tool",
+      "relative": "/Users/a1234/Documents/project/agent_artifacts/2026-09-30/freight_logistics_assistant/tools/shipment_get_status.py",
+      "content": {
+        "name": "shipment_get_status",
+        "description": "shipment_get_status: Query current shipment status by tracking number. Use this tool when the user provides a tracking number and wants to know the current status of their shipment. Returns current location, status, ETA, and carrier information. This tool is read-only and does not modify any shipment data.",
+        "parameters": {
+          "additionalProperties": false,
+          "properties": {
+            "tracking_number": {
+              "description": "The shipment tracking number. Format: FR followed by exactly 14 digits (e.g., FR20260930000123).",
+              "maxLength": 16,
+              "minLength": 16,
+              "pattern": "^FR\\d{14}$",
+              "type": "string"
+            }
+          },
+          "required": [
+            "tracking_number"
+          ],
+          "type": "object"
+        }
+      }
+    },
+    {
+      "type": "tool",
+      "relative": "/Users/a1234/Documents/project/agent_artifacts/2026-09-30/freight_logistics_assistant/tools/shipment_list_by_route.py",
+      "content": {
+        "name": "shipment_list_by_route",
+        "description": "shipment_list_by_route: List shipments by origin, destination, or status filter. Use this tool when the user wants to see a list of shipments matching specific criteria such as origin city, destination city, or shipment status. Supports combining multiple filters. Returns a summary list of matching shipments.",
+        "parameters": {
+          "additionalProperties": false,
+          "properties": {
+            "date_from": {
+              "description": "Filter shipments with pickup date on or after this date (YYYY-MM-DD). Optional.",
+              "format": "date",
+              "maxLength": 10,
+              "minLength": 10,
+              "pattern": "^\\d{4}-\\d{2}-\\d{2}$",
+              "type": "string"
+            },
+            "date_to": {
+              "description": "Filter shipments with pickup date on or before this date (YYYY-MM-DD). Optional.",
+              "format": "date",
+              "maxLength": 10,
+              "minLength": 10,
+              "pattern": "^\\d{4}-\\d{2}-\\d{2}$",
+              "type": "string"
+            },
+            "destination": {
+              "description": "Filter by destination city name (partial match supported). Optional.",
+              "maxLength": 100,
+              "minLength": 1,
+              "type": "string"
+            },
+            "origin": {
+              "description": "Filter by origin city name (partial match supported). Optional.",
+              "maxLength": 100,
+              "minLength": 1,
+              "type": "string"
+            },
+            "status": {
+              "description": "Filter by shipment status. Optional.",
+              "enum": [
+                "pending",
+                "picked_up",
+                "in_transit",
+                "out_for_delivery",
+                "delivered",
+                "exception"
+              ],
+              "type": "string"
+            }
+          },
+          "required": [],
+          "type": "object"
+        }
+      }
+    }
+  ],
+  "prompts": [
+    {
+      "type": "prompt",
+      "relative": "/Users/a1234/Documents/project/agent_artifacts/2026-09-30/freight_logistics_assistant/prompts/system.txt",
+      "content": {
+        "content": "test"
+      }
+    },
+    {
+      "type": "prompt",
+      "relative": "/Users/a1234/Documents/project/agent_artifacts/2026-09-30/freight_logistics_assistant/prompts/system.txt",
+      "content": {
+        "content": "DELETE-TEST-PLACEHOLDER"
+      }
+    }
+  ]
+}

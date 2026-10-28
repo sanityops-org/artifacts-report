@@ -1,0 +1,11 @@
+name: fund_operation
+version: "1.0.0"
+description: "Fund skills: bank certificate transfer, fund inquiry"
+
+handler:
+  script: handler.py
+  entry_point: main
+
+dependencies:
+  - pyyaml
+  - pydantic

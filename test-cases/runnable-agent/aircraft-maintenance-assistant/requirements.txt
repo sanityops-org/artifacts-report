@@ -1,0 +1,14 @@
+# Airworthiness decision-making assistant for aircraft maintenance depends on
+
+# sanityops_agent Framework (installed from private index)
+sanityops-agent>=0.1.1
+
+# Core dependence
+pydantic>=2.0.0
+pyyaml>=6.0
+requests>=2.31.0
+
+# Dependence on development
+# pytest>=7.0.0
+# pytest-cov>=4.0.0
+# pytest-asyncio>=0.23.0

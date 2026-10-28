@@ -1,0 +1,170 @@
+[
+  {
+    "facility_id": "FAC001",
+    "date": "2026-09-01",
+    "electricity_kwh": 8500,
+    "natural_gas_m3": 250,
+    "peak_demand_kw": 420,
+    "notes": ""
+  },
+  {
+    "facility_id": "FAC001",
+    "date": "2026-09-02",
+    "electricity_kwh": 8200,
+    "natural_gas_m3": 240,
+    "peak_demand_kw": 410,
+    "notes": ""
+  },
+  {
+    "facility_id": "FAC001",
+    "date": "2026-09-03",
+    "electricity_kwh": 8800,
+    "natural_gas_m3": 255,
+    "peak_demand_kw": 435,
+    "notes": "Production increase"
+  },
+  {
+    "facility_id": "FAC001",
+    "date": "2026-09-04",
+    "electricity_kwh": 8400,
+    "natural_gas_m3": 245,
+    "peak_demand_kw": 415,
+    "notes": ""
+  },
+  {
+    "facility_id": "FAC001",
+    "date": "2026-09-05",
+    "electricity_kwh": 7800,
+    "natural_gas_m3": 220,
+    "peak_demand_kw": 380,
+    "notes": "Reduced operations"
+  },
+  {
+    "facility_id": "FAC001",
+    "date": "2026-09-06",
+    "electricity_kwh": 5500,
+    "natural_gas_m3": 180,
+    "peak_demand_kw": 280,
+    "notes": "Weekend"
+  },
+  {
+    "facility_id": "FAC001",
+    "date": "2026-09-07",
+    "electricity_kwh": 5200,
+    "natural_gas_m3": 175,
+    "peak_demand_kw": 270,
+    "notes": "Weekend"
+  },
+  {
+    "facility_id": "FAC002",
+    "date": "2026-09-01",
+    "electricity_kwh": 6200,
+    "natural_gas_m3": 150,
+    "peak_demand_kw": 310,
+    "notes": ""
+  },
+  {
+    "facility_id": "FAC002",
+    "date": "2026-09-02",
+    "electricity_kwh": 6100,
+    "natural_gas_m3": 145,
+    "peak_demand_kw": 305,
+    "notes": ""
+  },
+  {
+    "facility_id": "FAC002",
+    "date": "2026-09-03",
+    "electricity_kwh": 6300,
+    "natural_gas_m3": 155,
+    "peak_demand_kw": 315,
+    "notes": ""
+  },
+  {
+    "facility_id": "FAC002",
+    "date": "2026-09-04",
+    "electricity_kwh": 6250,
+    "natural_gas_m3": 152,
+    "peak_demand_kw": 312,
+    "notes": ""
+  },
+  {
+    "facility_id": "FAC002",
+    "date": "2026-09-05",
+    "electricity_kwh": 6000,
+    "natural_gas_m3": 140,
+    "peak_demand_kw": 290,
+    "notes": "Friday reduced hours"
+  },
+  {
+    "facility_id": "FAC002",
+    "date": "2026-09-06",
+    "electricity_kwh": 1200,
+    "natural_gas_m3": 50,
+    "peak_demand_kw": 80,
+    "notes": "Weekend - minimal"
+  },
+  {
+    "facility_id": "FAC002",
+    "date": "2026-09-07",
+    "electricity_kwh": 1100,
+    "natural_gas_m3": 48,
+    "peak_demand_kw": 75,
+    "notes": "Weekend - minimal"
+  },
+  {
+    "facility_id": "FAC004",
+    "date": "2026-09-01",
+    "electricity_kwh": 22000,
+    "natural_gas_m3": 0,
+    "peak_demand_kw": 1180,
+    "notes": "24/7 operations"
+  },
+  {
+    "facility_id": "FAC004",
+    "date": "2026-09-02",
+    "electricity_kwh": 21800,
+    "natural_gas_m3": 0,
+    "peak_demand_kw": 1175,
+    "notes": "24/7 operations"
+  },
+  {
+    "facility_id": "FAC004",
+    "date": "2026-09-03",
+    "electricity_kwh": 22500,
+    "natural_gas_m3": 0,
+    "peak_demand_kw": 1200,
+    "notes": "Peak load testing"
+  },
+  {
+    "facility_id": "FAC004",
+    "date": "2026-09-04",
+    "electricity_kwh": 22100,
+    "natural_gas_m3": 0,
+    "peak_demand_kw": 1190,
+    "notes": "24/7 operations"
+  },
+  {
+    "facility_id": "FAC004",
+    "date": "2026-09-05",
+    "electricity_kwh": 21900,
+    "natural_gas_m3": 0,
+    "peak_demand_kw": 1185,
+    "notes": "24/7 operations"
+  },
+  {
+    "facility_id": "FAC004",
+    "date": "2026-09-06",
+    "electricity_kwh": 22000,
+    "natural_gas_m3": 0,
+    "peak_demand_kw": 1180,
+    "notes": "24/7 operations"
+  },
+  {
+    "facility_id": "FAC004",
+    "date": "2026-09-07",
+    "electricity_kwh": 21800,
+    "natural_gas_m3": 0,
+    "peak_demand_kw": 1175,
+    "notes": "24/7 operations"
+  }
+]

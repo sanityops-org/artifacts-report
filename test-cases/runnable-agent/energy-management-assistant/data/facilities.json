@@ -1,0 +1,97 @@
+[
+  {
+    "facility_id": "FAC001",
+    "name": "Manufacturing Plant Alpha",
+    "type": "manufacturing",
+    "location": {
+      "address": "100 Industrial Blvd",
+      "city": "Austin",
+      "state": "TX",
+      "country": "USA"
+    },
+    "floor_area_m2": 15000,
+    "operating_hours": {
+      "weekdays": "06:00-22:00",
+      "weekends": "08:00-18:00"
+    },
+    "annual_consumption_kwh": 2500000,
+    "peak_demand_kw": 450,
+    "created_at": "2025-01-15"
+  },
+  {
+    "facility_id": "FAC002",
+    "name": "Corporate Office Tower",
+    "type": "office",
+    "location": {
+      "address": "500 Business Center Dr",
+      "city": "Denver",
+      "state": "CO",
+      "country": "USA"
+    },
+    "floor_area_m2": 25000,
+    "operating_hours": {
+      "weekdays": "07:00-19:00",
+      "weekends": "closed"
+    },
+    "annual_consumption_kwh": 1800000,
+    "peak_demand_kw": 320,
+    "created_at": "2025-02-20"
+  },
+  {
+    "facility_id": "FAC003",
+    "name": "Distribution Hub East",
+    "type": "warehouse",
+    "location": {
+      "address": "200 Logistics Way",
+      "city": "Atlanta",
+      "state": "GA",
+      "country": "USA"
+    },
+    "floor_area_m2": 30000,
+    "operating_hours": {
+      "weekdays": "24/7",
+      "weekends": "24/7"
+    },
+    "annual_consumption_kwh": 1200000,
+    "peak_demand_kw": 180,
+    "created_at": "2025-03-10"
+  },
+  {
+    "facility_id": "FAC004",
+    "name": "Data Center Prime",
+    "type": "data_center",
+    "location": {
+      "address": "1 Server Farm Rd",
+      "city": "Phoenix",
+      "state": "AZ",
+      "country": "USA"
+    },
+    "floor_area_m2": 8000,
+    "operating_hours": {
+      "weekdays": "24/7",
+      "weekends": "24/7"
+    },
+    "annual_consumption_kwh": 8000000,
+    "peak_demand_kw": 1200,
+    "created_at": "2025-04-05"
+  },
+  {
+    "facility_id": "FAC005",
+    "name": "Research Laboratory",
+    "type": "laboratory",
+    "location": {
+      "address": "75 Innovation Park",
+      "city": "Boston",
+      "state": "MA",
+      "country": "USA"
+    },
+    "floor_area_m2": 5000,
+    "operating_hours": {
+      "weekdays": "08:00-20:00",
+      "weekends": "10:00-16:00"
+    },
+    "annual_consumption_kwh": 950000,
+    "peak_demand_kw": 150,
+    "created_at": "2025-05-12"
+  }
+]

@@ -1,0 +1,27 @@
+name: route_planning
+version: "1.0.0"
+description: "Route Planning Skills - Check the Best Travel Route"
+
+trigger_conditions:
+  activate_when:
+    - Users request to plan routes and query route information
+    - The user provides the starting point and the end point.
+  do_not_activate_for:
+    - User requests information unrelated to the route
+
+boundaries:
+  input_limit: "A single request only processes one route."
+  output_limit: "The output limit is 500 characters."
+  max_retries: 3
+  timeout_seconds: 30
+
+  permissions:
+    allowed: ["read", "query"]
+    prohibited: ["write", "update", "delete"]
+
+handler:
+  script: handler.py
+  entry_point: run
+
+tools:
+  - plan_route

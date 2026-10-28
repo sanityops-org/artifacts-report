@@ -1,0 +1,11 @@
+Record ID,Employee ID,Employee,Expense Date,Submitted Date,Category,Merchant,Amount,Currency,Attendees,Nights,Receipt Attached,Approval ID,Is Travel,Notes
+EXP-2001,E-10,Alice Kim,2026-10-05,2026-10-06,meals,Le Bernardin,120.00,USD,1,,true,,false,Exceeds per-person meal limit
+EXP-2002,E-10,Alice Kim,2026-10-05,2026-10-06,lodging,Grand Hyatt,600.00,USD,,2,true,APR-9901,false,Exceeds per-night lodging limit
+EXP-2003,E-11,Bob Nguyen,2026-10-06,2026-10-07,supplies,Staples,80.00,USD,,,false,,false,Missing receipt
+EXP-2004,E-11,Bob Nguyen,2026-10-06,2026-10-07,alcohol,The Rooftop Bar,55.00,USD,,,true,,false,Prohibited category
+EXP-2005,E-12,Carol Diaz,2026-07-01,2026-10-05,supplies,Amazon,40.00,USD,,,true,,false,Submitted outside the 60-day window
+EXP-2006,E-12,Carol Diaz,2026-10-07,2026-10-08,flights,Delta,750.00,USD,,,true,,true,Missing approval ID
+EXP-2007,E-13,Dan Ortiz,2026-08-15,2026-08-16,meals,Brunch Spot,40.00,USD,1,,true,,false,Saturday meal not marked as travel
+EXP-2008,E-13,Dan Ortiz,2026-10-05,2026-10-06,meals,Corner Cafe,75.00,USD,1,,true,,false,Boundary: exactly at the meal limit
+EXP-2009,E-14,Eve Marsh,2026-10-06,2026-10-07,supplies,Dunder Mifflin,25.00,USD,,,true,,false,Boundary: exactly at the receipt threshold
+EXP-2010,E-14,Eve Marsh,2026-10-07,2026-10-08,flights,Alaska Air,500.00,USD,,,true,APR-5555,true,Boundary: exactly at the approval threshold

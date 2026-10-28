@@ -1,0 +1,11 @@
+name: product_purchase
+version: "1.0.0"
+description: "Subscription skills: financial management/fund subscription and redemption, new stock subscription"
+
+handler:
+  script: handler.py
+  entry_point: main
+
+dependencies:
+  - pyyaml
+  - pydantic

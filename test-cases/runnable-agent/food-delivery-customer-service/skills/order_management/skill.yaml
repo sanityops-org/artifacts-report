@@ -1,0 +1,11 @@
+name: order_management
+version: "1.0.0"
+description: "Order processing skills: placing orders, inquiries, prompting orders, modification, cancellation"
+
+handler:
+  script: handler.py
+  entry_point: main
+
+dependencies:
+  - pyyaml
+  - pydantic

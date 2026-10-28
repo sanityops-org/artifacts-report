@@ -1,0 +1,41 @@
+{
+  "vessels": [
+    {
+      "vessel_id": "V001",
+      "vessel_name": "Ocean Glory",
+      "vessel_type": "container_ship",
+      "length": 336,
+      "draft": 12.5,
+      "eta": "2026-09-14T08:00:00",
+      "status": "at_anchor",
+      "container_count": 2500,
+      "inbound_containers": 1200,
+      "outbound_containers": 1300
+    },
+    {
+      "vessel_id": "V002",
+      "vessel_name": "Dongfang Express",
+      "vessel_type": "container_ship",
+      "length": 294,
+      "draft": 11.0,
+      "eta": "2026-09-14T06:00:00",
+      "status": "berthed",
+      "assigned_berth": "B01",
+      "container_count": 1800,
+      "inbound_containers": 900,
+      "outbound_containers": 900
+    },
+    {
+      "vessel_id": "V003",
+      "vessel_name": "Pacific Star",
+      "vessel_type": "container_ship",
+      "length": 366,
+      "draft": 14.0,
+      "eta": "2026-09-14T16:00:00",
+      "status": "inbound",
+      "container_count": 3200,
+      "inbound_containers": 1600,
+      "outbound_containers": 1600
+    }
+  ]
+}

@@ -1,0 +1,12 @@
+{
+  "name": "vulnerable-app",
+  "version": "1.0.0",
+  "dependencies": {
+    "lodash": "4.17.15",
+    "eventsource": "1.0.7",
+    "express": "4.17.0"
+  },
+  "devDependencies": {
+    "jest": "27.0.0"
+  }
+}

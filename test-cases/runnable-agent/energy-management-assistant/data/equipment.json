@@ -1,0 +1,102 @@
+[
+  {
+    "equipment_id": "EQ001",
+    "name": "Main HVAC Unit - Building A",
+    "type": "hvac",
+    "facility_id": "FAC001",
+    "rated_power_kw": 150,
+    "efficiency_rating": 0.85,
+    "age_years": 8,
+    "last_maintenance": "2026-08-15"
+  },
+  {
+    "equipment_id": "EQ002",
+    "name": "Secondary HVAC Unit - Building B",
+    "type": "hvac",
+    "facility_id": "FAC001",
+    "rated_power_kw": 100,
+    "efficiency_rating": 0.78,
+    "age_years": 12,
+    "last_maintenance": "2026-06-20"
+  },
+  {
+    "equipment_id": "EQ003",
+    "name": "Production Line Motors",
+    "type": "machinery",
+    "facility_id": "FAC001",
+    "rated_power_kw": 200,
+    "efficiency_rating": 0.92,
+    "age_years": 5,
+    "last_maintenance": "2026-09-01"
+  },
+  {
+    "equipment_id": "EQ004",
+    "name": "Office Lighting - Floors 1-5",
+    "type": "lighting",
+    "facility_id": "FAC002",
+    "rated_power_kw": 45,
+    "efficiency_rating": 0.65,
+    "age_years": 15,
+    "last_maintenance": "2025-12-10"
+  },
+  {
+    "equipment_id": "EQ005",
+    "name": "Data Center Cooling System",
+    "type": "hvac",
+    "facility_id": "FAC004",
+    "rated_power_kw": 400,
+    "efficiency_rating": 0.88,
+    "age_years": 3,
+    "last_maintenance": "2026-09-15"
+  },
+  {
+    "equipment_id": "EQ006",
+    "name": "Server Racks - Zone A",
+    "type": "computing",
+    "facility_id": "FAC004",
+    "rated_power_kw": 600,
+    "efficiency_rating": 0.95,
+    "age_years": 2,
+    "last_maintenance": "2026-09-20"
+  },
+  {
+    "equipment_id": "EQ007",
+    "name": "Warehouse LED Lighting",
+    "type": "lighting",
+    "facility_id": "FAC003",
+    "rated_power_kw": 25,
+    "efficiency_rating": 0.95,
+    "age_years": 2,
+    "last_maintenance": "2026-07-01"
+  },
+  {
+    "equipment_id": "EQ008",
+    "name": "Lab Fume Hoods",
+    "type": "hvac",
+    "facility_id": "FAC005",
+    "rated_power_kw": 80,
+    "efficiency_rating": 0.7,
+    "age_years": 10,
+    "last_maintenance": "2026-05-15"
+  },
+  {
+    "equipment_id": "EQ009",
+    "name": "Office HVAC - Tower",
+    "type": "hvac",
+    "facility_id": "FAC002",
+    "rated_power_kw": 250,
+    "efficiency_rating": 0.82,
+    "age_years": 6,
+    "last_maintenance": "2026-08-01"
+  },
+  {
+    "equipment_id": "EQ010",
+    "name": "Conveyor Systems",
+    "type": "machinery",
+    "facility_id": "FAC003",
+    "rated_power_kw": 75,
+    "efficiency_rating": 0.88,
+    "age_years": 7,
+    "last_maintenance": "2026-09-10"
+  }
+]

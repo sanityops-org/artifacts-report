@@ -1,0 +1,38 @@
+
+ # Tool registration and configuration
+ tools:
+   - name: analyze_code
+     description: "Analyze code files to identify potential problems"
+     script: skills/code-review/tools/analyze_code.py
+     entry_point: execute
+     parameters:
+       type: object
+       properties:
+         code:
+           type: string
+           description: "The content of the code to be analyzed"
+         language:
+           type: string
+           description: "Programming language"
+           enum: [python, javascript, typescript, java, go, rust, cpp, csharp, ruby, php]
+         focus_areas:
+           type: array
+           items:
+             type: string
+             enum: [security, performance, readability, maintainability]
+       required: [code, language]
+
+   - name: generate_report
+     description: "Generate a structured code review report"
+     script: skills/code-review/tools/generate_report.py
+     entry_point: execute
+     parameters:
+       type: object
+       properties:
+         findings:
+           type: array
+           description: "Review the list of problems found"
+         include_examples:
+           type: boolean
+           default: true
+       required: [findings]

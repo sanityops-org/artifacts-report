@@ -1,0 +1,191 @@
+[
+  {
+    "measure_id": "EM001",
+    "name": "HVAC Setback Scheduling",
+    "category": "operations",
+    "description": "Adjust temperature setpoints during unoccupied hours",
+    "typical_savings_percent": {
+      "min": 5,
+      "max": 15
+    },
+    "implementation_cost_range": {
+      "min": 2000,
+      "max": 10000
+    },
+    "applicable_facility_types": [
+      "office",
+      "manufacturing",
+      "warehouse",
+      "laboratory"
+    ],
+    "payback_months": {
+      "min": 6,
+      "max": 24
+    }
+  },
+  {
+    "measure_id": "EM002",
+    "name": "LED Lighting Retrofit",
+    "category": "equipment",
+    "description": "Replace fluorescent and HID fixtures with LED",
+    "typical_savings_percent": {
+      "min": 30,
+      "max": 60
+    },
+    "implementation_cost_range": {
+      "min": 50,
+      "max": 150
+    },
+    "applicable_facility_types": [
+      "office",
+      "manufacturing",
+      "warehouse",
+      "data_center",
+      "laboratory"
+    ],
+    "payback_months": {
+      "min": 12,
+      "max": 48
+    },
+    "cost_unit": "per fixture"
+  },
+  {
+    "measure_id": "EM003",
+    "name": "Variable Frequency Drives",
+    "category": "equipment",
+    "description": "Install VFDs on motors and pumps for variable load applications",
+    "typical_savings_percent": {
+      "min": 20,
+      "max": 50
+    },
+    "implementation_cost_range": {
+      "min": 3000,
+      "max": 15000
+    },
+    "applicable_facility_types": [
+      "manufacturing",
+      "office",
+      "data_center"
+    ],
+    "payback_months": {
+      "min": 18,
+      "max": 36
+    }
+  },
+  {
+    "measure_id": "EM004",
+    "name": "Building Automation System",
+    "category": "equipment",
+    "description": "Install or upgrade building automation for centralized control",
+    "typical_savings_percent": {
+      "min": 10,
+      "max": 25
+    },
+    "implementation_cost_range": {
+      "min": 25000,
+      "max": 100000
+    },
+    "applicable_facility_types": [
+      "office",
+      "manufacturing",
+      "data_center",
+      "laboratory"
+    ],
+    "payback_months": {
+      "min": 24,
+      "max": 60
+    }
+  },
+  {
+    "measure_id": "EM005",
+    "name": "Occupancy Sensors",
+    "category": "operations",
+    "description": "Install occupancy-based lighting and HVAC controls",
+    "typical_savings_percent": {
+      "min": 10,
+      "max": 30
+    },
+    "implementation_cost_range": {
+      "min": 100,
+      "max": 300
+    },
+    "applicable_facility_types": [
+      "office",
+      "warehouse",
+      "laboratory"
+    ],
+    "payback_months": {
+      "min": 12,
+      "max": 24
+    },
+    "cost_unit": "per sensor"
+  },
+  {
+    "measure_id": "EM006",
+    "name": "Air Compressor Optimization",
+    "category": "equipment",
+    "description": "Fix leaks, optimize pressure, install controls",
+    "typical_savings_percent": {
+      "min": 20,
+      "max": 40
+    },
+    "implementation_cost_range": {
+      "min": 5000,
+      "max": 20000
+    },
+    "applicable_facility_types": [
+      "manufacturing"
+    ],
+    "payback_months": {
+      "min": 6,
+      "max": 18
+    }
+  },
+  {
+    "measure_id": "EM007",
+    "name": "Demand Response Participation",
+    "category": "operations",
+    "description": "Enroll in utility demand response programs",
+    "typical_savings_percent": {
+      "min": 5,
+      "max": 15
+    },
+    "implementation_cost_range": {
+      "min": 1000,
+      "max": 10000
+    },
+    "applicable_facility_types": [
+      "manufacturing",
+      "office",
+      "data_center"
+    ],
+    "payback_months": {
+      "min": 3,
+      "max": 12
+    }
+  },
+  {
+    "measure_id": "EM008",
+    "name": "Building Envelope Sealing",
+    "category": "maintenance",
+    "description": "Air sealing and weatherization improvements",
+    "typical_savings_percent": {
+      "min": 5,
+      "max": 15
+    },
+    "implementation_cost_range": {
+      "min": 5000,
+      "max": 25000
+    },
+    "applicable_facility_types": [
+      "office",
+      "manufacturing",
+      "warehouse",
+      "laboratory"
+    ],
+    "payback_months": {
+      "min": 24,
+      "max": 48
+    }
+  }
+]

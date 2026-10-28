@@ -1,0 +1,759 @@
+{
+  "recipes": [
+    {
+      "recipe_id": "RECIPE001",
+      "name": "Spaghetti Aglio e Olio",
+      "cuisine": "italian",
+      "diet_tags": [
+        "vegan",
+        "dairy_free",
+        "nut_free"
+      ],
+      "prep_minutes": 10,
+      "cook_minutes": 15,
+      "servings": 4,
+      "ingredients": [
+        {
+          "name": "Spaghetti",
+          "quantity": 400,
+          "unit": "g",
+          "category": "grain"
+        },
+        {
+          "name": "Garlic",
+          "quantity": 6,
+          "unit": "clove",
+          "category": "produce"
+        },
+        {
+          "name": "Olive oil",
+          "quantity": 6,
+          "unit": "tbsp",
+          "category": "pantry"
+        },
+        {
+          "name": "Chilli flakes",
+          "quantity": 1,
+          "unit": "tsp",
+          "category": "spice"
+        },
+        {
+          "name": "Flat-leaf parsley",
+          "quantity": 20,
+          "unit": "g",
+          "category": "produce"
+        }
+      ],
+      "steps": [
+        "Bring a large pot of salted water to the boil and cook the spaghetti until al dente.",
+        "Thinly slice the garlic while the pasta cooks.",
+        "Warm the olive oil in a wide pan and soften the garlic without colouring it.",
+        "Add the chilli flakes, then the drained pasta with a splash of cooking water.",
+        "Toss hard until the sauce coats the strands, then fold through the chopped parsley."
+      ],
+      "nutrition_per_serving": {
+        "calories": 520.0,
+        "protein_g": 14.0,
+        "carbs_g": 76.0,
+        "fat_g": 18.0,
+        "fiber_g": 3.5,
+        "sodium_mg": 320.0
+      }
+    },
+    {
+      "recipe_id": "RECIPE002",
+      "name": "Chicken Teriyaki Donburi",
+      "cuisine": "japanese",
+      "diet_tags": [
+        "high_protein",
+        "dairy_free",
+        "nut_free"
+      ],
+      "prep_minutes": 15,
+      "cook_minutes": 20,
+      "servings": 2,
+      "ingredients": [
+        {
+          "name": "Chicken thigh",
+          "quantity": 400,
+          "unit": "g",
+          "category": "protein"
+        },
+        {
+          "name": "Soy sauce",
+          "quantity": 4,
+          "unit": "tbsp",
+          "category": "pantry"
+        },
+        {
+          "name": "Mirin",
+          "quantity": 2,
+          "unit": "tbsp",
+          "category": "pantry"
+        },
+        {
+          "name": "Caster sugar",
+          "quantity": 2,
+          "unit": "tsp",
+          "category": "pantry"
+        },
+        {
+          "name": "Short-grain rice",
+          "quantity": 300,
+          "unit": "g",
+          "category": "grain"
+        },
+        {
+          "name": "Spring onion",
+          "quantity": 2,
+          "unit": "piece",
+          "category": "produce"
+        }
+      ],
+      "steps": [
+        "Rinse the rice until the water runs clear, then cook it.",
+        "Whisk the soy sauce, mirin, and sugar together.",
+        "Sear the chicken skin-side down until the skin crisps, then turn and cook through.",
+        "Pour in the sauce and let it reduce to a glaze, turning the chicken to coat.",
+        "Slice the chicken, pile it on the rice, and spoon the pan glaze over the top."
+      ],
+      "nutrition_per_serving": {
+        "calories": 680.0,
+        "protein_g": 42.0,
+        "carbs_g": 72.0,
+        "fat_g": 22.0,
+        "fiber_g": 1.5,
+        "sodium_mg": 1450.0
+      }
+    },
+    {
+      "recipe_id": "RECIPE003",
+      "name": "Black Bean Tacos",
+      "cuisine": "mexican",
+      "diet_tags": [
+        "vegetarian",
+        "dairy_free",
+        "nut_free"
+      ],
+      "prep_minutes": 15,
+      "cook_minutes": 10,
+      "servings": 4,
+      "ingredients": [
+        {
+          "name": "Black beans",
+          "quantity": 800,
+          "unit": "g",
+          "category": "pantry"
+        },
+        {
+          "name": "Corn tortillas",
+          "quantity": 12,
+          "unit": "piece",
+          "category": "grain"
+        },
+        {
+          "name": "Red onion",
+          "quantity": 1,
+          "unit": "piece",
+          "category": "produce"
+        },
+        {
+          "name": "Lime",
+          "quantity": 2,
+          "unit": "piece",
+          "category": "produce"
+        },
+        {
+          "name": "Ground cumin",
+          "quantity": 2,
+          "unit": "tsp",
+          "category": "spice"
+        },
+        {
+          "name": "Coriander",
+          "quantity": 30,
+          "unit": "g",
+          "category": "produce"
+        }
+      ],
+      "steps": [
+        "Drain and rinse the beans, then warm them with the cumin and a splash of water.",
+        "Finely dice the red onion and pick the coriander leaves.",
+        "Mash roughly a third of the beans to thicken the mixture.",
+        "Warm the tortillas in a dry pan until pliable.",
+        "Fill each tortilla and finish with onion, coriander, and a squeeze of lime."
+      ],
+      "nutrition_per_serving": {
+        "calories": 430.0,
+        "protein_g": 16.0,
+        "carbs_g": 68.0,
+        "fat_g": 9.0,
+        "fiber_g": 15.0,
+        "sodium_mg": 620.0
+      }
+    },
+    {
+      "recipe_id": "RECIPE004",
+      "name": "Chana Masala",
+      "cuisine": "indian",
+      "diet_tags": [
+        "vegan",
+        "gluten_free",
+        "nut_free"
+      ],
+      "prep_minutes": 10,
+      "cook_minutes": 25,
+      "servings": 4,
+      "ingredients": [
+        {
+          "name": "Chickpeas",
+          "quantity": 800,
+          "unit": "g",
+          "category": "pantry"
+        },
+        {
+          "name": "Chopped tomatoes",
+          "quantity": 400,
+          "unit": "g",
+          "category": "pantry"
+        },
+        {
+          "name": "Onion",
+          "quantity": 2,
+          "unit": "piece",
+          "category": "produce"
+        },
+        {
+          "name": "Garam masala",
+          "quantity": 2,
+          "unit": "tsp",
+          "category": "spice"
+        },
+        {
+          "name": "Ground turmeric",
+          "quantity": 1,
+          "unit": "tsp",
+          "category": "spice"
+        },
+        {
+          "name": "Fresh ginger",
+          "quantity": 20,
+          "unit": "g",
+          "category": "produce"
+        }
+      ],
+      "steps": [
+        "Finely chop the onion and grate the ginger.",
+        "Fry the onion until deeply golden, then add the ginger and ground spices.",
+        "Pour in the tomatoes and simmer until the oil separates at the edges.",
+        "Add the drained chickpeas and a little water, then simmer for 15 minutes.",
+        "Season and rest for five minutes before serving."
+      ],
+      "nutrition_per_serving": {
+        "calories": 390.0,
+        "protein_g": 18.0,
+        "carbs_g": 58.0,
+        "fat_g": 10.0,
+        "fiber_g": 13.5,
+        "sodium_mg": 780.0
+      }
+    },
+    {
+      "recipe_id": "RECIPE005",
+      "name": "Egg Fried Rice",
+      "cuisine": "asian",
+      "diet_tags": [
+        "vegetarian",
+        "dairy_free"
+      ],
+      "prep_minutes": 10,
+      "cook_minutes": 10,
+      "servings": 3,
+      "ingredients": [
+        {
+          "name": "Cooked rice",
+          "quantity": 600,
+          "unit": "g",
+          "category": "grain"
+        },
+        {
+          "name": "Eggs",
+          "quantity": 4,
+          "unit": "piece",
+          "category": "protein"
+        },
+        {
+          "name": "Frozen peas",
+          "quantity": 150,
+          "unit": "g",
+          "category": "produce"
+        },
+        {
+          "name": "Soy sauce",
+          "quantity": 3,
+          "unit": "tbsp",
+          "category": "pantry"
+        },
+        {
+          "name": "Sesame oil",
+          "quantity": 2,
+          "unit": "tsp",
+          "category": "pantry"
+        },
+        {
+          "name": "Spring onion",
+          "quantity": 3,
+          "unit": "piece",
+          "category": "produce"
+        }
+      ],
+      "steps": [
+        "Beat the eggs with a pinch of salt and scramble them in a hot wok, then set aside.",
+        "Add the cold rice and press it into the wok to dry it out.",
+        "Stir through the peas and cook until they are bright and tender.",
+        "Return the egg, add the soy sauce and sesame oil, and toss to combine.",
+        "Fold through the sliced spring onion and serve straight away."
+      ],
+      "nutrition_per_serving": {
+        "calories": 480.0,
+        "protein_g": 18.0,
+        "carbs_g": 66.0,
+        "fat_g": 15.0,
+        "fiber_g": 4.5,
+        "sodium_mg": 880.0
+      }
+    },
+    {
+      "recipe_id": "RECIPE006",
+      "name": "Greek Salad",
+      "cuisine": "mediterranean",
+      "diet_tags": [
+        "vegetarian",
+        "gluten_free",
+        "low_carb",
+        "nut_free"
+      ],
+      "prep_minutes": 15,
+      "cook_minutes": 0,
+      "servings": 4,
+      "ingredients": [
+        {
+          "name": "Cucumber",
+          "quantity": 2,
+          "unit": "piece",
+          "category": "produce"
+        },
+        {
+          "name": "Tomatoes",
+          "quantity": 600,
+          "unit": "g",
+          "category": "produce"
+        },
+        {
+          "name": "Feta",
+          "quantity": 200,
+          "unit": "g",
+          "category": "dairy"
+        },
+        {
+          "name": "Kalamata olives",
+          "quantity": 150,
+          "unit": "g",
+          "category": "pantry"
+        },
+        {
+          "name": "Red onion",
+          "quantity": 1,
+          "unit": "piece",
+          "category": "produce"
+        },
+        {
+          "name": "Olive oil",
+          "quantity": 4,
+          "unit": "tbsp",
+          "category": "pantry"
+        }
+      ],
+      "steps": [
+        "Cut the cucumber and tomatoes into rough chunks.",
+        "Thinly slice the red onion and soak it in cold water for five minutes.",
+        "Combine the vegetables and olives in a wide bowl.",
+        "Dress with the olive oil, salt, and pepper, and toss gently.",
+        "Break the feta over the top in rough slabs and serve."
+      ],
+      "nutrition_per_serving": {
+        "calories": 310.0,
+        "protein_g": 9.0,
+        "carbs_g": 14.0,
+        "fat_g": 25.0,
+        "fiber_g": 4.0,
+        "sodium_mg": 720.0
+      }
+    },
+    {
+      "recipe_id": "RECIPE007",
+      "name": "Grilled Salmon with Asparagus",
+      "cuisine": "american",
+      "diet_tags": [
+        "pescatarian",
+        "gluten_free",
+        "high_protein",
+        "low_carb",
+        "nut_free"
+      ],
+      "prep_minutes": 10,
+      "cook_minutes": 15,
+      "servings": 2,
+      "ingredients": [
+        {
+          "name": "Salmon fillet",
+          "quantity": 400,
+          "unit": "g",
+          "category": "protein"
+        },
+        {
+          "name": "Asparagus",
+          "quantity": 300,
+          "unit": "g",
+          "category": "produce"
+        },
+        {
+          "name": "Lemon",
+          "quantity": 1,
+          "unit": "piece",
+          "category": "produce"
+        },
+        {
+          "name": "Olive oil",
+          "quantity": 2,
+          "unit": "tbsp",
+          "category": "pantry"
+        },
+        {
+          "name": "Black pepper",
+          "quantity": 1,
+          "unit": "tsp",
+          "category": "spice"
+        }
+      ],
+      "steps": [
+        "Heat the grill to high and line a tray.",
+        "Toss the asparagus with half the oil and spread it out.",
+        "Pat the salmon dry, rub with the remaining oil, and season.",
+        "Grill the salmon for four minutes a side and the asparagus for eight minutes total.",
+        "Finish both with a squeeze of lemon and serve."
+      ],
+      "nutrition_per_serving": {
+        "calories": 520.0,
+        "protein_g": 45.0,
+        "carbs_g": 9.0,
+        "fat_g": 33.0,
+        "fiber_g": 4.5,
+        "sodium_mg": 180.0
+      }
+    },
+    {
+      "recipe_id": "RECIPE008",
+      "name": "Thai Green Curry",
+      "cuisine": "thai",
+      "diet_tags": [
+        "gluten_free",
+        "dairy_free",
+        "nut_free"
+      ],
+      "prep_minutes": 20,
+      "cook_minutes": 20,
+      "servings": 4,
+      "ingredients": [
+        {
+          "name": "Chicken thigh",
+          "quantity": 600,
+          "unit": "g",
+          "category": "protein"
+        },
+        {
+          "name": "Coconut milk",
+          "quantity": 800,
+          "unit": "ml",
+          "category": "pantry"
+        },
+        {
+          "name": "Green curry paste",
+          "quantity": 4,
+          "unit": "tbsp",
+          "category": "pantry"
+        },
+        {
+          "name": "Thai aubergine",
+          "quantity": 300,
+          "unit": "g",
+          "category": "produce"
+        },
+        {
+          "name": "Thai basil",
+          "quantity": 20,
+          "unit": "g",
+          "category": "produce"
+        },
+        {
+          "name": "Fish sauce",
+          "quantity": 2,
+          "unit": "tbsp",
+          "category": "pantry"
+        }
+      ],
+      "steps": [
+        "Fry the curry paste in a little of the thick coconut cream until fragrant.",
+        "Add the chicken and turn it until every piece is coated.",
+        "Pour in the remaining coconut milk and simmer gently.",
+        "Add the aubergine and cook until tender, about ten minutes.",
+        "Season with fish sauce and fold in the Thai basil off the heat."
+      ],
+      "nutrition_per_serving": {
+        "calories": 610.0,
+        "protein_g": 36.0,
+        "carbs_g": 18.0,
+        "fat_g": 44.0,
+        "fiber_g": 5.0,
+        "sodium_mg": 1180.0
+      }
+    },
+    {
+      "recipe_id": "RECIPE009",
+      "name": "Margherita Pizza",
+      "cuisine": "italian",
+      "diet_tags": [
+        "vegetarian",
+        "nut_free"
+      ],
+      "prep_minutes": 20,
+      "cook_minutes": 12,
+      "servings": 4,
+      "ingredients": [
+        {
+          "name": "Pizza dough",
+          "quantity": 500,
+          "unit": "g",
+          "category": "grain"
+        },
+        {
+          "name": "Passata",
+          "quantity": 300,
+          "unit": "g",
+          "category": "pantry"
+        },
+        {
+          "name": "Mozzarella",
+          "quantity": 250,
+          "unit": "g",
+          "category": "dairy"
+        },
+        {
+          "name": "Fresh basil",
+          "quantity": 15,
+          "unit": "g",
+          "category": "produce"
+        },
+        {
+          "name": "Olive oil",
+          "quantity": 2,
+          "unit": "tbsp",
+          "category": "pantry"
+        }
+      ],
+      "steps": [
+        "Heat the oven as high as it will go with a baking stone or tray inside.",
+        "Stretch the dough into two thin rounds.",
+        "Spread a thin layer of passata and season it lightly.",
+        "Tear the mozzarella over the top and drizzle with olive oil.",
+        "Bake until the crust blisters, then finish with fresh basil."
+      ],
+      "nutrition_per_serving": {
+        "calories": 590.0,
+        "protein_g": 24.0,
+        "carbs_g": 78.0,
+        "fat_g": 19.0,
+        "fiber_g": 4.0,
+        "sodium_mg": 1120.0
+      }
+    },
+    {
+      "recipe_id": "RECIPE010",
+      "name": "Overnight Oats",
+      "cuisine": "american",
+      "diet_tags": [
+        "vegetarian",
+        "nut_free"
+      ],
+      "prep_minutes": 5,
+      "cook_minutes": 0,
+      "servings": 2,
+      "ingredients": [
+        {
+          "name": "Rolled oats",
+          "quantity": 100,
+          "unit": "g",
+          "category": "grain"
+        },
+        {
+          "name": "Milk",
+          "quantity": 300,
+          "unit": "ml",
+          "category": "dairy"
+        },
+        {
+          "name": "Chia seeds",
+          "quantity": 2,
+          "unit": "tbsp",
+          "category": "pantry"
+        },
+        {
+          "name": "Banana",
+          "quantity": 2,
+          "unit": "piece",
+          "category": "produce"
+        },
+        {
+          "name": "Honey",
+          "quantity": 2,
+          "unit": "tsp",
+          "category": "pantry"
+        }
+      ],
+      "steps": [
+        "Combine the oats, milk, and chia seeds in a jar.",
+        "Stir well so the chia does not clump.",
+        "Cover and refrigerate overnight, or for at least four hours.",
+        "Top with sliced banana and a drizzle of honey before eating."
+      ],
+      "nutrition_per_serving": {
+        "calories": 380.0,
+        "protein_g": 14.0,
+        "carbs_g": 62.0,
+        "fat_g": 9.0,
+        "fiber_g": 9.5,
+        "sodium_mg": 85.0
+      }
+    },
+    {
+      "recipe_id": "RECIPE011",
+      "name": "Miso Soup",
+      "cuisine": "japanese",
+      "diet_tags": [
+        "vegan",
+        "low_carb",
+        "dairy_free",
+        "nut_free"
+      ],
+      "prep_minutes": 5,
+      "cook_minutes": 10,
+      "servings": 4,
+      "ingredients": [
+        {
+          "name": "White miso paste",
+          "quantity": 4,
+          "unit": "tbsp",
+          "category": "pantry"
+        },
+        {
+          "name": "Silken tofu",
+          "quantity": 300,
+          "unit": "g",
+          "category": "protein"
+        },
+        {
+          "name": "Wakame",
+          "quantity": 10,
+          "unit": "g",
+          "category": "pantry"
+        },
+        {
+          "name": "Spring onion",
+          "quantity": 2,
+          "unit": "piece",
+          "category": "produce"
+        }
+      ],
+      "steps": [
+        "Soak the wakame in cold water until it unfurls.",
+        "Bring a litre of water to a bare simmer — do not let it boil hard.",
+        "Whisk the miso with a ladle of the hot water, then stir it back into the pot.",
+        "Add the cubed tofu and drained wakame and warm through.",
+        "Scatter with sliced spring onion and serve immediately."
+      ],
+      "nutrition_per_serving": {
+        "calories": 110.0,
+        "protein_g": 9.0,
+        "carbs_g": 8.0,
+        "fat_g": 5.0,
+        "fiber_g": 2.5,
+        "sodium_mg": 940.0
+      }
+    },
+    {
+      "recipe_id": "RECIPE012",
+      "name": "Beef and Broccoli Stir-fry",
+      "cuisine": "asian",
+      "diet_tags": [
+        "high_protein",
+        "dairy_free"
+      ],
+      "prep_minutes": 15,
+      "cook_minutes": 12,
+      "servings": 3,
+      "ingredients": [
+        {
+          "name": "Beef sirloin",
+          "quantity": 500,
+          "unit": "g",
+          "category": "protein"
+        },
+        {
+          "name": "Broccoli",
+          "quantity": 400,
+          "unit": "g",
+          "category": "produce"
+        },
+        {
+          "name": "Oyster sauce",
+          "quantity": 3,
+          "unit": "tbsp",
+          "category": "pantry"
+        },
+        {
+          "name": "Cornflour",
+          "quantity": 1,
+          "unit": "tbsp",
+          "category": "pantry"
+        },
+        {
+          "name": "Garlic",
+          "quantity": 3,
+          "unit": "clove",
+          "category": "produce"
+        },
+        {
+          "name": "Fresh ginger",
+          "quantity": 15,
+          "unit": "g",
+          "category": "produce"
+        }
+      ],
+      "steps": [
+        "Slice the beef thinly across the grain and toss it with the cornflour.",
+        "Blanch the broccoli for two minutes and drain it well.",
+        "Sear the beef in a very hot wok in batches so it browns rather than steams.",
+        "Add the garlic and ginger, then return the beef with the oyster sauce.",
+        "Fold through the broccoli and serve once everything is glossy."
+      ],
+      "nutrition_per_serving": {
+        "calories": 540.0,
+        "protein_g": 44.0,
+        "carbs_g": 22.0,
+        "fat_g": 30.0,
+        "fiber_g": 5.5,
+        "sodium_mg": 1080.0
+      }
+    }
+  ]
+}

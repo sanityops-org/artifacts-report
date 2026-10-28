@@ -1,0 +1,23 @@
+name: fare_estimation
+version: "1.0.0"
+description: "Cost Estimation Skills - Calculate the Estimated Cost of Multiple Models"
+
+trigger_conditions:
+  activate_when:
+    - Users request estimated fees and estimated taxi charges
+    - The user provides the starting point and the end point.
+  do_not_activate_for:
+    - The user requests information unrelated to the cost.
+
+boundaries:
+  input_limit: "A single request only handles the cost of one route."
+  output_limit: "The output limit is 500 characters."
+  max_retries: 3
+  timeout_seconds: 30
+
+handler:
+  script: handler.py
+  entry_point: run
+
+tools:
+  - estimate_fare

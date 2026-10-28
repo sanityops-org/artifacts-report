@@ -1,0 +1,28 @@
+name: Intelligent customer service of takeaway platform
+version: "1.0.0"
+description: "Intelligent customer service of takeaway platform, supporting order processing and refund after-sales service"
+
+framework:
+  name: sanityops_agent
+  version: ">=0.1.1"
+
+system_prompt:
+  file: prompts/system.txt
+
+skills:
+  - name: order_management
+    path: skills/order_management/
+    enabled: true
+  - name: after_sale
+    path: skills/after_sale/
+    enabled: true
+
+models:
+  default: claude-sonnet-5
+  configs:
+    claude-sonnet-5:
+      temperature: 0.7
+      max_tokens: 4096
+
+tools:
+  config_file: config/tools.yaml
